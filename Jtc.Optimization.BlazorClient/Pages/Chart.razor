@@ -1,0 +1,23 @@
+@page "/Chart"
+@inherits ChartBase
+@inject IJSRuntime JSRuntime
+
+<h1>Algorithm Optimization <span>@LastUpdate</span></h1>
+<div class="row">
+    <label for="sampleRate">Sample Rate:</label>
+    <input type="text" id="sampleRate" bind="@SampleRate" />
+</div>
+<div class="row">
+    <label for="newOnly">New only?:</label>
+    <input type="checkbox" id="newOnly" bind="@NewOnly" />
+</div>
+<div class="row">
+<button class="btn btn-primary" onclick="@UpdateChart">Update Chart</button>
+</div>
+
+<div class="row">
+    <div class="container">
+        <canvas id="@Config.CanvasId"></canvas>
+    </div>
+</div>
+

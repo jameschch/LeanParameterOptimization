@@ -1,0 +1,104 @@
+@page "/Config"
+@inherits ConfigBase
+@inject IJSRuntime JSRuntime
+
+<div class="container">
+    <h1 class="d-flex justify-content-center">Optimization Config</h1>
+    <EditForm Model="@Config" OnValidSubmit="@ValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">Upload</label><div class="col-sm-3"><input type="file" onchange="@UploadFile" id="fileUpload" /></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">AlgorithmTypeName</label><div class="col-sm-3"><input type="text" bind="@Config.AlgorithmTypeName" /></div>
+            <label class="col-sm-2 col-form-label">FitnessTypeName</label>
+            <div class="col-sm-3">
+                <select class="form-control" value="@Config.FitnessTypeName" onchange="@FitnessTypeNameChange">
+                    @foreach (var item in FitnessTypeNameOptions)
+                    {
+                    <option value=@item>@item</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">EnableFitnessFilter</label><div class="col-sm-1"><input type="checkbox" bind="@Config.EnableFitnessFilter" /></div>
+            <label class="col-sm-2 col-form-label">IncludeNegativeReturn</label><div class="col-sm-1"><input type="checkbox" bind="@Config.IncludeNegativeReturn" /></div>
+            <label class="col-sm-2 col-form-label">UseActualGenesForWholeGeneration</label><div class="col-sm-1"><input type="checkbox" bind="@Config.UseActualGenesForWholeGeneration" /></div>
+        </div>
+        <h4>Dates</h4>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">StartDate</label><div class="col-sm-3"><input type="date" bind="@Config.StartDate" format-value="yyyy-MM-dd" /></div>
+            <label class="col-sm-2 col-form-label">EndDate</label><div class="col-sm-3"><input type="date" bind="@Config.EndDate" format-value="yyyy-MM-dd" /></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">Generations</label><div class="col-sm-1"><input type="number" bind="@Config.Generations" /></div>
+            <label class="col-sm-2 col-form-label">MaxThreads</label><div class="col-sm-1"><input type="number" bind="@Config.MaxThreads" /></div>
+            <label class="col-sm-2 col-form-label">MinimumTrades</label><div class="col-sm-1"><input type="number" bind="@Config.MinimumTrades" /></div>
+            <label class="col-sm-2 col-form-label">PopulationSize</label><div class="col-sm-1"><input type="number" bind="@Config.PopulationSize" /></div>
+            <label class="col-sm-2 col-form-label">PopulationSizeMaximum</label><div class="col-sm-1"><input type="number" bind="@Config.PopulationSizeMaximum" /></div>
+            <label class="col-sm-2 col-form-label">StagnationGenerations</label><div class="col-sm-1"><input type="number" bind="@Config.StagnationGenerations" /></div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">ConfigPath</label><div class="col-sm-3"><input type="text" bind="@Config.ConfigPath" /></div>
+            <label class="col-sm-2 col-form-label">DataFolder</label><div class="col-sm-3"><input type="text" bind="@Config.DataFolder" /></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">AlgorithmLocation</label><div class="col-sm-3"><input type="text" bind="@Config.AlgorithmLocation" /></div>
+            <label class="col-sm-2 col-form-label">TransactionLog</label><div class="col-sm-3"><input type="text" bind="@Config.TransactionLog" /></div>
+        </div>
+
+        <h4>Genetic</h4>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">OnePointCrossover</label>
+            <div class="col-sm-1"><input type="checkbox" bind="@Config.OnePointCrossover" /></div>
+            <label class="col-sm-2 col-form-label">CrossoverProbability</label>
+            <div class="col-sm-1"><input type="number" bind="@Config.CrossoverProbability" step="0.01" /></div>
+            <label class="col-sm-2 col-form-label">MutationProbability</label>
+            <div class="col-sm-1"><input type="number" bind="@Config.MutationProbability" step="0.1" /></div>
+        </div>
+
+        <h4>Fitness</h4>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">Folds</label>
+            <div class="col-sm-1"><input type="number" bind="@Config.Fitness.Folds" disabled="@FitnessDisabled" /></div>
+            <label class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-3"><input type="text" bind="@Config.Fitness.Name" disabled="@FitnessDisabled" /></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">OptimizerTypeName</label>
+            <div class="col-sm-3">
+                <select class="form-control" bind="@Config.Fitness.OptimizerTypeName" disabled="@FitnessDisabled">
+                    @foreach (var item in OptimizerTypeNameOptions)
+                    {
+                    <option value=@item>@item</option>
+                    }
+                </select>
+            </div>
+            <label class="col-sm-2 col-form-label">ResultKey</label>
+            <div class="col-sm-3">
+                <select class="form-control" bind="@Config.Fitness.ResultKey" disabled="@ConfiguredFitnessDisabled">
+                    <option value=""></option>
+                    @foreach (var item in ResultKeyOptions)
+                    {
+                    <option value=@item>@item</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-2 col-form-label">Modifier</label>
+            <div class="col-sm-1"><input type="number" bind="@Config.Fitness.Modifier" step="0.1" disabled="@FitnessDisabled" /></div>
+            <label class="col-sm-2 col-form-label">Scale</label>
+            <div class="col-sm-1"><input type="number" bind="@Config.Fitness.Scale" step="0.1" disabled="@FitnessDisabled" /></div>
+        </div>
+        <div class="row form-group d-flex justify-content-center">
+            <button type="submit">Show</button>
+        </div>
+        <div>
+            <pre><code>@Json</code></pre>
+        </div>
+    </EditForm>
+</div>

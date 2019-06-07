@@ -1,0 +1,43 @@
+{
+  "genes": [
+    {
+      "key": "take",
+      "min": 0.01,
+      "max": 0.03,
+      "precision": 2
+    },
+    {
+      "key": "fast",
+      "min": 1,
+      "max": 48,
+      "precision": 0,
+      "actual": 4
+    },
+    {
+      "key": "slow",
+      "min": 1,
+      "max": 500,
+      "actual": 17
+    }
+  ],
+  "populationSize": 2,
+  "populationSizeMaximum": 48,
+  "generations": 1000,
+  "stagnationGenerations": 2,
+  "maxThreads": 1,
+  "configPath": "../../../../Lean/Launcher/config.json",
+  "algorithmTypeName": "ParameterizedWalkForwardAlgorithm",
+  "algorithmLocation": "../../../Optimization.Example/bin/debug/Optimization.Example.dll",
+  "onePointCrossover": "true",
+  "fitnessTypeName": "Optimization.OptimizerFitness",
+  "dataFolder": "../../../../Lean/Data",
+  "includeNegativeReturn":  true
+  //"fitnessTypeName": "Optimization.ConfiguredFitness",
+  //"fitness": {
+  //  "scale": 1,
+  //  "modifier": -1,
+  //  "resultKey": "Beta",
+  //  "name": "MinimizeBeta"
+  //}
+
+}

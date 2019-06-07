@@ -1,0 +1,34 @@
+﻿<Window x:Class="AlgoChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AlgoChart"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Optimization Chart" Height="768" Width="1536" d:DataContext="{d:DesignInstance local:MainWindow}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Click="Button_Click" Content="Refresh" />
+        <lvc:CartesianChart Name="AlgoChart" Grid.Row="1" LegendLocation="Bottom" Series="{Binding SeriesCollection}" DisableAnimations="True" Hoverable="False" Width="Auto" DataTooltip="{x:Null}" >
+            <!--<lvc:VisualElement AxisY="0" />-->
+            <!--<lvc:CartesianChart.Series>
+                <lvc:ScatterSeries Title="Return" Values="{Binding ReturnSeries}" PointGeometry="{x:Static lvc:DefaultGeometries.Circle}" />
+            </lvc:CartesianChart.Series>-->
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Name="Axis">
+                    <lvc:Axis.Sections>
+                        <lvc:AxisSection  Value="0" StrokeThickness="2" Stroke="#FF8585" Opacity=".4" Label="Bad" Height="1" MaxHeight="1" >
+                        </lvc:AxisSection>
+                    </lvc:Axis.Sections>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis LabelFormatter="{Binding Formatter}" Title="Time" Labels="{Binding TimeAxis}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+    </Grid>
+</Window>
