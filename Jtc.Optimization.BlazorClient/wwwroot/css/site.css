@@ -26,7 +26,7 @@ app {
         border-bottom: 1px solid #d6d5d5;
     }
 
-input[type=number]{
+input[type=number] {
     width: 4em;
 }
 
@@ -34,16 +34,38 @@ pre {
     color: #ddd;
 }
 
+label {
+    padding: 0 10px 0 10px;
+    margin-bottom: 0;
+}
+
 .form-group {
     border: grey 1px solid;
     background-color: #222;
     padding: 5px;
-    border-radius: 25px;
+    border-radius: 5px;
 }
 
-input select {
+input, select {
     border: solid 1px #333;
-    border-radius: 25px;
+    border-radius: 5px;
+}
+
+    input[type=checkbox] {
+        padding: 0;
+        margin-top: 0.8em;
+    }
+
+.displayNone {
+    display: none;
+}
+
+h1 {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1.1em;
 }
 
 #floatingCirclesG {

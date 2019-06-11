@@ -8,6 +8,7 @@
     </RestoreAdditionalProjectSources>
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <_RazorComponentInclude>Pages\**\*.cshtml</_RazorComponentInclude>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -16,6 +17,11 @@
 
   <ItemGroup>
     <Compile Remove="Pages\ChartBase - Copy.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Chart.cshtml" />
+    <Content Remove="Pages\Config.cshtml" />
   </ItemGroup>
   
   <ItemGroup>
@@ -61,11 +67,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
+    <None Include="Pages\Chart.cshtml" />
+    <None Include="Pages\Config.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Jtc.Optimization\Jtc.Optimization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\" />
   </ItemGroup>
 
 </Project>

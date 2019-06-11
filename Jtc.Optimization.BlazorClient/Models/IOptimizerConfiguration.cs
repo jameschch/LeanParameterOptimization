@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Jtc.Optimization.BlazorClient.Models
 {
@@ -24,9 +25,10 @@ namespace Jtc.Optimization.BlazorClient.Models
         float CrossoverProbability { get; set; }
         int MinimumTrades { get; set; }
         bool EnableFitnessFilter { get; set; }
-
         bool UseActualGenesForWholeGeneration { get; set; }
         string TransactionLog { get; set; }
+        bool EnableRunningDuplicateParameters { get; set; }
+        bool UseSharedAppDomain { get; set; }
     }
 
 }

@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Linq;
 using GeneticSharp.Domain.Fitnesses;
 using Optimization;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Collections.Generic;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -20,11 +22,13 @@ namespace Jtc.Optimization.BlazorClient
         protected string[] OptimizerTypeNameOptions { get; set; }
         protected string FitnessDisabled { get; set; }
         protected string ConfiguredFitnessDisabled { get; set; }
-        private string[] ConfigurableFitness = new[] { typeof(ConfiguredFitness).FullName, typeof(SharpeMaximizer).FullName,
-            typeof(NFoldCrossReturnMaximizer).FullName, typeof(NFoldCrossSharpeMaximizer).FullName };
+        private string[] ConfigurableFitness = new[] { typeof(ConfiguredFitness).FullName, typeof(SharpeMaximizer).FullName, typeof(NFoldCrossReturnMaximizer).FullName,
+            typeof(NFoldCrossSharpeMaximizer).FullName };
 
         [Inject] public IJSRuntime JsRuntime { get; set; }
         [Inject] public HttpClient httpClient { get; set; }
+
+        [CascadingParameter] protected EditContext CurrentEditContext { get; set; }
 
         protected async override Task OnInitAsync()
         {
@@ -48,7 +52,13 @@ namespace Jtc.Optimization.BlazorClient
 
         protected void ValidSubmit()
         {
-            Json = JsonConvert.SerializeObject(Config, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            Json = JsonConvert.SerializeObject(Config, new JsonSerializerSettings { Formatting = Formatting.Indented, DefaultValueHandling = DefaultValueHandling.Ignore });
+        }
+
+        protected async Task Save()
+        {
+            ValidSubmit();
+            await JsRuntime.InvokeAsync<string>("JSInterop.DownloadConfig", Json);
         }
 
         public void FitnessTypeNameChange(UIChangeEventArgs e)
@@ -71,6 +81,16 @@ namespace Jtc.Optimization.BlazorClient
             ConfiguredFitnessDisabled = Config.FitnessTypeName == typeof(ConfiguredFitness).FullName ? null : "disabled";
         }
 
+        protected void AddGene()
+        {
+            Config.Genes = Config.Genes.Concat(new[] { new Models.GeneConfiguration() }).ToArray();
+        }
+
+        protected void RemoveGene()
+        {
+            Config.Genes = Config.Genes.Except(new[] { Config.Genes.Last() }).ToArray();
+        }
+
         protected async override Task OnAfterRenderAsync()
         {
 
@@ -83,6 +103,7 @@ namespace Jtc.Optimization.BlazorClient
             var data = await JsRuntime.InvokeAsync<string>("JSInterop.GetFileData");
             System.Diagnostics.Debug.WriteLine(data);
             Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);
+            ToggleFitness();
             Json = data;
             StateHasChanged();
         }

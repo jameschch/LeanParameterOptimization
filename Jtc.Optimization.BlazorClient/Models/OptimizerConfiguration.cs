@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jtc.Optimization.BlazorClient.Attributes;
 using static Optimization.Enums;
 
 namespace Jtc.Optimization.BlazorClient.Models
@@ -99,6 +100,8 @@ namespace Jtc.Optimization.BlazorClient.Models
         /// <summary>
         /// Algorithm backtest end date
         /// </summary>
+        [GreaterThan("StartDate")]
+        [Required]
         public DateTime EndDate { get; set; }
 
         /// <summary>
@@ -130,6 +133,17 @@ namespace Jtc.Optimization.BlazorClient.Models
         public bool UseActualGenesForWholeGeneration { get; set; }
 
         public string TransactionLog { get; set; }
+
+        /// <summary>
+        /// If true, will execute algorithms in a single AppDomain, allowing object instance sharing between iterations and generations.
+        /// </summary>
+        public bool UseSharedAppDomain { get; set; }
+
+        /// <summary>
+        /// If true, will always execute algorithm even if supplied parameters have previously been executed
+        /// </summary>
+        /// <remarks>May be used for non-deterministic execution results</remarks>
+        public bool EnableRunningDuplicateParameters { get; set; }
     }
 
     [Serializable]
@@ -163,6 +177,6 @@ namespace Jtc.Optimization.BlazorClient.Models
         /// Number of cross validation folds
         /// </summary>
         [Range(1, int.MaxValue)]
-        public int Folds { get; set; }
+        public int Folds { get; set; } = 1;
     }
 }

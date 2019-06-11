@@ -14,7 +14,7 @@
 
     //reader.readAsText();
 
-    
+
     ReadUploadedFileAsText: (inputFile) => {
         const temporaryFileReader = new FileReader();
 
@@ -41,6 +41,16 @@
         catch (e) {
             console.warn(e.message);
         }
+    },
+
+    DownloadConfig: (json) => {
+        blob = new Blob([json], { type: "octet/stream" }), url = window.URL.createObjectURL(blob);
+
+        var save = document.getElementById("save");
+        save.href = url;
+
+        // target filename
+        save.download = 'optimization.json';
     }
 
 
