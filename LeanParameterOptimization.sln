@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.WpfClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization", "Jtc.Optimization\Jtc.Optimization.csproj", "{89D0362E-9AED-4718-B35E-BCAE2949848D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.BlazorClient.Tests", "Jtc.Optimization.BlazorClient.Tests\Jtc.Optimization.BlazorClient.Tests.csproj", "{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{89D0362E-9AED-4718-B35E-BCAE2949848D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89D0362E-9AED-4718-B35E-BCAE2949848D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89D0362E-9AED-4718-B35E-BCAE2949848D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

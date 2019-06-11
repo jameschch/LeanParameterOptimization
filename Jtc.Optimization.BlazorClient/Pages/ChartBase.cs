@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using ChartJs.Blazor.ChartJS.Common.Legends;
 using System.Net.Http;
+using Jtc.Optimization.BlazorClient.Misc;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -31,15 +32,14 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async override Task OnInitAsync()
         {
-            Program.HttpClient = this.HttpClient;
-            Program.JsRuntime = this.JsRuntime;
+            Program.HttpClient = HttpClient;
+            Program.JsRuntime = JsRuntime;
 
             ReturnSeries = new List<Point>();
             AversionSeries = new List<Point>();
             UnrealizedSeries = new List<Point>();
 
-            await BindEmbedded();
-            //await BindRemote();
+
 
             Config = Config ?? new ScatterChartConfig
             {
@@ -48,7 +48,6 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     Display = true,
                     Responsive = true,
-                    //Title = new OptionsTitle { Text = "Algorithm Optimization", Display = true },
                     Legend = new Legend
                     {
                         Labels = new Labels
@@ -63,41 +62,13 @@ namespace Jtc.Optimization.BlazorClient
                     }
                 },
                 Data = new ScatterConfigData
-                {
-                    Datasets = new List<ScatterConfigDataset>
-                    {
-                        new ScatterConfigDataset
-                        {
-                            Data = ReturnSeries,
-                            Label = "Return",
-                            BorderWidth = 0,
-                            PointRadius = 2,
-                            ShowLine = false,
-                            BackgroundColor = "#d72323",
-                            PointHoverRadius= 0
-                        },
-                        new ScatterConfigDataset
-                        {
-                            Data = AversionSeries,
-                            Label = "Aversion",
-                            BorderWidth = 0,
-                            PointRadius = 2,
-                            ShowLine = false,
-                            BackgroundColor = "#f6c90e"
-
-                        },
-                        new ScatterConfigDataset
-                        {
-                            Data = UnrealizedSeries,
-                            Label = "Unrealized",
-                            BorderWidth = 0,
-                            PointRadius = 2,
-                            ShowLine = false,
-                            BackgroundColor = "#1f4287"
-                        }
-                    }
+                {                    
                 }
             };
+
+            //await BindEmbedded();
+            
+
             //await JsRuntime.SetupChart(Config);
             //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
         }
@@ -113,8 +84,9 @@ namespace Jtc.Optimization.BlazorClient
             {
                 base.OnAfterRender();
                 await InvokeScript("Chart.defaults.global.defaultFontColor = \"#FFF\";");
+                await BindRemote();
                 await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
-               // await InvokeScript("w.postMessage(null)");
+                // await InvokeScript("w.postMessage(null)");
 
             }
             catch (Exception ex)
@@ -178,48 +150,42 @@ namespace Jtc.Optimization.BlazorClient
 
         private async Task BindRemote()
         {
-
-            List<Point[]> returnsCache = new List<Point[]>();
-
+            var binder = new ChartBinder();
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
             {
-                var rand = new Random();
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    if (rand.Next(0, SampleRate) != 0)
-                    {
-                        continue;
-                    }
+                var data = await binder.Read(file);
 
-                    try
+                Config.Data.Datasets = new List<ScatterConfigDataset>(data.Select(d =>
+                    new ScatterConfigDataset
                     {
-                        var split = line.Split(' ');
-                        var time = DateTime.Parse(split[0] + " " + split[1]);
-                        //Client is stateful and server is not. Client filters data we've already got.
-                        if (!NewOnly || time > TimeAxis.LastOrDefault())
-                        {
-                            TimeAxis.Add(time);
-                            returnsCache.Add(new[]
-                            {
-                                new Point(time.Ticks, double.Parse(split[split.Count() - 2])),
-                                new Point(time.Ticks, double.Parse(split[5].Trim(','))/100),
-                                new Point(time.Ticks, double.Parse(split[7].Trim(','))/2)
-                            });
-                        }
+                        Data = d.Value,
+                        Label = d.Key,
+                        BorderWidth = 0,
+                        PointRadius = 2,
+                        ShowLine = false,
+                        BackgroundColor = PickColour(),
+                        PointHoverRadius = 0
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                }
+                ));
 
-                ReturnSeries.AddRange(returnsCache.Select(r => r[0]));
-                AversionSeries.AddRange(returnsCache.Select(r => r[1]));
-                UnrealizedSeries.AddRange(returnsCache.Select(r => r[2]));
             }
 
-            LastUpdate = TimeAxis.LastOrDefault().ToString("o");
+            Config.Data.Datasets.Last().BackgroundColor = "red";
+            
+            //LastUpdate = TimeAxis.LastOrDefault().ToString("o");
+        }
+
+        private string PickColour()
+        {
+            var random = new Random();
+
+            var colour = "#";
+            for (int i = 0; i < 3; i++)
+            {
+                colour += (char)random.Next('a', 'f');
+            }
+
+            return colour;
         }
 
 

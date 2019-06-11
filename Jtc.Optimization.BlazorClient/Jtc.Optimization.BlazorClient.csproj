@@ -25,16 +25,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="optimizer.txt" />
     <None Remove="Pages\ChartBase - Copy.cs.bak" />
     <None Remove="Pages\ChartBase.cs.bak" />
     <None Remove="Pages\ConfigBase.cs.bak" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="optimizer.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
 
@@ -45,6 +38,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
   </ItemGroup>
 
 
