@@ -17,29 +17,26 @@ namespace Jtc.Optimization.BlazorClient
 {
     public class ChartBase : ComponentBase
     {
+        private static Random _random = new Random();
 
         public ScatterChartConfig Config { get; set; }
-        public List<DateTime> TimeAxis = new List<DateTime>();
-        public List<Point> ReturnSeries { get; set; }
-        public List<Point> AversionSeries { get; set; }
-        public List<Point> UnrealizedSeries { get; set; }
-        public int SampleRate { get; set; } = 800;
+        public int SampleRate { get; set; } = 100;
         public bool NewOnly { get; set; }
-        public string LastUpdate { get; set; }
+        public DateTime LastUpdate { get; set; }
+        private List<int> _pickedColours;
 
         [Inject] public IJSRuntime JsRuntime { get; set; }
         [Inject] public HttpClient HttpClient { get; set; }
+
+        public ChartBase()
+        {
+            _pickedColours = new List<int>();
+        }
 
         protected async override Task OnInitAsync()
         {
             Program.HttpClient = HttpClient;
             Program.JsRuntime = JsRuntime;
-
-            ReturnSeries = new List<Point>();
-            AversionSeries = new List<Point>();
-            UnrealizedSeries = new List<Point>();
-
-
 
             Config = Config ?? new ScatterChartConfig
             {
@@ -62,20 +59,14 @@ namespace Jtc.Optimization.BlazorClient
                     }
                 },
                 Data = new ScatterConfigData
-                {                    
+                {
                 }
             };
-
-            //await BindEmbedded();
-            
-
-            //await JsRuntime.SetupChart(Config);
-            //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
         }
 
         private async Task InvokeScript(string script)
         {
-            await JsRuntime.InvokeAsync<object>("ChartJSInterop.Eval", script);
+            await JsRuntime.InvokeAsync<object>("JSInterop.Eval", script);
         }
 
         protected async override Task OnAfterRenderAsync()
@@ -83,6 +74,9 @@ namespace Jtc.Optimization.BlazorClient
             try
             {
                 base.OnAfterRender();
+                await InvokeScript("Chart.defaults.global.animation.duration = 0;");
+                await InvokeScript("Chart.defaults.global.hover.animationDuration = 0;");
+                await InvokeScript("Chart.defaults.global.hover.responsiveAnimationDuration = 0;");
                 await InvokeScript("Chart.defaults.global.defaultFontColor = \"#FFF\";");
                 await BindRemote();
                 await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
@@ -95,57 +89,12 @@ namespace Jtc.Optimization.BlazorClient
             }
         }
 
-        private async Task BindEmbedded()
-        {
-
-            List<Point[]> returnsCache = new List<Point[]>();
-            var assembly = Assembly.GetExecutingAssembly();
-            var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
-            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
-            {
-                var rand = new Random();
-                string line;
-                while ((line = await file.ReadLineAsync()) != null)
-                {
-                    if (rand.Next(0, SampleRate * 4) != 0)
-                    {
-                        continue;
-                    }
-
-                    try
-                    {
-                        var split = line.Split(' ');
-                        var time = DateTime.Parse(split[0] + " " + split[1]);
-                        if (time > TimeAxis.LastOrDefault())
-                        {
-                            TimeAxis.Add(time);
-                            returnsCache.Add(new[]
-                            {
-                                new Point(time.Ticks, double.Parse(split[split.Count() - 2])),
-                                new Point(time.Ticks, double.Parse(split[5].Trim(','))/100),
-                                new Point(time.Ticks, double.Parse(split[7].Trim(','))/2)
-                            });
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-                ReturnSeries.AddRange(returnsCache.Select(r => r[0]));
-                AversionSeries.AddRange(returnsCache.Select(r => r[1]));
-                UnrealizedSeries.AddRange(returnsCache.Select(r => r[2]));
-            }
-            LastUpdate = TimeAxis.LastOrDefault().ToString("o");
-        }
-
         protected async Task UpdateChart()
         {
-
             //await ChartWorker.UpdateChart();
+            //await BindStream();
             await BindRemote();
             await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChart", Config);
-            //await BindStream();
         }
 
         private async Task BindRemote()
@@ -153,7 +102,7 @@ namespace Jtc.Optimization.BlazorClient
             var binder = new ChartBinder();
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
             {
-                var data = await binder.Read(file);
+                var data = await binder.Read(file, SampleRate);
 
                 Config.Data.Datasets = new List<ScatterConfigDataset>(data.Select(d =>
                     new ScatterConfigDataset
@@ -163,7 +112,7 @@ namespace Jtc.Optimization.BlazorClient
                         BorderWidth = 0,
                         PointRadius = 2,
                         ShowLine = false,
-                        BackgroundColor = PickColour(),
+                        BackgroundColor = PickColourName(),
                         PointHoverRadius = 0
                     }
                 ));
@@ -171,64 +120,82 @@ namespace Jtc.Optimization.BlazorClient
             }
 
             Config.Data.Datasets.Last().BackgroundColor = "red";
-            
-            //LastUpdate = TimeAxis.LastOrDefault().ToString("o");
+
+            _pickedColours.Clear();
+            LastUpdate = new DateTime((long)Config.Data.Datasets.Last().Data.Last().x);
         }
 
-        private string PickColour()
+        private string PickRandomColour()
         {
-            var random = new Random();
-
             var colour = "#";
             for (int i = 0; i < 3; i++)
             {
-                colour += (char)random.Next('a', 'f');
+                colour += (char)_random.Next('a', 'f');
             }
 
             return colour;
         }
 
-
-        private async Task BindStream()
+        private string PickColourName()
         {
-            //this needs to be loop in script that fake yields the top of stack
-            using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
+            var names = new[] { "Maroon", "Yellow", "Olive", "Lime", "Aqua", "Teal", "Blue", "Fuchsia", "Purple" };
+            if (_pickedColours.Count() == names.Count())
             {
-                var rand = new Random();
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    if (rand.Next(0, SampleRate) != 0)
-                    {
-                        continue;
-                    }
+                return PickRandomColour();
+            }
+            var picked = _random.Next(0, names.Count());
 
-                    try
-                    {
-                        var split = line.Split(' ');
-                        var time = DateTime.Parse(split[0] + " " + split[1]);
-                        //Client is stateful and server is not. Client filters data we've already got.
-                        if (time > TimeAxis.LastOrDefault())
-                        {
-                            TimeAxis.Add(time);
-                            //Console.WriteLine(time.Ticks);
-
-                            await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config.CanvasId, new Point(time.Ticks, double.Parse(split[split.Count() - 2])));
-                            LastUpdate = TimeAxis.LastOrDefault().ToString("o");
-                            StateHasChanged();
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                }
-
+            while (_pickedColours.Contains(picked))
+            {
+                picked = _random.Next(0, names.Count());
             }
 
-
+            _pickedColours.Add(picked);
+            return names[picked];
         }
+
+
+        //private async Task BindStream()
+        //{
+        //    //this needs to be loop in script that fake yields the top of stack
+        //    using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
+        //    {
+        //        var rand = new Random();
+        //        string line;
+        //        while ((line = file.ReadLine()) != null)
+        //        {
+        //            if (rand.Next(0, SampleRate) != 0)
+        //            {
+        //                continue;
+        //            }
+
+        //            try
+        //            {
+        //                var split = line.Split(' ');
+        //                var time = DateTime.Parse(split[0] + " " + split[1]);
+        //                //Client is stateful and server is not. Client filters data we've already got.
+        //                if (time > TimeAxis.LastOrDefault())
+        //                {
+        //                    TimeAxis.Add(time);
+        //                    //Console.WriteLine(time.Ticks);
+
+        //                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config.CanvasId, new Point(time.Ticks, double.Parse(split[split.Count() - 2])));
+        //                    LastUpdate = TimeAxis.LastOrDefault().ToString("o");
+        //                    StateHasChanged();
+
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Console.WriteLine(ex.ToString());
+        //            }
+        //        }
+
+        //    }        //private async Task BindStream()
+        //{
+        
+
+        //    }
 
     }
 }

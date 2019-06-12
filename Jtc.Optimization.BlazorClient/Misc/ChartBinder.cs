@@ -44,7 +44,7 @@ namespace Jtc.Optimization.BlazorClient.Misc
                         }
 
                     }
-                    System.Diagnostics.Debug.WriteLine("Processing...");
+                    //System.Diagnostics.Debug.WriteLine("Processing...");
                 }
                 catch (Exception)
                 {

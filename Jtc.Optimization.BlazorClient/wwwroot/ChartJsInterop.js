@@ -25,10 +25,6 @@ window.ChartJSInterop = {
         return true;
     },
 
-    Eval: function (script) {
-        eval(script);
-    },
-
     UpdateChart: function (config) {
 
         if (!BlazorCharts.find(currentChart => currentChart.id === config.canvasId))
@@ -37,13 +33,13 @@ window.ChartJSInterop = {
         let myChart = BlazorCharts.find(currentChart => currentChart.id === config.canvasId);
 
         myChart.chart.config.data.datasets = config.data.datasets;
-        myChart.chart.config.data.labels = config.data.labels;
+        //myChart.chart.config.data.labels = config.data.labels;
 
-        myChart.chart.render({
-            duration: 0,
-            //lazy: false,
-            //easing: 'easeOutBounce'
-        });
+        //myChart.chart.render({
+        //    duration: 0,
+        //    //lazy: false,
+        //    //easing: 'easeOutBounce'
+        //});
         myChart.chart.update();
 
         return true;
