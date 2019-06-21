@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Optimization.Enums;
+using static Jtc.Optimization.Enums;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public interface IFitnessConfiguration

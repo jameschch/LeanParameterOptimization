@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using Newtonsoft.Json;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
 

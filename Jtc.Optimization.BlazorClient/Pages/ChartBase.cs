@@ -110,7 +110,7 @@ namespace Jtc.Optimization.BlazorClient
                         Data = d.Value,
                         Label = d.Key,
                         BorderWidth = 0,
-                        PointRadius = 2,
+                        PointRadius = 3,
                         ShowLine = false,
                         BackgroundColor = PickColourName(),
                         PointHoverRadius = 0
@@ -138,7 +138,7 @@ namespace Jtc.Optimization.BlazorClient
 
         private string PickColourName()
         {
-            var names = new[] { "Maroon", "Yellow", "Olive", "Lime", "Aqua", "Teal", "Blue", "Fuchsia", "Purple" };
+            var names = new[] { "Yellow", "Olive", "Lime", "Aqua", "Teal", "Blue", "Fuchsia", "Purple" };
             if (_pickedColours.Count() == names.Count())
             {
                 return PickRandomColour();

@@ -16,7 +16,7 @@ using QuantConnect.Lean.Engine.Results;
 using QuantConnect.Lean.Engine.Setup;
 using QuantConnect.Lean.Engine.TransactionHandlers;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public static class EngineContext

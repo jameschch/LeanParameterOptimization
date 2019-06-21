@@ -9,7 +9,7 @@ using SharpLearning.Optimization;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public class SharpeMaximizer : OptimizerFitness
@@ -77,7 +77,7 @@ namespace Optimization
             }
             catch (Exception ex)
             {
-                Program.Logger.Error(ex);
+                LogShared.Logger.Error(ex);
                 return ErrorFitness;
             }
         }
@@ -112,7 +112,7 @@ namespace Optimization
                 var fitness = CalculateFitness(score);
 
                 output.AppendFormat("{0}: {1}", Name, fitness.Value.ToString("0.##"));
-                Program.Logger.Info(output);
+                LogShared.Logger.Info(output);
 
                 var result = new OptimizerResult(p, fitness.Fitness);
                 _resultIndex.Add(result, id);
@@ -120,7 +120,7 @@ namespace Optimization
             }
             catch (Exception)
             {
-                Program.Logger.Error($"Id: {id}, Iteration failed.");
+                LogShared.Logger.Error($"Id: {id}, Iteration failed.");
 
                 var result = new OptimizerResult(p, ErrorFitness);
                 _resultIndex.Add(result, id);

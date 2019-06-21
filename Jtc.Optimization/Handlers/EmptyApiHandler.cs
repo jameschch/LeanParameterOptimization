@@ -11,7 +11,7 @@ using QuantConnect.Data.Market;
 using QuantConnect.Interfaces;
 using QuantConnect.Securities;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
     class EmptyApiHandler : IApi
     {

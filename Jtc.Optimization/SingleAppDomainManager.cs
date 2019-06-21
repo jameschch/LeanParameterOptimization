@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Accord.MachineLearning;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public class SingleAppDomainManager : OptimizerAppDomainManager

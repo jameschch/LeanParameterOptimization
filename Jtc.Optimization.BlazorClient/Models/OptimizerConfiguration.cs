@@ -1,4 +1,4 @@
-﻿using Optimization;
+﻿using Jtc.Optimization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jtc.Optimization.BlazorClient.Attributes;
-using static Optimization.Enums;
+using static Jtc.Optimization.Enums;
 
 namespace Jtc.Optimization.BlazorClient.Models
 {

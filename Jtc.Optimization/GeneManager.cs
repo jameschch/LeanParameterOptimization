@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public class GeneManager : IOptimizerManager
@@ -73,7 +73,7 @@ namespace Optimization
 
         void TerminationReached(object sender, EventArgs e)
         {
-            Program.Logger.Info(Termination);
+            LogShared.Logger.Info(Termination);
 
             GenerationRan(null, null);
         }
@@ -86,7 +86,7 @@ namespace Optimization
                 _bestChromosome = (Chromosome)_population.BestChromosome;
             }
 
-            Program.Logger.Info("Algorithm: {0}, Generation: {1}, Fitness: {2}, {3}: {4}, {5}, Id: {6}", _config.AlgorithmTypeName, _population.GenerationsNumber, _bestChromosome.Fitness,
+            LogShared.Logger.Info("Algorithm: {0}, Generation: {1}, Fitness: {2}, {3}: {4}, {5}, Id: {6}", _config.AlgorithmTypeName, _population.GenerationsNumber, _bestChromosome.Fitness,
                 _fitness.Name, _fitness.GetValueFromFitness(_bestChromosome.Fitness), _bestChromosome.ToKeyValueString(), _bestChromosome.Id);
         }
 

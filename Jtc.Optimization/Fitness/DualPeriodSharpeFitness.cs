@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
     public class DualPeriodSharpeFitness : OptimizerFitness
     {
@@ -44,7 +44,7 @@ namespace Optimization
 
             var output = string.Format($"Start: {Config.StartDate}, End: {Config.EndDate}, Start: {dualConfig.StartDate}, End: {dualConfig.EndDate}, "
             + $"Id: {((Chromosome)chromosome).Id}, Dual Period {this.Name}: {fitness.Value}");
-            Program.Logger.Info(output);
+            LogShared.Logger.Info(output);
 
             Config.StartDate = start;
             Config.EndDate = end;

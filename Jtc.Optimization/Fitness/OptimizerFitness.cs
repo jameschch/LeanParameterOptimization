@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using Newtonsoft.Json;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
 
@@ -70,13 +70,13 @@ namespace Optimization
                 var fitness = CalculateFitness(result);
 
                 output += string.Format("{0}: {1}", Name, fitness.Value);
-                Program.Logger.Info(output);
+                LogShared.Logger.Info(output);
 
                 return fitness.Fitness;
             }
             catch (Exception ex)
             {
-                Program.Logger.Error(ex);
+                LogShared.Logger.Error(ex);
                 return 0;
             }
         }

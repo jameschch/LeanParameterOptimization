@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     /// <summary>

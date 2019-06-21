@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.IO.Abstractions;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
     public class OptimizerInitializer
     {

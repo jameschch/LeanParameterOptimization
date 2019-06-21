@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
     public interface IOptimizerConfiguration
     {

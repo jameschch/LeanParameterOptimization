@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Jtc.Optimization.BlazorClient.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Jtc.Optimization.BlazorClient.Components
@@ -12,7 +11,7 @@ namespace Jtc.Optimization.BlazorClient.Components
 
 
         [Parameter]
-        public GeneConfiguration Gene { get; set; }
+        public Models.GeneConfiguration Gene { get; set; }
 
         protected async override Task OnInitAsync()
         {

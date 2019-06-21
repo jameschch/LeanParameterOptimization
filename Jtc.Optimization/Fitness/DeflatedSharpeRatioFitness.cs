@@ -9,7 +9,7 @@ using MathNet.Numerics.Distributions;
 using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Chromosomes;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     /// <summary>

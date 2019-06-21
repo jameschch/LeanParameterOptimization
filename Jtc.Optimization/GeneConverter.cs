@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Globalization;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public class GeneConverter : JsonConverter

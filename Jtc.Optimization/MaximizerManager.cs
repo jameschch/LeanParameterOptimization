@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public class MaximizerManager : IOptimizerManager
@@ -31,14 +31,14 @@ namespace Optimization
             var chromosome = new Chromosome(false, GeneFactory.Config);
             _fitness.Evaluate(chromosome);
 
-            Program.Logger.Info(Termination);
+            LogShared.Logger.Info(Termination);
 
             var best = ((Chromosome)((SharpeMaximizer)_fitness).Best);
 
             var info = $"Algorithm: {_config.AlgorithmTypeName}, Fitness: {chromosome.Fitness}, {_fitness.Name}: " +
             $"{_fitness.GetValueFromFitness(chromosome.Fitness).ToString("F")}, {best.ToKeyValueString()}";
 
-            Program.Logger.Info(info);
+            LogShared.Logger.Info(info);
         }
 
     }

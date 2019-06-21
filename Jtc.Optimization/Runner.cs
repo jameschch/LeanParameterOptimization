@@ -10,7 +10,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
     public class Runner : MarshalByRefObject, IRunner
     {

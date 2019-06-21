@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
     public interface IRunner
     {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static Optimization.AppDomainExtensionMethods;
+using static Jtc.Optimization.AppDomainExtensionMethods;
 
-namespace Optimization
+namespace Jtc.Optimization
 {
 
     public class OptimizerAppDomainManager

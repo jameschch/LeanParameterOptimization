@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Linq;
 using GeneticSharp.Domain.Fitnesses;
-using Optimization;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
 
