@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.ChartJs\Jtc.Optimization.ChartJs.csproj" />
+  </ItemGroup>
+
+</Project>

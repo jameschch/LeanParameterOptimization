@@ -21,7 +21,7 @@ namespace Jtc.Optimization.BlazorClient
         public static string LastUpdate { get; set; }
         public static List<DateTime> TimeAxis = new List<DateTime>();
 
-        [JSInvokable("ChartWorker.UpdateChart")]
+        //[JSInvokable("ChartWorker.UpdateChart")]
         public static async Task UpdateChart()
         {
             await BindStream();
@@ -52,7 +52,7 @@ namespace Jtc.Optimization.BlazorClient
                             //Console.WriteLine(time.Ticks);
 
                             //when run in web worker
-                            await Program.JsRuntime.InvokeAsync<object>("postMessage", new { data = new Point(time.Ticks, double.Parse(split[split.Count() - 2]))});
+                            //await Program.JsRuntime.InvokeAsync<object>("postMessage", new { data = new Point(time.Ticks, double.Parse(split[split.Count() - 2]))});
                             LastUpdate = TimeAxis.LastOrDefault().ToString("o");
 
                         }

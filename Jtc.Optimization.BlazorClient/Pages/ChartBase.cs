@@ -1,4 +1,3 @@
-using ChartJs.Blazor.ChartJS;
 using ChartJs.Blazor.ChartJS.Common;
 using ChartJs.Blazor.ChartJS.ScatterChart;
 using Microsoft.AspNetCore.Components;
@@ -7,23 +6,32 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using ChartJs.Blazor.ChartJS.Common.Legends;
 using System.Net.Http;
-using Jtc.Optimization.BlazorClient.Misc;
+using Jtc.Optimization.Transformation;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Text;
 
 namespace Jtc.Optimization.BlazorClient
 {
     public class ChartBase : ComponentBase
     {
-        private static Random _random = new Random();
+
+        private const string ChartId = "Scatter";
+        private static Random _random = new Random(42);
 
         public ScatterChartConfig Config { get; set; }
-        public int SampleRate { get; set; } = 100;
+        public int SampleRate { get; set; } = 1;
         public bool NewOnly { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public string ActivityLog { get { return _activityLogger.Output; } }
+        private ActivityLogger _activityLogger { get; set; } = new ActivityLogger();
+        public DateTime NewestTimestamp { get; set; }
         private List<int> _pickedColours;
+        Queue<Point> _queue;
+        private ChartBinder _binder;
+        Stopwatch _stopWatch;
 
         [Inject] public IJSRuntime JsRuntime { get; set; }
         [Inject] public HttpClient HttpClient { get; set; }
@@ -31,6 +39,8 @@ namespace Jtc.Optimization.BlazorClient
         public ChartBase()
         {
             _pickedColours = new List<int>();
+            _stopWatch = new Stopwatch();
+            _binder = new ChartBinder();
         }
 
         protected async override Task OnInitAsync()
@@ -40,7 +50,7 @@ namespace Jtc.Optimization.BlazorClient
 
             Config = Config ?? new ScatterChartConfig
             {
-                CanvasId = "Scatter",
+                CanvasId = ChartId,
                 Options = new ScatterConfigOptions
                 {
                     Display = true,
@@ -74,14 +84,16 @@ namespace Jtc.Optimization.BlazorClient
             try
             {
                 base.OnAfterRender();
+                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
                 await InvokeScript("Chart.defaults.global.animation.duration = 0;");
                 await InvokeScript("Chart.defaults.global.hover.animationDuration = 0;");
                 await InvokeScript("Chart.defaults.global.hover.responsiveAnimationDuration = 0;");
                 await InvokeScript("Chart.defaults.global.defaultFontColor = \"#FFF\";");
-                await BindRemote();
-                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
-                // await InvokeScript("w.postMessage(null)");
-
+                await InvokeScript("Chart.defaults.global.tooltips.enabled = false;");
+                //if (!(Config?.Data?.Datasets?.Any() ?? false))
+                //{
+                //    await BindRemote();
+                //}
             }
             catch (Exception ex)
             {
@@ -91,38 +103,90 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UpdateChart()
         {
-            //await ChartWorker.UpdateChart();
-            //await BindStream();
+            _stopWatch.Start();
             await BindRemote();
-            await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChart", Config);
+            if (NewOnly)
+            {
+                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
+            }
+            else
+            {
+                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
+            }
+
+        }
+
+        protected async Task UpdateChartOnServer()
+        {
+            _stopWatch.Start();
+            await BindRemoteOnServer();
+            if (NewOnly)
+            {
+                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
+            }
+            else
+            {
+                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
+            }
+        }
+
+        protected async Task StreamChart()
+        {
+            //await ChartWorker.UpdateChart();
+            await BindStream();
+            //await BindRemote();
+            await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
         }
 
         private async Task BindRemote()
         {
-            var binder = new ChartBinder();
+            if (!NewOnly)
+            {
+                _binder = new ChartBinder();
+            }
+
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
             {
-                var data = await binder.Read(file, SampleRate);
-
-                Config.Data.Datasets = new List<ScatterConfigDataset>(data.Select(d =>
-                    new ScatterConfigDataset
-                    {
-                        Data = d.Value,
-                        Label = d.Key,
-                        BorderWidth = 0,
-                        PointRadius = 3,
-                        ShowLine = false,
-                        BackgroundColor = PickColourName(),
-                        PointHoverRadius = 0
-                    }
-                ));
-
+                var data = await _binder.Read(file, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
+                ExecuteUpdate(data);
             }
+        }
+
+        private async Task BindRemoteOnServer()
+        {
+            using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data/Sample/{(SampleRate == 0 ? 1 : SampleRate)}"))))
+            {
+                var data = JsonConvert.DeserializeObject<Dictionary<string, List<Point>>>(file.ReadToEnd());
+                ExecuteUpdate(data);
+            }
+        }
+
+        private void ExecuteUpdate(Dictionary<string, List<Point>> data)
+        {
+
+
+            Config.Data.Datasets = new List<ScatterConfigDataset>(data.Select(d =>
+                new ScatterConfigDataset
+                {
+                    Data = d.Value,
+                    Label = d.Key,
+                    BorderWidth = 0,
+                    PointRadius = 3,
+                    ShowLine = false,
+                    BackgroundColor = PickColourName(),
+                    PointHoverRadius = 0
+                }
+            ));
 
             Config.Data.Datasets.Last().BackgroundColor = "red";
 
             _pickedColours.Clear();
-            LastUpdate = new DateTime((long)Config.Data.Datasets.Last().Data.Last().x);
+
+            NewestTimestamp = new DateTime((long)Config.Data.Datasets.Last().Data.Last().x);
+            _activityLogger.Add($"Newest Timestamp: ", NewestTimestamp);
+            _activityLogger.Add("Exection Time:", _stopWatch.Elapsed);
+            _activityLogger.Add($"Updated Rows: ", Config.Data.Datasets.Last().Data.Count());
+            _stopWatch.Stop();
         }
 
         private string PickRandomColour()
@@ -154,48 +218,26 @@ namespace Jtc.Optimization.BlazorClient
             return names[picked];
         }
 
+        [JSInvokable]
+        public async Task BindStream()
+        {
+            if (_queue == null)
+            {
+                using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
+                {
+                    var data = await _binder.Read(file, SampleRate == 0 ? 1 : SampleRate);
+                    _queue = new Queue<Point>(data.Last().Value.Where(v => v.x > NewestTimestamp.Ticks));
+                }
+            }
 
-        //private async Task BindStream()
-        //{
-        //    //this needs to be loop in script that fake yields the top of stack
-        //    using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
-        //    {
-        //        var rand = new Random();
-        //        string line;
-        //        while ((line = file.ReadLine()) != null)
-        //        {
-        //            if (rand.Next(0, SampleRate) != 0)
-        //            {
-        //                continue;
-        //            }
-
-        //            try
-        //            {
-        //                var split = line.Split(' ');
-        //                var time = DateTime.Parse(split[0] + " " + split[1]);
-        //                //Client is stateful and server is not. Client filters data we've already got.
-        //                if (time > TimeAxis.LastOrDefault())
-        //                {
-        //                    TimeAxis.Add(time);
-        //                    //Console.WriteLine(time.Ticks);
-
-        //                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config.CanvasId, new Point(time.Ticks, double.Parse(split[split.Count() - 2])));
-        //                    LastUpdate = TimeAxis.LastOrDefault().ToString("o");
-        //                    StateHasChanged();
-
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                Console.WriteLine(ex.ToString());
-        //            }
-        //        }
-
-        //    }        //private async Task BindStream()
-        //{
-        
-
-        //    }
+            if (_queue != null && _queue.Any())
+            {
+                var point = _queue.Dequeue();
+                NewestTimestamp = new DateTime((long)point.x);
+                _activityLogger.Add($"Last Updated: ", NewestTimestamp);
+                //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", ChartId, point, new DotNetObjectRef(this));
+            }
+        }
 
     }
 }

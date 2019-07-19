@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.BlazorClie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.Launcher.Legacy", "Jtc.Optimization.Launcher.Legacy\Jtc.Optimization.Launcher.Legacy.csproj", "{B6C15B87-93CE-4DC2-A44E-271D0C8406E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.Transformation", "Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj", "{09ACC073-D668-4791-9A21-7E6BF36C8D20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.ChartJs", "Jtc.Optimization.ChartJs\Jtc.Optimization.ChartJs.csproj", "{B7DD6D3F-442C-4052-8064-A5A81FB48B90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{B6C15B87-93CE-4DC2-A44E-271D0C8406E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6C15B87-93CE-4DC2-A44E-271D0C8406E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6C15B87-93CE-4DC2-A44E-271D0C8406E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

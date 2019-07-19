@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Jtc.Optimization.BlazorClient">
       <HintPath>..\Jtc.Optimization.BlazorClient\bin\Debug\netstandard2.0\Jtc.Optimization.BlazorClient.dll</HintPath>
     </Reference>

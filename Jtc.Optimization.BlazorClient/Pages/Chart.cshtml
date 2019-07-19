@@ -1,19 +1,26 @@
 @page "/Chart"
 @inherits Jtc.Optimization.BlazorClient.ChartBase
-@inject IJSRuntime JSRuntime
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime
 
-    <div class="container">
-        <h1>Algorithm Optimization <span>@LastUpdate.ToString("yyyy-MM-dd hh:mm:ss")</span></h1>
-        <div class="row">
-            <div class="col-sm-12">
-                <label for="sampleRate">Sample Rate:</label>
-                <input type="text" id="sampleRate" bind="@SampleRate" />
-                <label for="newOnly">New only?:</label>
-                <input type="checkbox" id="newOnly" bind="@NewOnly" />
-                <button class="btn btn-secondary" onclick="@UpdateChart">Update Chart</button>
-            </div>
+<div class="container-fluid">
+    <h1 class="text-center">Algorithm Optimization</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <label  for="sampleRate">Sample Rate:</label>
+            <input class="input-sm" type="text" id="sampleRate" bind="@SampleRate" />
+            <label for="newOnly">New only?:</label>
+            <input type="checkbox" id="newOnly" bind="@NewOnly" />
+            <button class="btn btn-secondary" onclick="@UpdateChart">Update Chart</button>
+            <button class="btn btn-secondary" onclick="@UpdateChartOnServer">Update Chart On Server</button>
+            <button class="btn btn-secondary" disabled onclick="@StreamChart">Stream Chart</button>
+        </div>
+        <div class="col-sm-6">
+            <textarea readonly class="w-100 small">@ActivityLog</textarea>
         </div>
     </div>
+</div>
+@*<Wait></Wait>*@
 <canvas id="@Config.CanvasId"></canvas>
+
 
 

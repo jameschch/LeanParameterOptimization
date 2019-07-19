@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Algorithm Optimization</title>
+    <title>↝Algorithm Optimization↝</title>
     <base href="/" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
@@ -22,6 +22,7 @@
         </div>
     </app>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!--<script src="css/bootstrap/bootstrap-native.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>-->
@@ -30,26 +31,26 @@
     <script src="ChartJsInterop.js"></script>
     <script src="JsInterop.js"></script>
     <script>
-        var w;
+        //var w;
 
-        function startWorker() {
-            if (typeof (Worker) !== "undefined") {
-                if (typeof (w) == "undefined") {
-                    w = new Worker("ChartWorkerMessaging.js");
-                }
-                w.onmessage = function (e) {
-                    ChartJSInterop.UpdateChartData("Scatter", e.data);
-                };
+        //function startWorker() {
+        //    if (typeof (Worker) !== "undefined") {
+        //        if (typeof (w) == "undefined") {
+        //            w = new Worker("ChartWorkerMessaging.js");
+        //        }
+        //        w.onmessage = function (e) {
+        //            ChartJSInterop.UpdateChartData("Scatter", e.data);
+        //        };
 
-            }
-        }
+        //    }
+        //}
 
-        function stopWorker() {
-            w.terminate();
-            w = undefined;
-        }
+        //function stopWorker() {
+        //    w.terminate();
+        //    w = undefined;
+        //}
 
-        startWorker();
+        //startWorker();
     </script>
     <a style="color:#444;position:absolute;width: 100%;text-align: center;" href="https://www.youtube.com/watch?v=cROY4m4Ftiw">Love that <span style="text-decoration: line-through">joker</span> blazor</a>
 </body>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -35,24 +36,18 @@ namespace Jtc.Optimization.Api.Controllers
 
         }
 
-        [HttpGet("{sampleRate}")]
-        public ContentResult Sample(int sampleRate)
+
+        [HttpGet("Sample/{sampleRate}")]
+        public JsonResult Sample(int sampleRate)
         {
             var builder = new StringBuilder();
             using (var file = new StreamReader(Path.Combine(_configuration.GetValue<string>("ResultsPath"), "optimizer.txt")))
             {
-                var rand = new Random();
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    if (sampleRate > 1 && rand.Next(0, sampleRate) != 0)
-                    {
-                        continue;
-                    }
-                    builder.AppendLine(line);
-                }
+              var binder = new ChartBinder();
+           
+                var data = binder.Read(file, sampleRate).Result;
 
-                return Content(builder.ToString(), new MediaTypeHeaderValue("text/plain"));
+                return Json(data);
             }
         }
 

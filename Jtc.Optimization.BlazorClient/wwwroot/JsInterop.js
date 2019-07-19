@@ -51,8 +51,25 @@
 
         // target filename
         save.download = 'optimization.json';
+    },
+
+    Initialize: function () {
+
+        $("button").on("click", function () {
+            JSInterop.ShowWait();
+        });
+    },
+
+    ShowWait: function () {
+        $("#wait").fadeIn();
+
     }
 
 
+
 };
+
+$(function () {
+    JSInterop.ShowWait();
+});
 

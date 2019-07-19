@@ -68,6 +68,30 @@ h4 {
     font-size: 1.1em;
 }
 
+textarea {
+    background-color: #000000;
+    color: #ddd;
+}
+
+#wait {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0,0,0,.7);
+}
+
+    #wait img {
+        filter: blur(1px);
+        height: 50px;
+        top: 45%;
+        left: 50%;
+        position: fixed;
+        background: transparent;
+    }
+
 #floatingCirclesG {
     position: relative;
     width: 90px;

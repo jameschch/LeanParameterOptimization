@@ -66,6 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
     <ProjectReference Include="..\Jtc.Optimization\Jtc.Optimization.csproj" />
   </ItemGroup>
 

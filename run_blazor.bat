@@ -13,7 +13,7 @@ START "Jtc.Optimization.Api" "cmd.exe" "/C dotnet run --project Jtc.Optimization
 "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"  --purge-memory-button --auto-open-devtools-for-tabs --remote-debugging-port=9222 --new-window "http://localhost:61222/chart"
 
 FOR /L %%A IN (1,1,10) DO (
-	dotnet build Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj -c Debug
-	dotnet run --project Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj --no-build -c Debug  
+	rem dotnet build Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj -c Debug
+	dotnet run --project Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj -c Debug  
 )
 

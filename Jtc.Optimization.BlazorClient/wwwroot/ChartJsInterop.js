@@ -21,11 +21,11 @@ window.ChartJSInterop = {
             myChart.chart = newChart;
 
         }
-
+        //$("#wait").fadeOut();
         return true;
     },
 
-    UpdateChart: function (config) {
+    LoadChartData: function (config) {
 
         if (!BlazorCharts.find(currentChart => currentChart.id === config.canvasId))
             throw `Could not find a chart with the given id. ${config.canvasId}`;
@@ -41,27 +41,36 @@ window.ChartJSInterop = {
         //    //easing: 'easeOutBounce'
         //});
         myChart.chart.update();
-
+        //$("#wait").fadeOut;
         return true;
     },
 
-    UpdateChartData: function (id, adding) {
+    UpdateChartData: function (config, dotnetHelper) {
 
-        if (!BlazorCharts.find(currentChart => currentChart.id === id))
-            throw `Could not find a chart with the given id. ${id}`;
+        if (!BlazorCharts.find(currentChart => currentChart.id === config.canvasId))
+            throw `Could not find a chart with the given id. ${config.canvasId}`;
 
-        let myChart = BlazorCharts.find(currentChart => currentChart.id === id);
+        let myChart = BlazorCharts.find(currentChart => currentChart.id === config.canvasId);
 
-        myChart.chart.options.animation.duration = 0;
+        for (var i = 0; i < myChart.chart.config.data.datasets.length; i++) {
+            myChart.chart.config.data.datasets[i].data.push(config.data.datasets[i].data)
+        }
         //myChart.chart.data.datasets[0].data.push(adding);
-       //Array.prototype.push.apply(myChart.chart.data.datasets[0].data, adding);
-        myChart.chart.data.datasets[0].data.push(adding);
-        //myChart.chart.config.data.datasets[0].data = myChart.chart.data.datasets[0].data.concat(adding);
+        //Array.prototype.push.apply(myChart.chart.data.datasets[0].data, adding);
+        //myChart.chart.data.datasets[myChart.chart.data.datasets.length].data.push(adding);
+        //myChart.chart.config.data.datasets = adding.data.datasets;
         myChart.chart.update({
             duration: 0,
             //preservation: 'true'
         });
-        return true;
+        //console.log(config);
+        //dotnetHelper.invokeMethodAsync("BindStream");
+    },
+
+    DataUpdated: function () {
+        var value = document.getElementById("json").getAttribute("value");
+        ChartJSInterop.UpdateChartData("Scatter", null);
+        console.log(value);
     }
 
 };
