@@ -16,7 +16,7 @@ namespace Jtc.Optimization.BlazorClient
     {
         protected Models.OptimizerConfiguration Config { get; set; }
         protected string Json { get; set; }
-        protected string[] FitnessTypeNameOptions { get; set; }
+        protected List<string> FitnessTypeNameOptions { get; set; }
         protected string[] ResultKeyOptions { get; set; }
         protected string[] OptimizerTypeNameOptions { get; set; }
         protected string FitnessDisabled { get; set; }
@@ -41,7 +41,7 @@ namespace Jtc.Optimization.BlazorClient
 
             var assembly = Assembly.GetAssembly(typeof(OptimizerFitness));
 
-            FitnessTypeNameOptions = assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o).ToArray();
+            FitnessTypeNameOptions = assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o).ToList();
             ResultKeyOptions = StatisticsAdapter.Binding.Select(s => s.Value).OrderBy(a => a).ToArray();
             OptimizerTypeNameOptions = Enum.GetNames(typeof(Enums.OptimizerTypeOptions)).OrderBy(o => o).ToArray();
 
@@ -100,11 +100,15 @@ namespace Jtc.Optimization.BlazorClient
         protected async Task UploadFile()
         {
             var data = await JsRuntime.InvokeAsync<string>("JSInterop.GetFileData");
-            System.Diagnostics.Debug.WriteLine(data);
             Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);
             ToggleFitness();
             Json = data;
             StateHasChanged();
+        }
+
+        protected string IsSelected(string item)
+        {
+            return (Config.FitnessTypeName == item) ? "true" : "false";
         }
 
     }

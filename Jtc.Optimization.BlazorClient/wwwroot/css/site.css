@@ -1,5 +1,6 @@
 ﻿html, body {
     background-color: #000000;
+    /*overflow-y: hidden;*/
 }
 
 body {
@@ -91,6 +92,10 @@ textarea {
         position: fixed;
         background: transparent;
     }
+
+canvas {
+    padding-bottom: 10px;
+}
 
 #floatingCirclesG {
     position: relative;

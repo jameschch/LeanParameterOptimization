@@ -9,6 +9,7 @@
     <link href="css/site.css" rel="stylesheet" />
 </head>
 <body>
+
     <app>
         <div id="floatingCirclesG">
             <div class="f_circleG" id="frotateG_01"></div>
@@ -20,6 +21,7 @@
             <div class="f_circleG" id="frotateG_07"></div>
             <div class="f_circleG" id="frotateG_08"></div>
         </div>
+
     </app>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -30,29 +32,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="ChartJsInterop.js"></script>
     <script src="JsInterop.js"></script>
-    <script>
-        //var w;
-
-        //function startWorker() {
-        //    if (typeof (Worker) !== "undefined") {
-        //        if (typeof (w) == "undefined") {
-        //            w = new Worker("ChartWorkerMessaging.js");
-        //        }
-        //        w.onmessage = function (e) {
-        //            ChartJSInterop.UpdateChartData("Scatter", e.data);
-        //        };
-
-        //    }
-        //}
-
-        //function stopWorker() {
-        //    w.terminate();
-        //    w = undefined;
-        //}
-
-        //startWorker();
-    </script>
-    <a style="color:#444;position:absolute;width: 100%;text-align: center;" href="https://www.youtube.com/watch?v=cROY4m4Ftiw">Love that <span style="text-decoration: line-through">joker</span> blazor</a>
+    <script src="_content/BlazorDynamicJavascriptRuntime.js"></script>
 </body>
 
 </html>

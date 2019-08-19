@@ -1,9 +1,9 @@
 ﻿@inherits Jtc.Optimization.BlazorClient.Components.GeneConfigBase
 
 
-<label>Key</label><input type="text" bind="@Gene.Key" />
-<label>Min</label><input type="number" bind="@Gene.Min" step="@GetStep()" />
-<label>Max</label><input type="number" bind="@Gene.Max" step="@GetStep()" />
-<label>Precision</label><input type="number" bind="@Gene.Precision" min="0" max="10" onchange="" />
-<label>Actual</label><input type="number" bind="@Gene.Actual" step="@GetStep()" />
+<label>Key</label><input type="text" @bind="Gene.Key" />
+<label>Min</label><input type="number" @bind="Gene.Min" step="@GetStep()" />
+<label>Max</label><input type="number" @bind="Gene.Max" step="@GetStep()" />
+<label>Precision</label><input type="number" @bind="Gene.Precision" min="0" max="10" />
+<label>Actual</label><input type="number" @bind="Gene.Actual" step="@GetStep()" />
 <label>Fibonacci</label><input type="checkbox" />

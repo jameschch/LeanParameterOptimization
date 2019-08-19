@@ -13,6 +13,9 @@ using Jtc.Optimization.Transformation;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
+using System.Dynamic;
+using Blazor.DynamicJavascriptRuntime.Evaluator;
+using Blazor.LoadingIndicator;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -65,31 +68,32 @@ namespace Jtc.Optimization.BlazorClient
                     Tooltip = new Tooltip
                     {
                         Enabled = false,
-                        Mode = Mode.y
+                        //Mode = Mode.y
                     }
                 },
                 Data = new ScatterConfigData
                 {
                 }
             };
-        }
 
-        private async Task InvokeScript(string script)
-        {
-            await JsRuntime.InvokeAsync<object>("JSInterop.Eval", script);
+            SetChartDefaults();
         }
 
         protected async override Task OnAfterRenderAsync()
         {
+
             try
             {
                 base.OnAfterRender();
+
                 await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
-                await InvokeScript("Chart.defaults.global.animation.duration = 0;");
-                await InvokeScript("Chart.defaults.global.hover.animationDuration = 0;");
-                await InvokeScript("Chart.defaults.global.hover.responsiveAnimationDuration = 0;");
-                await InvokeScript("Chart.defaults.global.defaultFontColor = \"#FFF\";");
-                await InvokeScript("Chart.defaults.global.tooltips.enabled = false;");
+
+                //using (dynamic context = new EvalContext(JsRuntime))
+                //{
+                //    (context as EvalContext).Expression = () => context.window.alert("es\'ca\"pe me'\" again");
+                //}                
+
+
                 //if (!(Config?.Data?.Datasets?.Any() ?? false))
                 //{
                 //    await BindRemote();
@@ -99,6 +103,28 @@ namespace Jtc.Optimization.BlazorClient
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        private void SetChartDefaults()
+        {
+            using (dynamic context = new EvalContext(JsRuntime))
+            {
+                (context as EvalContext).Expression = () => context.Chart.defaults.global.defaultFontColor = "#FFF";
+            }
+
+            using (dynamic context = new EvalContext(JsRuntime))
+            {
+                (context as EvalContext).Expression = () => context.Chart.defaults.global.animation.duration = 0;
+            }
+
+            using (dynamic context = new EvalContext(JsRuntime))
+            {
+                (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
+            }
+
+            new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.animationDuration = 0");
+            new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
+            new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.tooltips.enabled = false");
         }
 
         protected async Task UpdateChart()
@@ -118,16 +144,19 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UpdateChartOnServer()
         {
-            _stopWatch.Start();
-            await BindRemoteOnServer();
-            if (NewOnly)
+            await Loading.StartTaskAsync(async (task) =>
             {
-                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
-            }
-            else
-            {
-                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
-            }
+                _stopWatch.Start();
+                await BindRemoteOnServer();
+                if (NewOnly)
+                {
+                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
+                }
+                else
+                {
+                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
+                }
+            }, "update", "Updating", "Please wait ...");
         }
 
         protected async Task StreamChart()
@@ -143,6 +172,7 @@ namespace Jtc.Optimization.BlazorClient
             if (!NewOnly)
             {
                 _binder = new ChartBinder();
+                _pickedColours.Clear();
             }
 
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
@@ -154,6 +184,11 @@ namespace Jtc.Optimization.BlazorClient
 
         private async Task BindRemoteOnServer()
         {
+            if (!NewOnly)
+            {
+                _pickedColours.Clear();
+            }
+
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data/Sample/{(SampleRate == 0 ? 1 : SampleRate)}"))))
             {
                 var data = JsonConvert.DeserializeObject<Dictionary<string, List<Point>>>(file.ReadToEnd());

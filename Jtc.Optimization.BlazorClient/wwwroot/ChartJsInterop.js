@@ -53,7 +53,7 @@ window.ChartJSInterop = {
         let myChart = BlazorCharts.find(currentChart => currentChart.id === config.canvasId);
 
         for (var i = 0; i < myChart.chart.config.data.datasets.length; i++) {
-            myChart.chart.config.data.datasets[i].data.push(config.data.datasets[i].data)
+            myChart.chart.config.data.datasets[i].data.push(config.data.datasets[i].data);
         }
         //myChart.chart.data.datasets[0].data.push(adding);
         //Array.prototype.push.apply(myChart.chart.data.datasets[0].data, adding);
