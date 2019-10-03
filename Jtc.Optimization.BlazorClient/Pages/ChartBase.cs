@@ -15,7 +15,8 @@ using System.Diagnostics;
 using System.Text;
 using System.Dynamic;
 using Blazor.DynamicJavascriptRuntime.Evaluator;
-using Blazor.LoadingIndicator;
+using Jtc.Optimization.BlazorClient.Shared;
+using Blazor.FileReader;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -35,9 +36,14 @@ namespace Jtc.Optimization.BlazorClient
         Queue<Point> _queue;
         private ChartBinder _binder;
         Stopwatch _stopWatch;
-
-        [Inject] public IJSRuntime JsRuntime { get; set; }
-        [Inject] public HttpClient HttpClient { get; set; }
+        protected Wait wait;
+        [Inject]
+        public IJSRuntime JsRuntime { get; set; }
+        [Inject]
+        public HttpClient HttpClient { get; set; }
+        [Inject]
+        public IFileReaderService fileReaderService { get; set; }
+        protected ElementReference FileUpload { get; set; }
 
         public ChartBase()
         {
@@ -46,7 +52,7 @@ namespace Jtc.Optimization.BlazorClient
             _binder = new ChartBinder();
         }
 
-        protected async override Task OnInitAsync()
+        protected async override Task OnInitializedAsync()
         {
             Program.HttpClient = HttpClient;
             Program.JsRuntime = JsRuntime;
@@ -76,22 +82,17 @@ namespace Jtc.Optimization.BlazorClient
                 }
             };
 
-            SetChartDefaults();
+            await SetChartDefaults();
         }
 
-        protected async override Task OnAfterRenderAsync()
+        protected async override Task OnAfterRenderAsync(bool firstRender)
         {
 
             try
             {
-                base.OnAfterRender();
+                base.OnAfterRender(firstRender);
 
                 await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
-
-                //using (dynamic context = new EvalContext(JsRuntime))
-                //{
-                //    (context as EvalContext).Expression = () => context.window.alert("es\'ca\"pe me'\" again");
-                //}                
 
 
                 //if (!(Config?.Data?.Datasets?.Any() ?? false))
@@ -105,7 +106,7 @@ namespace Jtc.Optimization.BlazorClient
             }
         }
 
-        private void SetChartDefaults()
+        private async Task SetChartDefaults()
         {
             using (dynamic context = new EvalContext(JsRuntime))
             {
@@ -122,29 +123,39 @@ namespace Jtc.Optimization.BlazorClient
                 (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
             }
 
-            new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.animationDuration = 0");
-            new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
-            new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.tooltips.enabled = false");
+            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.animationDuration = 0");
+            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
+            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.tooltips.enabled = false");
         }
 
         protected async Task UpdateChart()
         {
-            _stopWatch.Start();
-            await BindRemote();
-            if (NewOnly)
-            {
-                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
-            }
-            else
-            {
-                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
-            }
+            wait.Show();
 
+            try
+            {
+                _stopWatch.Start();
+                await BindRemote();
+                if (NewOnly)
+                {
+                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
+                }
+                else
+                {
+                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
+                }
+            }
+            finally
+            {
+                wait.Hide();
+            }
         }
 
         protected async Task UpdateChartOnServer()
         {
-            await Loading.StartTaskAsync(async (task) =>
+            wait.Show();
+
+            try
             {
                 _stopWatch.Start();
                 await BindRemoteOnServer();
@@ -156,7 +167,11 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
                 }
-            }, "update", "Updating", "Please wait ...");
+            }
+            finally
+            {
+                wait.Hide();
+            }
         }
 
         protected async Task StreamChart()
@@ -198,7 +213,6 @@ namespace Jtc.Optimization.BlazorClient
 
         private void ExecuteUpdate(Dictionary<string, List<Point>> data)
         {
-
 
             Config.Data.Datasets = new List<ScatterConfigDataset>(data.Select(d =>
                 new ScatterConfigDataset
@@ -271,6 +285,31 @@ namespace Jtc.Optimization.BlazorClient
                 NewestTimestamp = new DateTime((long)point.x);
                 _activityLogger.Add($"Last Updated: ", NewestTimestamp);
                 //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", ChartId, point, new DotNetObjectRef(this));
+            }
+        }
+
+        protected async Task UploadFile()
+        {
+            _stopWatch.Start();
+            wait.Show();
+            try
+            {
+                foreach (var file in await fileReaderService.CreateReference(FileUpload).EnumerateFilesAsync())
+                {
+                    using (Stream stream = await file.OpenReadAsync())
+                    {
+                        using (var reader = new StreamReader(stream))
+                        {
+                            //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
+                            var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
+                            ExecuteUpdate(data);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                wait.Hide();
             }
         }
 

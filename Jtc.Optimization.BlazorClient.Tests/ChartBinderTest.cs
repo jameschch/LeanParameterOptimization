@@ -10,6 +10,8 @@ namespace Jtc.Optimization.BlazorClient.Tests
 {
     public class ChartBinderTest
     {
+        private const int ExpectedLines = 1397;
+
         [Fact]
         public async Task Given_optimizer_data_When_binding_Then_should_return_all_series()
         {
@@ -20,6 +22,21 @@ namespace Jtc.Optimization.BlazorClient.Tests
             {
                 var actual = await unit.Read(file);
                 Assert.Equal(5, actual.Count());
+                Assert.True(actual.All(a => a.Value.Count() == ExpectedLines));
+            }
+        }
+
+        [Fact]
+        public async Task Given_optimizer_data_And_sample_rate_When_binding_Then_should_return_sampled_series()
+        {
+            var unit = new ChartBinder();
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
+            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
+            {
+                var actual = await unit.Read(file, 2);
+                Assert.Equal(5, actual.Count());
+                Assert.True(actual.All(a => ExpectedLines / 2 - a.Value.Count() < 100));
             }
         }
 

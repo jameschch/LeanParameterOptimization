@@ -15,8 +15,6 @@ namespace Jtc.Optimization.BlazorClient
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) => BlazorWebAssemblyHost.CreateDefaultBuilder().UseBlazorStartup<Startup>();
     }
 }

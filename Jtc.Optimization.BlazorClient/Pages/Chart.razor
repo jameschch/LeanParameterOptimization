@@ -1,0 +1,33 @@
+@page "/Chart"
+@inherits Jtc.Optimization.BlazorClient.ChartBase
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime
+
+<div class="container-fluid">
+    <h1 class="text-center">Algorithm Optimization</h1>
+    <div class="row">
+        <div class="col-sm-6">
+
+            <label for="sampleRate">Sample Rate:</label>
+            <input class="input-sm" type="text" id="sampleRate" @bind="SampleRate" />
+            <label for="newOnly">New data only?:</label>
+            <input type="checkbox" id="newOnly" @bind="NewOnly" />
+            <button class="btn btn-secondary" @onclick="UpdateChart">Update Chart</button>
+            <button class="btn btn-secondary" @onclick="UpdateChartOnServer">Update Chart (Server)</button>
+            @*<button class="btn btn-secondary" disabled @onclick="StreamChart">Stream Chart</button>*@
+            <label for="fileUpload" class="btn btn-secondary">Upload Data</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
+
+        </div>
+        <div class="col-sm-6">
+            <textarea readonly class="w-100 small">@ActivityLog</textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <canvas id="@Config.CanvasId"></canvas>
+        </div>
+    </div>
+</div>
+<Wait @ref="wait"></Wait>
+
+
+

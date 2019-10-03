@@ -15,16 +15,6 @@ namespace ChartJs.Blazor.ChartJS.ScatterChart
         public string Label { get; set; } = "";
 
         /// <summary>
-        /// The ID of the x axis to plot this dataset on. If not specified, this defaults to the ID of the first found x axis
-        /// </summary>
-        public string XAxisID { get; set; }
-
-        /// <summary>
-        /// The ID of the y axis to plot this dataset on. If not specified, this defaults to the ID of the first found y axis.
-        /// </summary>
-        public string YAxisID { get; set; }
-
-        /// <summary>
         /// The width of the line in pixels.
         /// </summary>
         public int BorderWidth { get; set; } = 1;

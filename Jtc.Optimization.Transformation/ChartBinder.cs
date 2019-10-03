@@ -22,7 +22,7 @@ namespace Jtc.Optimization.Transformation
             string line;
             while ((line = await reader.ReadLineAsync()) != null)
             {
-                if (rand.Next(1, sampleRate) != 1)
+                if (sampleRate > 1 && rand.Next(0, sampleRate) != 0)
                 {
                     continue;
                 }

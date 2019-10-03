@@ -13,14 +13,14 @@ namespace ChartJs.Blazor.ChartJS
 {
     public static class ChartJsInterop
     {
-        public static Task<bool> SetupChart(this IJSRuntime jsRuntime, ChartConfigBase chartConfig)
+        public static ValueTask<bool> SetupChart(this IJSRuntime jsRuntime, ChartConfigBase chartConfig)
         {
 
             return jsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", StripNulls(chartConfig));
 
         }
 
-        public static Task<bool> UpdateChart(this IJSRuntime jsRuntime, ChartConfigBase chartConfig)
+        public static ValueTask<bool> UpdateChart(this IJSRuntime jsRuntime, ChartConfigBase chartConfig)
         {
 
             return jsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChart", StripNulls(chartConfig));

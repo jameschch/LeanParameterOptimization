@@ -4,7 +4,7 @@ namespace ChartJs.Blazor.ChartJS.LineChart
 {
     public class Axis
     {
-        public bool Display { get; set; } = true;
+        public string Display { get; set; } = "auto";
         public ScaleLabel ScaleLabel { get; set; }
         public GridLine GridLines { get; set; }
         public Ticks Ticks { get; set; }

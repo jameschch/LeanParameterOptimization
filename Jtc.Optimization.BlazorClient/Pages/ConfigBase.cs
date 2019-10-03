@@ -29,7 +29,7 @@ namespace Jtc.Optimization.BlazorClient
 
         [CascadingParameter] protected EditContext CurrentEditContext { get; set; }
 
-        protected async override Task OnInitAsync()
+        protected async override Task OnInitializedAsync()
         {
             Config = new Models.OptimizerConfiguration
             {
@@ -60,7 +60,7 @@ namespace Jtc.Optimization.BlazorClient
             await JsRuntime.InvokeAsync<string>("JSInterop.DownloadConfig", Json);
         }
 
-        public void FitnessTypeNameChange(UIChangeEventArgs e)
+        public void FitnessTypeNameChange(ChangeEventArgs e)
         {
             Config.FitnessTypeName = e.Value.ToString();
 
@@ -88,13 +88,6 @@ namespace Jtc.Optimization.BlazorClient
         protected void RemoveGene()
         {
             Config.Genes = Config.Genes.Except(new[] { Config.Genes.Last() }).ToArray();
-        }
-
-        protected async override Task OnAfterRenderAsync()
-        {
-
-            base.OnAfterRender();
-
         }
 
         protected async Task UploadFile()
