@@ -1,5 +1,3 @@
-using ChartJs.Blazor.ChartJS.Common;
-using ChartJs.Blazor.ChartJS.ScatterChart;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -12,11 +10,15 @@ using System.Net.Http;
 using Jtc.Optimization.Transformation;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Text;
-using System.Dynamic;
 using Blazor.DynamicJavascriptRuntime.Evaluator;
 using Jtc.Optimization.BlazorClient.Shared;
 using Blazor.FileReader;
+using ChartJs.Blazor.ChartJS.LineChart;
+using ChartJs.Blazor.ChartJS.Common.Properties;
+using ChartJs.Blazor.ChartJS.LineChart.Axes;
+using ChartJs.Blazor.ChartJS.Common.Enums;
+using ChartJs.Blazor.ChartJS.LineChart.Axes.Ticks;
+using ChartJs.Blazor.ChartJS;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -26,23 +28,23 @@ namespace Jtc.Optimization.BlazorClient
         private const string ChartId = "Scatter";
         private static Random _random = new Random(42);
 
-        public ScatterChartConfig Config { get; set; }
+        public LineConfig Config { get; set; }
         public int SampleRate { get; set; } = 1;
         public bool NewOnly { get; set; }
         public string ActivityLog { get { return _activityLogger.Output; } }
         private ActivityLogger _activityLogger { get; set; } = new ActivityLogger();
         public DateTime NewestTimestamp { get; set; }
         private List<int> _pickedColours;
-        Queue<Point> _queue;
+        Queue<TimeTuple<double>> _queue;
         private ChartBinder _binder;
         Stopwatch _stopWatch;
-        protected Wait wait;
+        protected Wait wait { get; set; }
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
         [Inject]
         public HttpClient HttpClient { get; set; }
         [Inject]
-        public IFileReaderService fileReaderService { get; set; }
+        public IFileReaderService FileReaderService { get; set; }
         protected ElementReference FileUpload { get; set; }
 
         public ChartBase()
@@ -57,43 +59,70 @@ namespace Jtc.Optimization.BlazorClient
             Program.HttpClient = HttpClient;
             Program.JsRuntime = JsRuntime;
 
-            Config = Config ?? new ScatterChartConfig
+            Config = Config ?? new LineConfig()
             {
                 CanvasId = ChartId,
-                Options = new ScatterConfigOptions
+                Options = new LineOptions
                 {
-                    Display = true,
+                    Hover = new LineOptionsHover { AnimationDuration = 0, Enabled = false },
                     Responsive = true,
                     Legend = new Legend
                     {
-                        Labels = new Labels
+                        Labels = new LegendLabelConfiguration
                         {
-                            FontColor = "#fff"
+                            FontColor = "#fff",
                         }
                     },
-                    Tooltip = new Tooltip
+                    Tooltips = new Tooltips
                     {
                         Enabled = false,
                         //Mode = Mode.y
-                    }
+                    },
+                    Scales = new Scales
+                    {
+                        xAxes = new List<CartesianAxis>
+                        {
+                            new TimeAxis
+                            {                                
+                                Distribution = TimeDistribution.Linear,
+                                Ticks = new TimeTicks
+                                {
+                                    Source = TickSource.Data
+                                },
+                                Time = new TimeOptions
+                                {
+                                    //Unit = TimeMeasurement.Hour,
+                                    Round = TimeMeasurement.Second,
+                                    TooltipFormat = "DD.MM.YYYY HH:mm",
+                                    DisplayFormats = TimeDisplayFormats.Default
+                                },
+                                //ScaleLabel = new ScaleLabel
+                                //{
+                                //    LabelString = "Zeit"
+                                //}
+                            }
+                        }
+                    },
                 },
-                Data = new ScatterConfigData
-                {
-                }
+                //Data = new LineData
+                //{
+                //}
             };
 
             await SetChartDefaults();
         }
 
-        protected async override Task OnAfterRenderAsync(bool firstRender)
+        protected override void OnAfterRender(bool firstRender)
         {
 
             try
             {
+                //base.OnAfterRender(firstRender);
+
+                //await ChartJsInterop.SetupChart(JsRuntime, Config);
+
                 base.OnAfterRender(firstRender);
-
-                await JsRuntime.InvokeAsync<bool>("ChartJSInterop.SetupChart", Config);
-
+                JsRuntime.SetupChart(Config);
 
                 //if (!(Config?.Data?.Datasets?.Any() ?? false))
                 //{
@@ -142,7 +171,8 @@ namespace Jtc.Optimization.BlazorClient
                 }
                 else
                 {
-                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
+                    await JsRuntime.UpdateChart(Config);
+                    //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
                 }
             }
             finally
@@ -165,7 +195,8 @@ namespace Jtc.Optimization.BlazorClient
                 }
                 else
                 {
-                    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
+                    await JsRuntime.UpdateChart(Config);
+                    //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
                 }
             }
             finally
@@ -206,32 +237,36 @@ namespace Jtc.Optimization.BlazorClient
 
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data/Sample/{(SampleRate == 0 ? 1 : SampleRate)}"))))
             {
-                var data = JsonConvert.DeserializeObject<Dictionary<string, List<Point>>>(file.ReadToEnd());
+                var data = JsonConvert.DeserializeObject<Dictionary<string, List<TimeTuple<double>>>>(file.ReadToEnd());
                 ExecuteUpdate(data);
             }
         }
 
-        private void ExecuteUpdate(Dictionary<string, List<Point>> data)
+        private void ExecuteUpdate(Dictionary<string, List<TimeTuple<double>>> data)
         {
 
-            Config.Data.Datasets = new List<ScatterConfigDataset>(data.Select(d =>
-                new ScatterConfigDataset
-                {
-                    Data = d.Value,
-                    Label = d.Key,
-                    BorderWidth = 0,
-                    PointRadius = 3,
-                    ShowLine = false,
-                    BackgroundColor = PickColourName(),
-                    PointHoverRadius = 0
-                }
-            ));
+            var adding = new List<LineDataset<TimeTuple<double>>>(data.Select(d =>
+                 new LineDataset<TimeTuple<double>>(d.Value)
+                 {
+                     Label = d.Key,
+                     BorderWidth = 0,
+                     PointRadius = 3,
+                     ShowLine = false,
+                     BackgroundColor = PickColourName(),
+                     PointHoverRadius = 0
+                 }
+             ));
 
-            Config.Data.Datasets.Last().BackgroundColor = "red";
+            foreach (var item in adding)
+            {
+                Config.Data.Datasets.Add(item);
+            }
+
+            ((LineDataset<TimeTuple<double>>)Config.Data.Datasets.Last()).BackgroundColor = "red";
 
             _pickedColours.Clear();
 
-            NewestTimestamp = new DateTime((long)Config.Data.Datasets.Last().Data.Last().x);
+            NewestTimestamp = DateTime.Parse(((TimeTuple<double>)Config.Data.Datasets.Last().Data.Last()).Time.ToString());
             _activityLogger.Add($"Newest Timestamp: ", NewestTimestamp);
             _activityLogger.Add("Exection Time:", _stopWatch.Elapsed);
             _activityLogger.Add($"Updated Rows: ", Config.Data.Datasets.Last().Data.Count());
@@ -275,14 +310,14 @@ namespace Jtc.Optimization.BlazorClient
                 using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
                 {
                     var data = await _binder.Read(file, SampleRate == 0 ? 1 : SampleRate);
-                    _queue = new Queue<Point>(data.Last().Value.Where(v => v.x > NewestTimestamp.Ticks));
+                    _queue = new Queue<TimeTuple<double>>(data.Last().Value.Where(v => v.Time.Value > NewestTimestamp));
                 }
             }
 
             if (_queue != null && _queue.Any())
             {
                 var point = _queue.Dequeue();
-                NewestTimestamp = new DateTime((long)point.x);
+                NewestTimestamp = DateTime.Parse(point.Time.ToString());
                 _activityLogger.Add($"Last Updated: ", NewestTimestamp);
                 //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", ChartId, point, new DotNetObjectRef(this));
             }
@@ -294,7 +329,7 @@ namespace Jtc.Optimization.BlazorClient
             wait.Show();
             try
             {
-                foreach (var file in await fileReaderService.CreateReference(FileUpload).EnumerateFilesAsync())
+                foreach (var file in await FileReaderService.CreateReference(FileUpload).EnumerateFilesAsync())
                 {
                     using (Stream stream = await file.OpenReadAsync())
                     {

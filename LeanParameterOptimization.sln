@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.BlazorClient", "Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj", "{95726EA4-FC26-4D85-B24E-64688814C6A8}"
 EndProject
@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.WpfClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization", "Jtc.Optimization\Jtc.Optimization.csproj", "{89D0362E-9AED-4718-B35E-BCAE2949848D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.BlazorClient.Tests", "Jtc.Optimization.BlazorClient.Tests\Jtc.Optimization.BlazorClient.Tests.csproj", "{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.Tests", "Jtc.Optimization.Tests\Jtc.Optimization.Tests.csproj", "{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.Launcher.Legacy", "Jtc.Optimization.Launcher.Legacy\Jtc.Optimization.Launcher.Legacy.csproj", "{B6C15B87-93CE-4DC2-A44E-271D0C8406E9}"
 EndProject

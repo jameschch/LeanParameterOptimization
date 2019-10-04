@@ -1,4 +1,5 @@
 ﻿using ChartJs.Blazor.ChartJS.Common;
+using ChartJs.Blazor.ChartJS.LineChart;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,16 +14,16 @@ namespace Jtc.Optimization.Transformation
         private double? Min { get; set; }
         private double? Max { get; set; }
 
-        public async Task<Dictionary<string, List<Point>>> Read(StreamReader reader, int sampleRate = 1, bool disableNormalization = false, DateTime? minimumDate = null)
+        public async Task<Dictionary<string, List<TimeTuple<double>>>> Read(StreamReader reader, int sampleRate = 1, bool disableNormalization = false, DateTime? minimumDate = null)
         {
             minimumDate = minimumDate ?? DateTime.MinValue;
 
-            var data = new Dictionary<string, List<Point>>();
+            var data = new Dictionary<string, List<TimeTuple<double>>>();
             var rand = new Random();
             string line;
             while ((line = await reader.ReadLineAsync()) != null)
             {
-                if (sampleRate > 1 && rand.Next(0, sampleRate) != 0)
+                if (rand.Next(1, sampleRate) != 1)
                 {
                     continue;
                 }
@@ -48,9 +49,9 @@ namespace Jtc.Optimization.Transformation
                             }
                             if (!data.ContainsKey(pair[0]))
                             {
-                                data.Add(pair[0], new List<Point>());
+                                data.Add(pair[0], new List<TimeTuple<double>>());
                             }
-                            data[pair[0]].Add(new Point(time.Ticks, double.Parse(pair[1])));
+                            data[pair[0]].Add(new TimeTuple<double>(new Moment(time), double.Parse(pair[1])));
                         }
 
                     }
@@ -70,19 +71,19 @@ namespace Jtc.Optimization.Transformation
                 //on second pass reuse min/max
                 if (Max == null || Min == null)
                 {
-                    Max = fitness.Max(m => m.y);
-                    Min = fitness.Min(m => m.y);
+                    Max = fitness.Max(m => m.YValue);
+                    Min = fitness.Min(m => m.YValue);
                 }
                 var normalizer = new SharpLearning.FeatureTransformations.Normalization.LinearNormalizer();
 
                 foreach (var list in nonEmpty)
                 {
 
-                    var oldMax = list.Value.Max(m => m.y);
-                    var oldMin = list.Value.Min(m => m.y);
+                    var oldMax = list.Value.Max(m => m.YValue);
+                    var oldMin = list.Value.Min(m => m.YValue);
                     foreach (var point in list.Value)
                     {
-                        point.y = normalizer.Normalize(Min.Value, Max.Value, oldMin, oldMax, point.y);
+                        point.YValue = normalizer.Normalize(Min.Value, Max.Value, oldMin, oldMax, point.YValue);
                     }
                 }
 

@@ -16,9 +16,9 @@ namespace Jtc.Optimization.BlazorClient
     {
         protected Models.OptimizerConfiguration Config { get; set; }
         protected string Json { get; set; }
-        protected List<string> FitnessTypeNameOptions { get; set; }
-        protected string[] ResultKeyOptions { get; set; }
-        protected string[] OptimizerTypeNameOptions { get; set; }
+        protected IEnumerable<string> FitnessTypeNameOptions { get; set; }
+        protected IEnumerable<string> ResultKeyOptions { get; set; }
+        protected IEnumerable<string> OptimizerTypeNameOptions { get; set; }
         protected string FitnessDisabled { get; set; }
         protected string ConfiguredFitnessDisabled { get; set; }
         private string[] ConfigurableFitness = new[] { typeof(ConfiguredFitness).FullName, typeof(SharpeMaximizer).FullName, typeof(NFoldCrossReturnMaximizer).FullName,
@@ -41,9 +41,9 @@ namespace Jtc.Optimization.BlazorClient
 
             var assembly = Assembly.GetAssembly(typeof(OptimizerFitness));
 
-            FitnessTypeNameOptions = assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o).ToList();
-            ResultKeyOptions = StatisticsAdapter.Binding.Select(s => s.Value).OrderBy(a => a).ToArray();
-            OptimizerTypeNameOptions = Enum.GetNames(typeof(Enums.OptimizerTypeOptions)).OrderBy(o => o).ToArray();
+            FitnessTypeNameOptions = assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o);
+            ResultKeyOptions = StatisticsAdapter.Binding.Select(s => s.Value).OrderBy(a => a);
+            OptimizerTypeNameOptions = Enum.GetNames(typeof(Enums.OptimizerTypeOptions)).OrderBy(o => o);
 
             ToggleFitness();
         }

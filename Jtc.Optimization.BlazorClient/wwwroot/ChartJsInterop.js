@@ -3,6 +3,7 @@
 Blazor.BlazorCharts = BlazorCharts;
 window.ChartJSInterop = {
     SetupChart: function (config) {
+        console.log(config);
 
         if (!BlazorCharts.find(currentChart => currentChart.id === config.canvasId)) {
             if (!config.options.legend)
@@ -19,9 +20,8 @@ window.ChartJSInterop = {
 
             let newChart = initializeChartjsChart2(config);
             myChart.chart = newChart;
-
         }
-        //$("#wait").fadeOut();
+
         return true;
     },
 
@@ -116,6 +116,17 @@ function WireUpLegendItemFilterFunc(config) {
 }
 
 function WireUpGenerateLabelsFunc(config) {
+    let getDefaultFunc = function (type) {
+        let defaults = Chart.defaults[type] || Chart.defaults.global;
+        if (defaults.legend &&
+            defaults.legend.labels &&
+            defaults.legend.labels.generateLabels) {
+            return defaults.legend.labels.generateLabels;
+        }
+
+        return Chart.defaults.global.legend.labels.generateLabels;
+    }
+
     if (config.options.legend.labels === undefined)
         config.options.legend.labels = {};
 
@@ -127,14 +138,24 @@ function WireUpGenerateLabelsFunc(config) {
         if (typeof generateLabels === "function") {
             config.options.legend.labels.generateLabels = generateLabelsFunc;
         } else { // fallback to the default
-            config.options.legend.labels.generateLabels = Chart.defaults.global.legend.labels.generateLabels;
+            config.options.legend.labels.generateLabels = getDefaultFunc(config.type);
         }
     } else { // fallback to the default
-        config.options.legend.labels.generateLabels = Chart.defaults.global.legend.labels.generateLabels;
+        config.options.legend.labels.generateLabels = getDefaultFunc(config.type);
     }
 }
 
 function WireUpOnClick(config) {
+    let getDefaultHandler = function (type) {
+        let defaults = Chart.defaults[type] || Chart.defaults.global;
+        if (defaults.legend &&
+            defaults.legend.onClick) {
+            return defaults.legend.onClick;
+        }
+
+        return Chart.defaults.global.legend.onClick;
+    }
+
     if (config.options.legend.onClick) {
         // Js function
         if (typeof config.options.legend.onClick === "object" &&
@@ -144,7 +165,7 @@ function WireUpOnClick(config) {
             if (typeof onClickFunc === "function") {
                 config.options.legend.onClick = onClickFunc;
             } else { // fallback to the default
-                config.options.legend.onClick = Chart.defaults.global.legend.onClick;
+                config.options.legend.onClick = getDefaultHandler(config.type);
             }
         }
         // .Net static method
@@ -172,7 +193,7 @@ function WireUpOnClick(config) {
             })();
         }
     } else { // fallback to the default
-        config.options.legend.onClick = Chart.defaults.global.legend.onClick;
+        config.options.legend.onClick = getDefaultHandler(config.type);
     }
 }
 
@@ -215,4 +236,32 @@ function WireUpOnHover(config) {
     } else { // fallback to the default
         config.options.legend.onHover = null;
     }
+}
+
+
+
+/* Set up all the momentjs interop stuff */
+
+function getAvailableMomentLocales() {
+    return moment.locales();
+}
+
+function getCurrentLocale() {
+    return moment.locale();
+}
+
+function changeLocale(locale) {
+    if (typeof locale !== 'string') throw 'locale must be a string';
+    let cur = getCurrentLocale();
+
+    // if the current locale is the one requested, we don't need to do anything
+    if (locale === cur) return false;
+
+    // set locale
+    let newL = moment.locale(locale);
+
+    // if the new locale is the same as the old one, it was not changed - probably because momentJs didn't find that locale
+    if (cur === newL) throw 'the locale \'' + locale + '\' could not be set. It was probably not found.';
+
+    return true;
 }

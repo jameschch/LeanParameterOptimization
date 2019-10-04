@@ -7,7 +7,7 @@ namespace Jtc.Optimization.Transformation
     public class ActivityLogger
     {
 
-        public StringBuilder _builder { get; }
+        private StringBuilder _builder { get; }
         private const string DateFormat = "yyyy-MM-dd hh:mm:ss";
         
         public string Output
