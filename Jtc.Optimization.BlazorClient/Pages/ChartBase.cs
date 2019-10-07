@@ -256,7 +256,7 @@ namespace Jtc.Optimization.BlazorClient
                      PointHoverRadius = 0
                  }
              ));
-
+            Config.Data.Datasets.Clear();
             foreach (var item in adding)
             {
                 Config.Data.Datasets.Add(item);
