@@ -4,11 +4,10 @@ using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Reflection;
 using System.Linq;
-using GeneticSharp.Domain.Fitnesses;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
+using Jtc.Optimization.Objects;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -16,13 +15,11 @@ namespace Jtc.Optimization.BlazorClient
     {
         protected Models.OptimizerConfiguration Config { get; set; }
         protected string Json { get; set; }
-        protected IEnumerable<string> FitnessTypeNameOptions { get; set; }
-        protected IEnumerable<string> ResultKeyOptions { get; set; }
-        protected IEnumerable<string> OptimizerTypeNameOptions { get; set; }
+        protected IEnumerable<string> FitnessTypeNameOptions { get; set; } = Jtc.Optimization.Objects.FitnessOptions.Name;
+        protected IEnumerable<string> ResultKeyOptions { get; set; } = StatisticsBinding.Binding.Select(s => s.Value).OrderBy(a => a);
+        protected IEnumerable<string> OptimizerTypeNameOptions { get; set; } = Enum.GetNames(typeof(Enums.OptimizerTypeOptions)).OrderBy(o => o);
         protected string FitnessDisabled { get; set; }
-        protected string ConfiguredFitnessDisabled { get; set; }
-        private string[] ConfigurableFitness = new[] { typeof(ConfiguredFitness).FullName, typeof(SharpeMaximizer).FullName, typeof(NFoldCrossReturnMaximizer).FullName,
-            typeof(NFoldCrossSharpeMaximizer).FullName };
+        protected string OptimizerTypeNameDisabled { get; set; }
 
         [Inject] public IJSRuntime JsRuntime { get; set; }
         [Inject] public HttpClient httpClient { get; set; }
@@ -39,11 +36,8 @@ namespace Jtc.Optimization.BlazorClient
                 Genes = new Models.GeneConfiguration[] { new Models.GeneConfiguration() }
             };
 
-            var assembly = Assembly.GetAssembly(typeof(OptimizerFitness));
-
-            FitnessTypeNameOptions = assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o);
-            ResultKeyOptions = StatisticsAdapter.Binding.Select(s => s.Value).OrderBy(a => a);
-            OptimizerTypeNameOptions = Enum.GetNames(typeof(Enums.OptimizerTypeOptions)).OrderBy(o => o);
+            //todo: allow upload of fitness
+            //FitnessTypeNameOptions = Jtc.Optimization.Objects.FitnessTypeNameOptions.Options; assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o);
 
             ToggleFitness();
         }
@@ -69,15 +63,8 @@ namespace Jtc.Optimization.BlazorClient
 
         private void ToggleFitness()
         {
-            if (!ConfigurableFitness.Contains(Config.FitnessTypeName))
-            {
-                FitnessDisabled = "disabled";
-            }
-            else
-            {
-                FitnessDisabled = null;
-            }
-            ConfiguredFitnessDisabled = Config.FitnessTypeName == typeof(ConfiguredFitness).FullName ? null : "disabled";
+            FitnessDisabled = FitnessTypeNameOptions.Contains(Config.FitnessTypeName.Split('.').LastOrDefault()) ? null : "disabled";
+            OptimizerTypeNameDisabled = FitnessOptions.Genetic.Contains(Config.FitnessTypeName.Split('.').LastOrDefault()) ? "disabled" : null;
         }
 
         protected void AddGene()

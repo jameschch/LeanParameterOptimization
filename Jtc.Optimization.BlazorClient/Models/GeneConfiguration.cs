@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Jtc.Optimization.Objects.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

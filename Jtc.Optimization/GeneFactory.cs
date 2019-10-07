@@ -1,5 +1,6 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using Jtc.Optimization.Objects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="QuantConnect.Algorithm">
       <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Algorithm.dll</HintPath>
     </Reference>

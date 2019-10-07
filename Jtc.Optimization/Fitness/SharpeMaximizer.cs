@@ -8,6 +8,8 @@ using GeneticSharp.Domain.Chromosomes;
 using SharpLearning.Optimization;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
+using Jtc.Optimization.Objects.Interfaces;
+using Jtc.Optimization.Objects;
 
 namespace Jtc.Optimization
 {

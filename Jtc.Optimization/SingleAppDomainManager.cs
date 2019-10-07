@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Accord.MachineLearning;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization
 {

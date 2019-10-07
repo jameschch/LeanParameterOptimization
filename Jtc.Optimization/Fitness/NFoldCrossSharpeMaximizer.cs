@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

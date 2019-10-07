@@ -1,3 +1,4 @@
+using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using QuantConnect.Configuration;
 using QuantConnect.Data.Auxiliary;

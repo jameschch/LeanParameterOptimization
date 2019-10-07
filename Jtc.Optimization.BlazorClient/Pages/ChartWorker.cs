@@ -1,16 +1,9 @@
-using ChartJs.Blazor.ChartJS;
-using ChartJs.Blazor.ChartJS.Common;
-using ChartJs.Blazor.ChartJS.ScatterChart;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using ChartJs.Blazor.ChartJS.Common.Legends;
-using System.Net.Http;
 
 namespace Jtc.Optimization.BlazorClient
 {

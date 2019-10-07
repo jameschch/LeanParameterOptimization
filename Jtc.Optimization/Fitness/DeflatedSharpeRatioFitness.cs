@@ -8,6 +8,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
 using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Chromosomes;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization
 {

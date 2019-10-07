@@ -38,7 +38,7 @@ namespace Jtc.Optimization.BlazorClient
         Queue<TimeTuple<double>> _queue;
         private ChartBinder _binder;
         Stopwatch _stopWatch;
-        protected Wait wait { get; set; }
+        protected Wait Wait { get; set; }
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
         [Inject]
@@ -159,7 +159,7 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UpdateChart()
         {
-            wait.Show();
+            Wait.Show();
 
             try
             {
@@ -177,13 +177,13 @@ namespace Jtc.Optimization.BlazorClient
             }
             finally
             {
-                wait.Hide();
+                Wait.Hide();
             }
         }
 
         protected async Task UpdateChartOnServer()
         {
-            wait.Show();
+            Wait.Show();
 
             try
             {
@@ -201,7 +201,7 @@ namespace Jtc.Optimization.BlazorClient
             }
             finally
             {
-                wait.Hide();
+                Wait.Hide();
             }
         }
 
@@ -287,15 +287,15 @@ namespace Jtc.Optimization.BlazorClient
         private string PickColourName()
         {
             var names = new[] { "Yellow", "Olive", "Lime", "Aqua", "Teal", "Blue", "Fuchsia", "Purple" };
-            if (_pickedColours.Count() == names.Count())
+            if (_pickedColours.Count == names.Length)
             {
                 return PickRandomColour();
             }
-            var picked = _random.Next(0, names.Count());
+            var picked = _random.Next(0, names.Length);
 
             while (_pickedColours.Contains(picked))
             {
-                picked = _random.Next(0, names.Count());
+                picked = _random.Next(0, names.Length);
             }
 
             _pickedColours.Add(picked);
@@ -326,7 +326,8 @@ namespace Jtc.Optimization.BlazorClient
         protected async Task UploadFile()
         {
             _stopWatch.Start();
-            wait.Show();
+            Wait.Show();
+            _binder = new ChartBinder();
             try
             {
                 foreach (var file in await FileReaderService.CreateReference(FileUpload).EnumerateFilesAsync())
@@ -344,7 +345,7 @@ namespace Jtc.Optimization.BlazorClient
             }
             finally
             {
-                wait.Hide();
+                Wait.Hide();
             }
         }
 

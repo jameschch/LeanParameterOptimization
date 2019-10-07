@@ -41,7 +41,7 @@
                 <div class="col-sm-12">
                     <label>AlgorithmTypeName</label><input type="text" @bind="Config.AlgorithmTypeName" />
                     <label>FitnessTypeName</label>
-                    <select value="@Config.FitnessTypeName" @onchange="@FitnessTypeNameChange">
+                    <select value="@Config.FitnessTypeName.Split('.').LastOrDefault()" @onchange="@FitnessTypeNameChange">
                         @foreach (var item in FitnessTypeNameOptions)
                         {
                         <option selected="@IsSelected(item)" value=@item>@item</option>
@@ -123,7 +123,7 @@
                     <input type="text" @bind="Config.Fitness.Name" disabled="@FitnessDisabled" />
                     <label>OptimizerTypeName</label>
 
-                    <select @bind="Config.Fitness.OptimizerTypeName" disabled="@FitnessDisabled">
+                    <select @bind="Config.Fitness.OptimizerTypeName" disabled="@OptimizerTypeNameDisabled">
                         @foreach (var item in OptimizerTypeNameOptions)
                         {
                         <option value=@item>@item</option>
@@ -135,7 +135,7 @@
                 <div class="col-sm-12">
                     <label>ResultKey</label>
 
-                    <select @bind="Config.Fitness.ResultKey" disabled="@ConfiguredFitnessDisabled">
+                    <select @bind="Config.Fitness.ResultKey" disabled="@FitnessDisabled">
                         <option value=""></option>
                         @foreach (var item in ResultKeyOptions)
                         {

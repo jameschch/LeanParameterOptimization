@@ -7,6 +7,8 @@ using GeneticSharp.Domain.Fitnesses;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.IO.Abstractions;
+using Jtc.Optimization.Objects.Interfaces;
+using Jtc.Optimization.Objects;
 
 namespace Jtc.Optimization
 {
@@ -15,7 +17,7 @@ namespace Jtc.Optimization
 
         private readonly IFileSystem _file;
         private IOptimizerManager _manager;
-        OptimizerConfiguration _config;
+        private IOptimizerConfiguration _config;
 
         public OptimizerInitializer(IFileSystem file, IOptimizerManager manager)
         {
@@ -75,7 +77,7 @@ namespace Jtc.Optimization
 
         }
 
-        private OptimizerConfiguration LoadConfig(string[] args)
+        private IOptimizerConfiguration LoadConfig(string[] args)
         {
             string path = "optimization.json";
             if (args != null && args.Length > 0 && !string.IsNullOrEmpty(args[0]))

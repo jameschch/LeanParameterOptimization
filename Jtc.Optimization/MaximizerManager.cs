@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization
 {

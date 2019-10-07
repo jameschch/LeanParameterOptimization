@@ -1,4 +1,6 @@
 using GeneticSharp.Domain.Chromosomes;
+using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

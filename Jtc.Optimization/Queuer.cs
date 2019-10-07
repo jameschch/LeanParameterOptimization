@@ -15,6 +15,7 @@ using QuantConnect.Lean.Engine.RealTime;
 using QuantConnect.Lean.Engine.Results;
 using QuantConnect.Lean.Engine.Setup;
 using QuantConnect.Lean.Engine.TransactionHandlers;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization
 {

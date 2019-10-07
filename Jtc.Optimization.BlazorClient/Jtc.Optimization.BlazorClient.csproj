@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.5" />
-    <PackageReference Include="GeneticSharp" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19465.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
@@ -59,8 +58,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
-    <ProjectReference Include="..\Jtc.Optimization\Jtc.Optimization.csproj" />
   </ItemGroup>
 
   <ItemGroup>

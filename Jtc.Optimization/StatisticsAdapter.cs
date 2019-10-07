@@ -1,4 +1,5 @@
-﻿using QuantConnect.Statistics;
+﻿using Jtc.Optimization.Objects;
+using QuantConnect.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,34 +11,12 @@ namespace Jtc.Optimization
 {
     public class StatisticsAdapter
     {
-        public static Dictionary<string, string> Binding = new Dictionary<string, string>
-        {
-            {"Total Trades", "TotalNumberOfTrades"},
-            {"Average Win","AverageWinRate"},
-            {"Average Loss","AverageLossRate"},
-            {"Compounding Annual Return ","CompoundingAnnualReturn"},
-            {"Drawdown","Drawdown"},
-            {"Expectancy","Expectancy"},
-            {"Net Profit","TotalNetProfit"},
-            {"Sharpe Ratio","SharpeRatio"},
-            {"Loss Rate","LossRate"},
-            {"Win Rate","WinRate"},
-            {"Profit-Loss Ratio","ProfitLossRatio"},
-            {"Alpha","Alpha"},
-            {"Beta","Beta"},
-            {"Annual Standard Deviation","AnnualStandardDeviation"},
-            {"Annual Variance","AnnualVariance"},
-            {"Information Ratio","InformationRatio"},
-            {"Tracking Error","TrackingError"},
-            {"Treynor Ratio","TreynorRatio"},
-            {"Total Fees","TotalFees"}
-        };
 
         public static decimal Translate(string key, Dictionary<string, decimal> list)
         {
-            if (Binding.ContainsKey(key))
+            if (StatisticsBinding.Binding.ContainsKey(key))
             {
-                return list[Binding[key]];
+                return list[StatisticsBinding.Binding[key]];
             }
 
             return list[key];

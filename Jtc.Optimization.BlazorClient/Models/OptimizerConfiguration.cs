@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jtc.Optimization.BlazorClient.Attributes;
-using static Jtc.Optimization.Enums;
+using static Jtc.Optimization.Objects.Enums;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization.BlazorClient.Models
 {
     [Serializable]
-    public class OptimizerConfiguration : IOptimizerConfiguration
+    public class OptimizerConfiguration
     {
 
         /// <summary>

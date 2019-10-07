@@ -1,4 +1,6 @@
-﻿namespace Jtc.Optimization
+﻿using Jtc.Optimization.Objects.Interfaces;
+
+namespace Jtc.Optimization
 {
     public class NFoldCrossReturnMaximizer : NFoldCrossSharpeMaximizer
     {

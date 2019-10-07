@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using Jtc.Optimization.Objects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

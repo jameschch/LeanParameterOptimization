@@ -1,16 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using Jtc.Optimization.Objects.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.Objects
 {
 
     [JsonConverter(typeof(GeneConverter))]
     [Serializable]
-    public class GeneConfiguration
+    public class GeneConfiguration : IGeneConfiguration
     {
         /// <summary>
         /// The unique key of the gene

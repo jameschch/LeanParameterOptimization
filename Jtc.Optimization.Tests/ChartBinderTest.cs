@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Jtc.Optimization.BlazorClient.Tests
+namespace Jtc.Optimization.Tests
 {
     public class ChartBinderTest
     {
