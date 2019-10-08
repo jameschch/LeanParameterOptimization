@@ -1,20 +1,6 @@
 ﻿window.JSInterop = {
 
 
-    Eval: function (script) {
-        eval(script);
-    },
-
-    //GetFileData: function () {
-    //var reader = new FileReader();
-    //var data;
-    //reader.onload = function(e) {          
-    //    data = e.target.result;
-    //};
-
-    //reader.readAsText();
-
-
     ReadUploadedFileAsText: (inputFile) => {
         const temporaryFileReader = new FileReader();
 

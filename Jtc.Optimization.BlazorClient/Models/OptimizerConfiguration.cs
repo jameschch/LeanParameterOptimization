@@ -80,7 +80,7 @@ namespace Jtc.Optimization.BlazorClient.Models
         /// <summary>
         /// Type name of fitness function. Defaults to fitness based on Sharpe Ratio
         /// </summary>
-        public string FitnessTypeName { get; set; } = "Optimization.OptimizerFitness";
+        public string FitnessTypeName { get; set; } = "OptimizerFitness";
 
         /// <summary>
         /// Override config.json setting

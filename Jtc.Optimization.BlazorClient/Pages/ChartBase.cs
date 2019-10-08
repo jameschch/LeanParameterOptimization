@@ -152,9 +152,9 @@ namespace Jtc.Optimization.BlazorClient
                 (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
             }
 
-            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.animationDuration = 0");
-            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
-            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.tooltips.enabled = false");
+            await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.hover.animationDuration = 0");
+            await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
+            await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.tooltips.enabled = false");
         }
 
         protected async Task UpdateChart()
