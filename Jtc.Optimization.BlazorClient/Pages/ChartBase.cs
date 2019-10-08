@@ -91,7 +91,7 @@ namespace Jtc.Optimization.BlazorClient
                                 },
                                 Time = new TimeOptions
                                 {
-                                    //Unit = TimeMeasurement.Hour,
+                                    Unit = TimeMeasurement.Day,
                                     Round = TimeMeasurement.Second,
                                     TooltipFormat = "DD.MM.YYYY HH:mm",
                                     DisplayFormats = TimeDisplayFormats.Default
