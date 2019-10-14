@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="OptimizationChart.BlazorClient.runtimeconfig.json">
+    <Content Update="Jtc.Optimization.BlazorClient.runtimeconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
