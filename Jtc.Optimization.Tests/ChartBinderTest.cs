@@ -53,5 +53,19 @@ namespace Jtc.Optimization.Tests
             }
         }
 
+        [Fact]
+        public async Task Given_optimizer_data_And_minimum_fitness_When_binding_Then_should_return_all_series()
+        {
+            var unit = new ChartBinder();
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
+            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
+            {
+                var actual = await unit.Read(file, minimumFitness: 0d);
+                Assert.Equal(5, actual.Count());
+                Assert.True(actual.All(a => a.Value.Count() == 1386));
+            }
+        }
+
     }
 }

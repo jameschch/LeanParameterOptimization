@@ -41,10 +41,10 @@
                 <div class="col-sm-12">
                     <label>AlgorithmTypeName</label><input type="text" @bind="Config.AlgorithmTypeName" />
                     <label>FitnessTypeName</label>
-                    <select value="@Config.FitnessTypeName.Split('.').LastOrDefault()" @onchange="@FitnessTypeNameChange">
+                    <select value="@Config.FitnessTypeName"  @onchange="@FitnessTypeNameChange">
                         @foreach (var item in FitnessTypeNameOptions)
                         {
-                        <option selected="@IsSelected(item)" value=@item>@item</option>
+                            <option value=@item>@item</option>
                         }
                     </select>
                 </div>

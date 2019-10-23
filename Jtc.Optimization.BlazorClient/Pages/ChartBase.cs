@@ -19,6 +19,7 @@ using ChartJs.Blazor.ChartJS.LineChart.Axes;
 using ChartJs.Blazor.ChartJS.Common.Enums;
 using ChartJs.Blazor.ChartJS.LineChart.Axes.Ticks;
 using ChartJs.Blazor.ChartJS;
+using Blazored.Toast.Services;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -27,9 +28,9 @@ namespace Jtc.Optimization.BlazorClient
 
         private const string ChartId = "Scatter";
         private static Random _random = new Random(42);
-
         public LineConfig Config { get; set; }
         public int SampleRate { get; set; } = 1;
+        public double? MinimumFitness { get; set; }
         public bool NewOnly { get; set; }
         public string ActivityLog { get { return _activityLogger.Output; } }
         private ActivityLogger _activityLogger { get; set; } = new ActivityLogger();
@@ -46,6 +47,10 @@ namespace Jtc.Optimization.BlazorClient
         [Inject]
         public IFileReaderService FileReaderService { get; set; }
         protected ElementReference FileUpload { get; set; }
+        [Inject]
+        public IToastService ToastService { get; set; }
+        //todo: config
+        protected bool EnableServerData { get; set; }
 
         public ChartBase()
         {
@@ -56,6 +61,7 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async override Task OnInitializedAsync()
         {
+
             Program.HttpClient = HttpClient;
             Program.JsRuntime = JsRuntime;
 
@@ -83,7 +89,7 @@ namespace Jtc.Optimization.BlazorClient
                         xAxes = new List<CartesianAxis>
                         {
                             new TimeAxis
-                            {                                
+                            {
                                 Distribution = TimeDistribution.Linear,
                                 Ticks = new TimeTicks
                                 {
@@ -91,15 +97,11 @@ namespace Jtc.Optimization.BlazorClient
                                 },
                                 Time = new TimeOptions
                                 {
-                                    //Unit = TimeMeasurement.Hour,
+                                    Unit = TimeMeasurement.Day,
                                     Round = TimeMeasurement.Second,
                                     TooltipFormat = "DD.MM.YYYY HH:mm",
                                     DisplayFormats = TimeDisplayFormats.Default
                                 },
-                                //ScaleLabel = new ScaleLabel
-                                //{
-                                //    LabelString = "Zeit"
-                                //}
                             }
                         }
                     },
@@ -117,13 +119,9 @@ namespace Jtc.Optimization.BlazorClient
 
             try
             {
-                //base.OnAfterRender(firstRender);
-
                 //await ChartJsInterop.SetupChart(JsRuntime, Config);
-
                 base.OnAfterRender(firstRender);
                 JsRuntime.SetupChart(Config);
-
                 //if (!(Config?.Data?.Datasets?.Any() ?? false))
                 //{
                 //    await BindRemote();
@@ -131,16 +129,13 @@ namespace Jtc.Optimization.BlazorClient
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                ShowError(ex, "Error occurred setting up chart.");
             }
         }
 
         private async Task SetChartDefaults()
         {
-            using (dynamic context = new EvalContext(JsRuntime))
-            {
-                (context as EvalContext).Expression = () => context.Chart.defaults.global.defaultFontColor = "#FFF";
-            }
+            SetChartFontColour("#000");
 
             using (dynamic context = new EvalContext(JsRuntime))
             {
@@ -152,9 +147,9 @@ namespace Jtc.Optimization.BlazorClient
                 (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
             }
 
-            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.animationDuration = 0");
-            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
-            await new EvalContext(JsRuntime).InvokeAsync<string>("Chart.defaults.global.tooltips.enabled = false");
+            await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.hover.animationDuration = 0");
+            await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
+            await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.tooltips.enabled = false");
         }
 
         protected async Task UpdateChart()
@@ -165,6 +160,7 @@ namespace Jtc.Optimization.BlazorClient
             {
                 _stopWatch.Start();
                 await BindRemote();
+                SetChartFontColour("#FFF");
                 if (NewOnly)
                 {
                     await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
@@ -181,6 +177,14 @@ namespace Jtc.Optimization.BlazorClient
             }
         }
 
+        private void SetChartFontColour(string hexCode)
+        {
+            using (dynamic context = new EvalContext(JsRuntime))
+            {
+                (context as EvalContext).Expression = () => context.Chart.defaults.global.defaultFontColor = hexCode;
+            }
+        }
+
         protected async Task UpdateChartOnServer()
         {
             Wait.Show();
@@ -189,6 +193,7 @@ namespace Jtc.Optimization.BlazorClient
             {
                 _stopWatch.Start();
                 await BindRemoteOnServer();
+                SetChartFontColour("#FFF");
                 if (NewOnly)
                 {
                     await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
@@ -327,7 +332,16 @@ namespace Jtc.Optimization.BlazorClient
         {
             _stopWatch.Start();
             Wait.Show();
+
+            if (!NewOnly)
+            {
+                Config.Data.Datasets.Clear();
+                await JsRuntime.SetupChart(Config);
+            }
+
+            SetChartFontColour("#FFF");
             _binder = new ChartBinder();
+
             try
             {
                 foreach (var file in await FileReaderService.CreateReference(FileUpload).EnumerateFilesAsync())
@@ -337,16 +351,30 @@ namespace Jtc.Optimization.BlazorClient
                         using (var reader = new StreamReader(stream))
                         {
                             //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
-                            var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
+                            var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
                             ExecuteUpdate(data);
                         }
                     }
                 }
+
+                await FileReaderService.CreateReference(FileUpload).ClearValue();
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex, "An error occurred attempting to bind.");
             }
             finally
             {
                 Wait.Hide();
             }
+        }
+
+        private void ShowError(Exception ex, string message)
+        {
+#if DEBUG
+            Console.WriteLine(ex.ToString());
+#endif
+            ToastService.ShowError(message);
         }
 
     }

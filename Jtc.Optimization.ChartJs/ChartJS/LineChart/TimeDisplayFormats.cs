@@ -16,7 +16,7 @@ namespace ChartJs.Blazor.ChartJS.LineChart
             { TimeMeasurement.Second, "HH:mm:ss" },
             { TimeMeasurement.Minute, "HH:mm" },
             { TimeMeasurement.Hour, "HH:00" },
-            { TimeMeasurement.Day, "dd" }
+            { TimeMeasurement.Day, "DD/MM/YYYY hh:mm" }
         };
     }
 }

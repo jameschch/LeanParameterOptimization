@@ -8,6 +8,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
 using Jtc.Optimization.Objects;
+using Blazor.DynamicJavascriptRuntime.Evaluator;
+using Blazored.Toast.Services;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -21,10 +23,15 @@ namespace Jtc.Optimization.BlazorClient
         protected string FitnessDisabled { get; set; }
         protected string OptimizerTypeNameDisabled { get; set; }
 
-        [Inject] public IJSRuntime JsRuntime { get; set; }
-        [Inject] public HttpClient httpClient { get; set; }
+        [Inject]
+        public IJSRuntime JsRuntime { get; set; }
+        [Inject]
+        public HttpClient httpClient { get; set; }
+        [Inject]
+        public IToastService ToastService { get; set; }
 
-        [CascadingParameter] protected EditContext CurrentEditContext { get; set; }
+        [CascadingParameter]
+        protected EditContext CurrentEditContext { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -79,8 +86,19 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UploadFile()
         {
-            var data = await JsRuntime.InvokeAsync<string>("JSInterop.GetFileData");
-            Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);
+            var data = await new EvalContext(JsRuntime).InvokeAsync<string>("JSInterop.GetFileData()");
+            try
+            {
+                Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);
+
+                Config.FitnessTypeName = Config.FitnessTypeName.Split('.').LastOrDefault();
+                Console.WriteLine(Config.FitnessTypeName);
+            }
+            catch (JsonReaderException)
+            {
+                ToastService.ShowError("The deserialization of config failed.");
+                throw;
+            }
             ToggleFitness();
             Json = data;
             StateHasChanged();
