@@ -16,7 +16,7 @@
             @if (EnableServerData)
             {
                 <button class="btn btn-secondary" @onclick="UpdateChart">Update Chart</button>
-                <button class="btn btn-secondary" @onclick="UpdateChartOnServer">Update Chart (Server)</button>
+                @*<button class="btn btn-secondary" @onclick="UpdateChartOnServer">Update Chart (Server)</button>*@
                 @*<button class="btn btn-secondary" disabled @onclick="StreamChart">Stream Chart</button>*@
             }
             <label for="fileUpload" class="btn btn-secondary">Upload Data</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
@@ -28,11 +28,10 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <canvas id="@Config.CanvasId"></canvas>
+            <div id="graph" class="vh-100"></div>
         </div>
     </div>
 </div>
 <Wait @ref="Wait"></Wait>
-
 
 

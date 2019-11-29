@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CenterCLR.XorRandomGenerator" Version="1.1.0" />
     <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Jtc.Optimization.ChartJs\Jtc.Optimization.ChartJs.csproj" />
+    <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
   </ItemGroup>
 
 </Project>

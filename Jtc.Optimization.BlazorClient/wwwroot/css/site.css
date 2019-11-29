@@ -74,7 +74,7 @@ textarea {
     color: #ddd;
 }
 
-#wait {
+#wait, #loading {
     position: fixed;
     z-index: 2;
     top: 0;
@@ -84,7 +84,7 @@ textarea {
     background: rgba(0,0,0,.7);
 }
 
-    #wait img {
+    #wait img, #loading img {
         filter: blur(1px);
         height: 50px;
         top: 45%;
@@ -95,6 +95,11 @@ textarea {
 
 canvas {
     padding-bottom: 10px;
+}
+
+svg path,
+svg rect {
+    fill: #fff;
 }
 
 #floatingCirclesG {
