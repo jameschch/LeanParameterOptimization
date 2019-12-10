@@ -43,7 +43,7 @@
 
     newPlot: function (data) {
         console.log(data);
-        Plotly.newPlot(document.getElementById("graph"), data, PlotlyInterop.selectedLayout(), { displayModeBar: true, showSendToCloud: false, displaylogo: false });
+        Plotly.newPlot("graph", data, PlotlyInterop.selectedLayout(), { displayModeBar: true, showSendToCloud: false, displaylogo: false });
 
         return true;
     }

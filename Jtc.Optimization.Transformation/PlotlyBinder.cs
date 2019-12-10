@@ -1,6 +1,4 @@
 ﻿using CenterCLR.XorRandomGenerator;
-using ChartJs.Blazor.ChartJS.Common;
-using ChartJs.Blazor.ChartJS.LineChart;
 using Jtc.Optimization.Objects;
 using System;
 using System.Collections.Generic;
@@ -56,7 +54,7 @@ namespace Jtc.Optimization.Transformation
                             }
                             data[pair[0]].X.Add(time.ToString("yyyy-MM-dd hh:mm:ss"));
                             data[pair[0]].Y.Add(double.Parse(pair[1]));
-                            // data[pair[0]].Text.Add(pair[1]);
+                            data[pair[0]].Text.Add(pair[1]);
                         }
 
                     }
@@ -71,7 +69,6 @@ namespace Jtc.Optimization.Transformation
             if (minimumFitness.HasValue)
             {
                 var fitness = data.Last().Value;
-                fitness.Marker = new Marker { Color = "red" };
 
                 var removing = new List<int>();
                 for (int i = 0; i < fitness.Y.Count(); i++)
@@ -86,7 +83,7 @@ namespace Jtc.Optimization.Transformation
                     foreach (var item in data.Where(d => d.Value.Y.Any()))
                     {
                         item.Value.Y.RemoveAt(index);
-                        //item.Value.Text.RemoveAt(index);
+                        item.Value.Text.RemoveAt(index);
                     }
                 }
             }

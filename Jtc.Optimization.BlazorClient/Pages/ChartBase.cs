@@ -63,8 +63,10 @@ namespace Jtc.Optimization.BlazorClient
             Program.JsRuntime = JsRuntime;
 
 
-
-            await SetChartDefaults();
+            using (dynamic context = new EvalContext(JsRuntime))
+            {
+                (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
+            }
         }
 
         protected override void OnAfterRender(bool firstRender)
@@ -72,37 +74,12 @@ namespace Jtc.Optimization.BlazorClient
 
             try
             {
-                //await ChartJsInterop.SetupChart(JsRuntime, Config);
                 base.OnAfterRender(firstRender);
-                //JsRuntime.SetupChart(Config);
-                //if (!(Config?.Data?.Datasets?.Any() ?? false))
-                //{
-                //    await BindRemote();
-                //}
             }
             catch (Exception ex)
             {
                 ShowError(ex, "Error occurred setting up chart.");
             }
-        }
-
-        private async Task SetChartDefaults()
-        {
-            //SetChartFontColour("#000");
-
-            //using (dynamic context = new EvalContext(JsRuntime))
-            //{
-            //    (context as EvalContext).Expression = () => context.Chart.defaults.global.animation.duration = 0;
-            //}
-
-            using (dynamic context = new EvalContext(JsRuntime))
-            {
-                (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
-            }
-
-            //await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.hover.animationDuration = 0");
-            //await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.hover.responsiveAnimationDuration = 0");
-            //await new EvalContext(JsRuntime).InvokeAsync<dynamic>("Chart.defaults.global.tooltips.enabled = false");
         }
 
         protected async Task UpdateChart()
@@ -113,7 +90,7 @@ namespace Jtc.Optimization.BlazorClient
             {
                 _stopWatch.Start();
                 await BindRemote();
-                SetChartFontColour("#FFF");
+                //todo: reinstate new only
                 if (NewOnly)
                 {
                     throw new NotImplementedException();
@@ -133,47 +110,6 @@ namespace Jtc.Optimization.BlazorClient
                 Wait.Hide();
             }
         }
-
-        private void SetChartFontColour(string hexCode)
-        {
-            //using (dynamic context = new EvalContext(JsRuntime))
-            //{
-            //    (context as EvalContext).Expression = () => context.Chart.defaults.global.defaultFontColor = hexCode;
-            //}
-        }
-
-        //protected async Task UpdateChartOnServer()
-        //{
-        //    Wait.Show();
-
-        //    try
-        //    {
-        //        _stopWatch.Start();
-        //        await BindRemoteOnServer();
-        //        SetChartFontColour("#FFF");
-        //        if (NewOnly)
-        //        {
-        //            await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", Config);
-        //        }
-        //        else
-        //        {
-        //            await JsRuntime.UpdateChart(Config);
-        //            //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        Wait.Hide();
-        //    }
-        //}
-
-        //protected async Task StreamChart()
-        //{
-        //    //await ChartWorker.UpdateChart();
-        //    await BindStream();
-        //    //await BindRemote();
-        //    await JsRuntime.InvokeAsync<bool>("ChartJSInterop.LoadChartData", Config);
-        //}
 
         private async Task BindRemote()
         {
@@ -217,6 +153,8 @@ namespace Jtc.Optimization.BlazorClient
                 item.Value.Marker = new Marker { Color = PickColourName() };
             }
 
+            data.Last().Value.Marker.Color = "red";
+
             var settings = new EvalContextSettings { EnableDebugLogging = true };
             settings.SerializableTypes.Add(Config.GetType());
             settings.JsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, IgnoreNullValues = true };
@@ -224,9 +162,6 @@ namespace Jtc.Optimization.BlazorClient
             {
                 (context as EvalContext).Expression = () => context.PlotlyInterop.newPlot(Config);
             }
-
-
-            //((LineDataset<TimeTuple<double>>)Config.Data.Datasets.Last()).BackgroundColor = "red";
 
             _pickedColours.Clear();
 
@@ -255,50 +190,28 @@ namespace Jtc.Optimization.BlazorClient
             {
                 return PickRandomColour();
             }
-            var picked = _random.Next(0, names.Length);
+            var picked = _random.Next(0, names.Length - 1);
 
             while (_pickedColours.Contains(picked))
             {
-                picked = _random.Next(0, names.Length);
+                picked = _random.Next(0, names.Length - 1);
             }
 
             _pickedColours.Add(picked);
             return names[picked];
         }
 
-        //[JSInvokable]
-        //public async Task BindStream()
-        //{
-        //    if (_queue == null)
-        //    {
-        //        using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
-        //        {
-        //            var data = await _binder.Read(file, SampleRate == 0 ? 1 : SampleRate);
-        //            _queue = new Queue<PlotlyData>(data.Last().Value.X.Where(v => DateTime.ParseExact(v, "yyyy-MM-dd hh:mm:ss", Cul) > NewestTimestamp));
-        //        }
-        //    }
-
-        //    if (_queue != null && _queue.Any())
-        //    {
-        //        var point = _queue.Dequeue();
-        //        NewestTimestamp = DateTime.Parse(point.Time.ToString());
-        //        _activityLogger.Add($"Last Updated: ", NewestTimestamp);
-        //        //await JsRuntime.InvokeAsync<bool>("ChartJSInterop.UpdateChartData", ChartId, point, new DotNetObjectRef(this));
-        //    }
-        //}
-
         protected async Task UploadFile()
         {
             _stopWatch.Start();
             Wait.Show();
-
+            //todo: reinstate new only
             //if (!NewOnly)
             //{
             //    Config.Data.Datasets.Clear();
             //    await JsRuntime.SetupChart(Config);
             //}
 
-            SetChartFontColour("#FFF");
             _binder = new PlotlyBinder();
 
             try

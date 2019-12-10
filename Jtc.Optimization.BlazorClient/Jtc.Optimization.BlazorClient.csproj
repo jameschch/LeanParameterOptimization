@@ -15,6 +15,7 @@
 
   <PropertyGroup>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <AssemblyName>Jtc.Optimization.BlazorClient</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

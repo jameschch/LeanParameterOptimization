@@ -2,7 +2,7 @@
 @inherits Jtc.Optimization.BlazorClient.ChartBase
 @inject Microsoft.JSInterop.IJSRuntime JSRuntime
 
-<div class="container-fluid">
+<div class="container-fluid vh-100">
     <h1 class="text-center">Algorithm Optimization</h1>
     <div class="row">
         <div class="col-sm-6">
@@ -11,8 +11,8 @@
             <input class="input-sm" type="text" id="sampleRate" @bind="SampleRate" />
             <label for="minimumFitness">Minimum Fitness:</label>
             <input class="input-sm" type="text" id="minimumFitness" @bind="MinimumFitness" />
-            <label for="newOnly">New data only?:</label>
-            <input type="checkbox" id="newOnly" @bind="NewOnly" />
+            @*<label for="newOnly">New data only?:</label>
+                <input type="checkbox" id="newOnly" @bind="NewOnly" />*@
             @if (EnableServerData)
             {
                 <button class="btn btn-secondary" @onclick="UpdateChart">Update Chart</button>
@@ -26,10 +26,8 @@
             <textarea readonly class="w-100 small">@ActivityLog</textarea>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div id="graph" class="vh-100"></div>
-        </div>
+    <div class="d-flex h-100 graph-container">
+        <div id="graph" class="flex-fill"></div>
     </div>
 </div>
 <Wait @ref="Wait"></Wait>

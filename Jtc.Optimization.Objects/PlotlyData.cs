@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Jtc.Optimization.Objects
 {
@@ -11,19 +10,14 @@ namespace Jtc.Optimization.Objects
     {
 
         public List<string> X { get; set; } = new List<string>();
-        //public List<string> Text { get; set; } = new List<string>();
+        public List<string> Text { get; set; } = new List<string>();
         public List<double> Y { get; set; } = new List<double>();
         public string Mode { get; set; } = "markers";
         public string Type { get; set; } = "scatter";
         public string Name { get; set; }
         public Marker Marker { get; set; }
-        //[JsonProperty("error_y")]
-        //public ErrorY ErrorY { get; set; }
-        //[JsonProperty("error_x")]
-        //public ErrorX ErrorX { get; set; }
-        //public Line Line { get; set; }
-        //public string XAxis { get; set; } = "x";
-        //public string YAxis { get; set; } = "y";
+        [JsonPropertyName("hovertemplate")]
+        public string HoverTemplate { get; set; } = "%{text}";
     }
 
     public class Line
