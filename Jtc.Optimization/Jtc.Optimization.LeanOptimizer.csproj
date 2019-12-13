@@ -12,7 +12,7 @@
     <PackageReference Include="NLog" Version="4.6.5" />
     <PackageReference Include="SharpLearning.CrossValidation" Version="0.29.0" />
     <PackageReference Include="SharpLearning.Metrics" Version="0.29.0" />
-    <PackageReference Include="SharpLearning.Optimization" Version="0.30.0" />
+    <PackageReference Include="SharpLearning.Optimization" Version="0.31.7" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
     <PackageReference Include="System.IO.Abstractions" Version="6.0.1" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />

@@ -52,7 +52,7 @@ namespace Jtc.Optimization.LeanOptimizer
                     }
                     else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Bayesian.ToString())
                     {
-                        optimizer = new BayesianOptimizer(parameters, maxIterations: Config.Generations, numberOfStartingPoints: Config.PopulationSize, seed: 42);
+                        optimizer = new BayesianOptimizer(parameters, iterations: Config.Generations, randomStartingPointCount: Config.PopulationSize, seed: 42);
                     }
                     else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GlobalizedBoundedNelderMead.ToString())
                     {

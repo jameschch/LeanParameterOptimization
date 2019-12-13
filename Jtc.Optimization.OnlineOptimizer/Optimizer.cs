@@ -35,7 +35,7 @@ namespace Jtc.Optimization.OnlineOptimizer
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Bayesian.ToString())
                 {
                     optimizerMethod = new BayesianOptimizer(parameters: parameters, iterations: config.Generations, randomStartingPointCount: config.PopulationSize, 
-                        functionEvaluationsPerIteration: config.PopulationSize, seed: 42);
+                        functionEvaluationsPerIterationCount: config.PopulationSize, seed: 42);
                 }
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GlobalizedBoundedNelderMead.ToString())
                 {
