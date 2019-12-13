@@ -1,4 +1,5 @@
 using Blazor.FileReader;
+using Microsoft.AspNetCore.Builder;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Builder;
@@ -12,6 +13,13 @@ namespace Jtc.Optimization.BlazorClient
         {
             services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
             services.AddBlazoredToast();
+#if !DEBUG
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+#endif
         }
 
         public void Configure(IComponentsApplicationBuilder app)

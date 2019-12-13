@@ -1,24 +1,26 @@
 ﻿using QuantConnect;
-using QuantConnect.Lean.Engine.Results;
-using QuantConnect.Orders;
-using QuantConnect.Packets;
-using QuantConnect.Statistics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.DataFeeds;
+using QuantConnect.Lean.Engine.Results;
 using QuantConnect.Lean.Engine.Setup;
 using QuantConnect.Lean.Engine.TransactionHandlers;
-using System.Collections.Concurrent;
+using QuantConnect.Orders;
+using QuantConnect.Packets;
 using QuantConnect.Securities;
+using QuantConnect.Statistics;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
     public class OptimizerResultHandler : IResultHandler
     {
+        protected IAlgorithm Algorithm { get; set; }
 
         private IResultHandler _shadow;
 
@@ -65,24 +67,41 @@ namespace Jtc.Optimization.LeanOptimizer
 
         }
 
-        public void SendFinalResult(AlgorithmNodePacket job, Dictionary<int, Order> orders, Dictionary<DateTime, decimal> profitLoss, Dictionary<string, Holding> holdings,
-            CashBook cashbook, StatisticsResults statisticsResults, Dictionary<string, string> banner)
+        public void SendFinalResult()
         {
-            _shadow.SendFinalResult(job, orders, profitLoss, holdings, cashbook, statisticsResults, banner);
-
             if (_hasError)
             {
                 FullResults = null;
                 return;
             }
 
-            FullResults = StatisticsAdapter.Transform(statisticsResults.TotalPerformance, statisticsResults.Summary);
+            try
+            {
+                ////HACK: need to calculate statistics again as full results not exposed
+                var charts = new Dictionary<string, Chart>(_shadow.Charts);
+
+                var profitLoss = new SortedDictionary<DateTime, decimal>(Algorithm.Transactions.TransactionRecord);
+
+                var statisticsResults = (StatisticsResults)_shadow.GetType().InvokeMember("GenerateStatisticsResults",
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, _shadow,
+                    new object[] { charts, profitLoss });
+
+                FullResults = StatisticsAdapter.Transform(statisticsResults.TotalPerformance, statisticsResults.Summary);
+
+                _shadow.SendFinalResult();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         #region Shadow Methods
-        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, IDataFeed dataFeed, ISetupHandler setupHandler, ITransactionHandler transactionHandler)
+        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, IDataFeed dataFeed, ITransactionHandler transactionHandler)
         {
-            _shadow.Initialize(job, messagingHandler, api, setupHandler, transactionHandler);
+            _shadow.Initialize(job, messagingHandler, api, transactionHandler);
         }
 
         public void Run()
@@ -152,9 +171,11 @@ namespace Jtc.Optimization.LeanOptimizer
             _shadow.SampleRange(samples);
         }
 
-        public void SetAlgorithm(IAlgorithm algorithm)
+        public void SetAlgorithm(IAlgorithm algorithm, decimal startingPortfolioValue)
         {
-            _shadow.SetAlgorithm(algorithm);
+            Algorithm = algorithm;
+            _shadow.SetAlgorithm(algorithm, startingPortfolioValue);
+
         }
 
         public void StoreResult(Packet packet, bool async = false)
@@ -212,9 +233,9 @@ namespace Jtc.Optimization.LeanOptimizer
             _shadow.SetAlphaRuntimeStatistics(statistics);
         }
 
-        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, ISetupHandler setupHandler, ITransactionHandler transactionHandler)
+        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, ITransactionHandler transactionHandler)
         {
-            _shadow.Initialize(job, messagingHandler, api, setupHandler, transactionHandler);
+            _shadow.Initialize(job, messagingHandler, api, transactionHandler);
         }
 
         public void SetDataManager(IDataFeedSubscriptionManager dataManager)
