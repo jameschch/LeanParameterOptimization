@@ -17,7 +17,7 @@ using QuantConnect.Lean.Engine.Setup;
 using QuantConnect.Lean.Engine.TransactionHandlers;
 using Jtc.Optimization.Objects.Interfaces;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     public static class EngineContext

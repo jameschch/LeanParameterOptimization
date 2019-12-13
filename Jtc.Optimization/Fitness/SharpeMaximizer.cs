@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Objects;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     public class SharpeMaximizer : OptimizerFitness

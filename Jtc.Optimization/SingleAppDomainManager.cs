@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Accord.MachineLearning;
 using Jtc.Optimization.Objects.Interfaces;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     public class SingleAppDomainManager : OptimizerAppDomainManager

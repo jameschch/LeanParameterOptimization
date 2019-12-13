@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using Jtc.Optimization.Objects.Interfaces;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     public class MaximizerManager : IOptimizerManager

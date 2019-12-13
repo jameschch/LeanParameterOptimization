@@ -15,7 +15,7 @@ using QuantConnect.Lean.Engine.TransactionHandlers;
 using System.Collections.Concurrent;
 using QuantConnect.Securities;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class OptimizerResultHandler : IResultHandler
     {

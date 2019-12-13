@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
     public interface IFitnessFilter
     {

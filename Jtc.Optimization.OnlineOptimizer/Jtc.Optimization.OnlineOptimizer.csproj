@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.JSInterop" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Blazor.DynamicJavascriptRuntime.Evaluator">
+      <HintPath>..\..\Blazor.DynamicJavascriptRuntime.Evaluator\Blazor.DynamicJavascriptRuntime.Evaluator\bin\Debug\netstandard2.0\Blazor.DynamicJavascriptRuntime.Evaluator.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpLearning.Optimization">
+      <HintPath>..\..\SharpLearning_fork\Build\Debug\netstandard2.0\SharpLearning.Optimization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

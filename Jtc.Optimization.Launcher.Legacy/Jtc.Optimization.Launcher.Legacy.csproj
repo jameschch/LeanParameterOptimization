@@ -110,9 +110,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jtc.Optimization\Jtc.Optimization.csproj">
+    <ProjectReference Include="..\Jtc.Optimization\Jtc.Optimization.LeanOptimizer.csproj">
       <Project>{89d0362e-9aed-4718-b35e-bcae2949848d}</Project>
-      <Name>Jtc.Optimization</Name>
+      <Name>Jtc.Optimization.LeanOptimizer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

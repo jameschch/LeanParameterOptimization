@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Chromosomes;
 using Jtc.Optimization.Objects.Interfaces;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     /// <summary>

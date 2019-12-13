@@ -6,9 +6,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static Jtc.Optimization.AppDomainExtensionMethods;
+using static Jtc.Optimization.LeanOptimizer.AppDomainExtensionMethods;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     public class OptimizerAppDomainManager

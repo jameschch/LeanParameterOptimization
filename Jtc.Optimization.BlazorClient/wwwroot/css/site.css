@@ -105,3 +105,9 @@ svg rect {
 .graph-container {
     padding-bottom: 6em;
 }
+
+#editor {
+    position: relative !important;
+    min-height: 50em;
+    width: 100%;
+}
