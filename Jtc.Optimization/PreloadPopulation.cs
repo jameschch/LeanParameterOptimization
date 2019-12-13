@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class PreloadPopulation : Population
     {

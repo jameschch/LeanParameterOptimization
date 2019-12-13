@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
 
     /// <summary>

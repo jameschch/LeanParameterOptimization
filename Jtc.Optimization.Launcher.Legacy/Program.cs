@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
-using Jtc.Optimization;
+using Jtc.Optimization.LeanOptimizer;
 
 namespace Jtc.Optimization.Launcher.Legacy
 {

@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class OptimizerResultHandler : IResultHandler
     {

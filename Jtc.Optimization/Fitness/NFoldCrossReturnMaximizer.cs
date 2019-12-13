@@ -1,6 +1,6 @@
 ﻿using Jtc.Optimization.Objects.Interfaces;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class NFoldCrossReturnMaximizer : NFoldCrossSharpeMaximizer
     {

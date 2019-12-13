@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Accord.MachineLearning" Version="3.8.2-alpha" />
+    <PackageReference Include="GeneticSharp" Version="2.5.1" />
+    <PackageReference Include="MathNet.Numerics" Version="4.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NLog" Version="4.6.5" />
+    <PackageReference Include="SharpLearning.CrossValidation" Version="0.29.0" />
+    <PackageReference Include="SharpLearning.Metrics" Version="0.29.0" />
+    <PackageReference Include="SharpLearning.Optimization" Version="0.31.7" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="6.0.1" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QuantConnect.Algorithm">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Algorithm.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Brokerages">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Brokerages.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Common">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Configuration">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Indicators">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Indicators.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Lean.Engine">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Lean.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Logging">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Messaging">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantConnect.Queues">
+      <HintPath>..\..\LeanOptimization\Optimization\bin\Debug\QuantConnect.Queues.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="optimization.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="remove_logs.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

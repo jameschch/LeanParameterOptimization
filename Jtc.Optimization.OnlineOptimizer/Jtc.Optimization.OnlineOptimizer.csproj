@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="sample.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="sample.js">
+      <SubType>Code</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.9" />
+    <PackageReference Include="Microsoft.JSInterop" Version="3.1.0" />
+    <PackageReference Include="SharpLearning.Optimization" Version="0.31.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
+  </ItemGroup>
+
+</Project>

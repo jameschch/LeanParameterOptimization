@@ -15,37 +15,34 @@
 
   <PropertyGroup>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <AssemblyName>Jtc.Optimization.BlazorClient</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Jtc.Optimization.BlazorClient.runtimeconfig.json" />
     <Content Remove="Pages\Chart.razor" />
+    <Content Remove="Pages\CodeEditor.razor" />
     <Content Remove="Pages\Config.razor" />
   </ItemGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Blazored.Toast" Version="2.0.7" />
-    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19465.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19465.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IIS" Version="2.2.6" />
+    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview3.19555.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview3.19555.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IIS" Version="2.2.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
-    <PackageReference Include="Microsoft.JSInterop" Version="3.0.0" />
+    <PackageReference Include="Microsoft.JSInterop" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="1.1.0.19274" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Jtc.Optimization.BlazorClient.runtimeconfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -56,11 +53,24 @@
 
   <ItemGroup>
     <None Include="Pages\Chart.razor" />
+    <None Include="Pages\CodeEditor.razor" />
     <None Include="Pages\Config.razor" />
+    <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.js" />
+    <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.js.map" />
+    <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.min.js" />
+    <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.min.js.map" />
+    <None Include="wwwroot\lib\htmlwidgets-1.3\htmlwidgets.js" />
+    <None Include="wwwroot\lib\jquery-1.11.3\jquery.js" />
+    <None Include="wwwroot\lib\jquery-1.11.3\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery-1.11.3\jquery.min.map" />
+    <None Include="wwwroot\lib\plotly-binding-4.8.0\plotly.js" />
+    <None Include="wwwroot\lib\plotly-main-1.39.2\plotly-latest.min.js" />
+    <None Include="wwwroot\lib\typedarray-0.1\typedarray.min.js" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
+    <ProjectReference Include="..\Jtc.Optimization.OnlineOptimizer\Jtc.Optimization.OnlineOptimizer.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
   </ItemGroup>
 

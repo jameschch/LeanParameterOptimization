@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.WpfClient", "Jtc.Optimization.WpfClient\Jtc.Optimization.WpfClient.csproj", "{C4601C7E-C907-4FA8-B5C2-389551B268F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization", "Jtc.Optimization\Jtc.Optimization.csproj", "{89D0362E-9AED-4718-B35E-BCAE2949848D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.LeanOptimizer", "Jtc.Optimization\Jtc.Optimization.LeanOptimizer.csproj", "{89D0362E-9AED-4718-B35E-BCAE2949848D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.Tests", "Jtc.Optimization.Tests\Jtc.Optimization.Tests.csproj", "{D0B18BEE-75D5-4AA2-829B-C5CA7E6B3EEC}"
 EndProject
@@ -23,9 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.Launcher.L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.Transformation", "Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj", "{09ACC073-D668-4791-9A21-7E6BF36C8D20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.ChartJs", "Jtc.Optimization.ChartJs\Jtc.Optimization.ChartJs.csproj", "{B7DD6D3F-442C-4052-8064-A5A81FB48B90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.Objects", "Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj", "{39921403-E4D9-4E6A-B430-7F768C5A9916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.Objects", "Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj", "{39921403-E4D9-4E6A-B430-7F768C5A9916}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.OnlineOptimizer", "Jtc.Optimization.OnlineOptimizer\Jtc.Optimization.OnlineOptimizer.csproj", "{E27E0C2D-36FB-46D6-A17B-E553AC068332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,14 +61,14 @@ Global
 		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09ACC073-D668-4791-9A21-7E6BF36C8D20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7DD6D3F-442C-4052-8064-A5A81FB48B90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39921403-E4D9-4E6A-B430-7F768C5A9916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39921403-E4D9-4E6A-B430-7F768C5A9916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39921403-E4D9-4E6A-B430-7F768C5A9916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39921403-E4D9-4E6A-B430-7F768C5A9916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E27E0C2D-36FB-46D6-A17B-E553AC068332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E27E0C2D-36FB-46D6-A17B-E553AC068332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E27E0C2D-36FB-46D6-A17B-E553AC068332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E27E0C2D-36FB-46D6-A17B-E553AC068332}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

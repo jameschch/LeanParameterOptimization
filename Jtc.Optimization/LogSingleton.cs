@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Accord.MachineLearning;
 using QuantConnect.Logging;
 
-namespace Jtc.Optimization
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class LogSingleton
     {
