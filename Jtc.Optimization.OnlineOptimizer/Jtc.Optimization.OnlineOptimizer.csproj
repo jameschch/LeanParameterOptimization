@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
+    <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
   </ItemGroup>
 
 </Project>

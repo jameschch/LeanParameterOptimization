@@ -2,6 +2,7 @@
 using Blazored.Toast.Services;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.OnlineOptimizer;
+using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -22,6 +23,8 @@ namespace Jtc.Optimization.BlazorClient
         protected Models.MinimizeFunctionCode MinimizeFunctionCode { get; set; }
         [CascadingParameter]
         protected EditContext CurrentEditContext { get; set; }
+        public string ActivityLog { get { return _activityLogger.Output; } }
+        private ActivityLogger _activityLogger { get; set; } = new ActivityLogger();
 
         protected override Task OnInitializedAsync()
         {
@@ -62,11 +65,19 @@ namespace Jtc.Optimization.BlazorClient
                     OptimizerTypeName = "RandomSearch"
                 }
             };
-            var result = optimizer.Start(config);
 
-            ToastService.ShowSuccess("Best Error:" + result.Error.ToString("N"));
-            ToastService.ShowSuccess("Best Parameters:" + string.Join(",", result.ParameterSet.Select(s => s.ToString("N"))));
+            try
+            {
+                var result = optimizer.Start(config, _activityLogger);
+                ToastService.ShowSuccess("Best Error:" + result.Error.ToString("N"));
+                ToastService.ShowSuccess("Best Parameters:" + string.Join(",", result.ParameterSet.Select(s => s.ToString("N"))));
 
+            }
+            catch (Exception ex)
+            {
+                ToastService.ShowError(ex.Message);
+                throw;
+            }
         }
 
     }

@@ -54,6 +54,7 @@ namespace Jtc.Optimization.OnlineOptimizer
 
             var error = new EvalContext(_jSRuntime).Invoke<double>(formatted);
 
+            ActivityLogger.Add("Error: " + error.ToString("N"), DateTime.Now);
             return new OptimizerResult(parameters, error);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
+using Jtc.Optimization.Transformation;
 using SharpLearning.Optimization;
 using System;
 using System.Linq;
@@ -11,9 +12,12 @@ namespace Jtc.Optimization.OnlineOptimizer
     {
 
         private bool IsMaximizing { get; set; }
+        protected ActivityLogger ActivityLogger { get; set; }
 
-        public BestOptimization Start(IOptimizerConfiguration config)
+
+        public BestOptimization Start(IOptimizerConfiguration config, ActivityLogger activityLogger)
         {
+            ActivityLogger = activityLogger;
 
             var parameters = config.Genes.Select(s =>
                     new MinMaxParameterSpec(min: (double)(s.MinDecimal ?? s.MinInt.Value), max: (double)(s.MaxDecimal ?? s.MaxInt.Value),
@@ -34,7 +38,7 @@ namespace Jtc.Optimization.OnlineOptimizer
                 }
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Bayesian.ToString())
                 {
-                    optimizerMethod = new BayesianOptimizer(parameters: parameters, iterations: config.Generations, randomStartingPointCount: config.PopulationSize, 
+                    optimizerMethod = new BayesianOptimizer(parameters: parameters, iterations: config.Generations, randomStartingPointCount: config.PopulationSize,
                         functionEvaluationsPerIterationCount: config.PopulationSize, seed: 42);
                 }
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GlobalizedBoundedNelderMead.ToString())
