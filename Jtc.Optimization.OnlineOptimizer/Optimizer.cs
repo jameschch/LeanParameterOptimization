@@ -51,12 +51,12 @@ namespace Jtc.Optimization.OnlineOptimizer
 
             var result = optimizerMethod.OptimizeBest(Minimize);
 
-            Console.WriteLine("Error: " + result.Error);
+            Console.WriteLine("Error: " + result.Error.ToString("N"));
 
             return new BestOptimization { ParameterSet = result.ParameterSet, Error = IsMaximizing ? result.Error * -1 : result.Error };
         }
 
-        protected abstract OptimizerResult Minimize(double[] parameters);
+        public abstract OptimizerResult Minimize(double[] parameters);
 
     }
 }

@@ -1,26 +1,17 @@
 ﻿@page "/CodeEditor"
 @inherits Jtc.Optimization.BlazorClient.CodeEditorBase
 @inject Microsoft.JSInterop.IJSRuntime JSRuntime
+@using Jtc.Optimization.BlazorClient.Models
 
+<EditForm Model="@MinimizeFunctionCode" OnValidSubmit="@OptimizeClick">
 
-<style type="text/css" media="screen">
+    <div id="editor">
+        @MinimizeFunctionCode.Code
+    </div>
+    <br />
+    <button type="submit">Optimize</button>
+    <br />
 
-    #editor {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-</style>
-
-
-<div id="editor">
-   
-       {0} * {1} - {2};
-    
-</div>
-<br />
-<button @onclick="OptimizeClick">Optimize</button>
-
-
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>
