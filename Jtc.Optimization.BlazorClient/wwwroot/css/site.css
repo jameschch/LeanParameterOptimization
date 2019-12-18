@@ -85,12 +85,23 @@ textarea {
 }
 
     #wait img, #loading img {
-        filter: blur(1px);
+        filter: blur(2px);
         height: 50px;
         top: 45%;
         left: 50%;
         position: fixed;
         background: transparent;
+    }
+
+    #wait pre {
+        height: 3em;
+        top: 45%;
+        position: fixed;
+        background: transparent;
+        margin-top: 50px;
+        width: 100%;
+        text-align: center;
+        overflow-y: hidden;
     }
 
 canvas {
@@ -107,6 +118,7 @@ svg rect {
 }
 
 #editor {
+    margin-top: 10px;
     min-height: 50em;
     width: 100%;
     top: 0;
@@ -121,4 +133,8 @@ svg rect {
 
 .validation-message {
     color: red;
+}
+
+#activityLog {
+    height: 4em;
 }

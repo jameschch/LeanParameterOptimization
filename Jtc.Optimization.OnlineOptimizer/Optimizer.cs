@@ -4,6 +4,7 @@ using Jtc.Optimization.Transformation;
 using SharpLearning.Optimization;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Jtc.Optimization.OnlineOptimizer
 {
@@ -15,13 +16,13 @@ namespace Jtc.Optimization.OnlineOptimizer
         protected ActivityLogger ActivityLogger { get; set; }
 
 
-        public BestOptimization Start(IOptimizerConfiguration config, ActivityLogger activityLogger)
+        public async Task<IterationResult> Start(IOptimizerConfiguration config, ActivityLogger activityLogger)
         {
             ActivityLogger = activityLogger;
 
             var parameters = config.Genes.Select(s =>
-                    new MinMaxParameterSpec(min: (double)(s.MinDecimal ?? s.MinInt.Value), max: (double)(s.MaxDecimal ?? s.MaxInt.Value),
-                    transform: Transform.Linear, parameterType: s.Precision > 0 ? ParameterType.Continuous : ParameterType.Discrete)
+                new MinMaxParameterSpec(min: (double)(s.MinDecimal ?? s.MinInt.Value), max: (double)(s.MaxDecimal ?? s.MaxInt.Value),
+                transform: Transform.Linear, parameterType: s.Precision > 0 ? ParameterType.Continuous : ParameterType.Discrete)
                 ).ToArray();
 
             IOptimizer optimizerMethod = null;
@@ -52,15 +53,16 @@ namespace Jtc.Optimization.OnlineOptimizer
                 }
             }
 
+            var result = await Task.Run(() => optimizerMethod.OptimizeBest(Minimize));
 
-            var result = optimizerMethod.OptimizeBest(Minimize);
+            //var result = optimizerMethod.OptimizeBest(Minimize);
 
-            Console.WriteLine("Error: " + result.Error.ToString("N"));
+            //Console.WriteLine("Error: " + result.Error.ToString("N"));
 
-            return new BestOptimization { ParameterSet = result.ParameterSet, Error = IsMaximizing ? result.Error * -1 : result.Error };
+            return new IterationResult { ParameterSet = result.ParameterSet, Error = IsMaximizing ? result.Error * -1 : result.Error };
         }
 
-        public abstract OptimizerResult Minimize(double[] parameters);
+        public abstract Task<OptimizerResult> Minimize(double[] parameters);
 
     }
 }

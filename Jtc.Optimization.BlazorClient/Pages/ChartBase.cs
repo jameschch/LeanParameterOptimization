@@ -36,7 +36,7 @@ namespace Jtc.Optimization.BlazorClient
         Queue<PlotlyData> _queue;
         private PlotlyBinder _binder;
         Stopwatch _stopWatch;
-        protected Wait Wait { get; set; }
+        protected WaitBase Wait { get; set; }
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
         [Inject]

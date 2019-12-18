@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.Transforma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.Objects", "Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj", "{39921403-E4D9-4E6A-B430-7F768C5A9916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.OnlineOptimizer", "Jtc.Optimization.OnlineOptimizer\Jtc.Optimization.OnlineOptimizer.csproj", "{E27E0C2D-36FB-46D6-A17B-E553AC068332}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.OnlineOptimizer", "Jtc.Optimization.OnlineOptimizer\Jtc.Optimization.OnlineOptimizer.csproj", "{E27E0C2D-36FB-46D6-A17B-E553AC068332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

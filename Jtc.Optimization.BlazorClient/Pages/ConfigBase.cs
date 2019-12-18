@@ -58,7 +58,7 @@ namespace Jtc.Optimization.BlazorClient
         protected async Task Save()
         {
             ValidSubmit();
-            await JsRuntime.InvokeAsync<string>("JSInterop.DownloadConfig", Json);
+            await JsRuntime.InvokeAsync<string>("MainInterop.downloadConfig", Json);
         }
 
         public void FitnessTypeNameChange(ChangeEventArgs e)
@@ -86,7 +86,7 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UploadFile()
         {
-            var data = await new EvalContext(JsRuntime).InvokeAsync<string>("JSInterop.GetFileData()");
+            var data = await new EvalContext(JsRuntime).InvokeAsync<string>("MainInterop.getFileData()");
             try
             {
                 Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);

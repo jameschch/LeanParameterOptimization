@@ -9,6 +9,7 @@ namespace Jtc.Optimization.BlazorClient.Shared
 
         [Inject] public IJSRuntime JsRuntime { get; set; }
         //public int ProgressPercent { get; set; }
+        public string Message { get; set; } = "Running...";
 
         public void Show()
         {
@@ -16,7 +17,6 @@ namespace Jtc.Optimization.BlazorClient.Shared
             {
                 (context as EvalContext).Expression = () => context.jQuery("#wait").show();
             }
-
         }
 
 
@@ -26,6 +26,12 @@ namespace Jtc.Optimization.BlazorClient.Shared
             {
                 (context as EvalContext).Expression = () => context.jQuery("#wait").hide();
             }
+        }
+
+        public void ShowMessage(string message)
+        {
+            Message = message;
+            StateHasChanged();
         }
 
 
