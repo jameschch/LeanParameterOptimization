@@ -59,7 +59,7 @@ namespace Jtc.Optimization.OnlineOptimizer
 
             //Console.WriteLine("Error: " + result.Error.ToString("N"));
 
-            return new IterationResult { ParameterSet = result.ParameterSet, Error = IsMaximizing ? result.Error * -1 : result.Error };
+            return new IterationResult { ParameterSet = result.ParameterSet, Cost = IsMaximizing ? result.Error * -1 : result.Error };
         }
 
         public abstract Task<OptimizerResult> Minimize(double[] parameters);

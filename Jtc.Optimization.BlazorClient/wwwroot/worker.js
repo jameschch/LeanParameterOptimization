@@ -1,6 +1,6 @@
 ﻿onmessage = function (e) {
 
-    console.log('Message received:' + e.data);
+   // console.log('Message received:' + e.data);
 
     var result = eval(e.data);
 

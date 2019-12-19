@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +28,7 @@ namespace Jtc.Optimization.BlazorClient
         public string ActivityLog { get { return ActivityLogger?.Output; } }
         public ActivityLogger ActivityLogger { get; set; }
         protected WaitBase Wait { get; set; }
+        Stopwatch _stopWatch = new Stopwatch();
 
         protected override async Task OnInitializedAsync()
         {
@@ -54,6 +56,8 @@ namespace Jtc.Optimization.BlazorClient
         {
 
             Wait.Show();
+
+            _stopWatch.Start();
 
             IterationResult result = null;
 
@@ -91,10 +95,12 @@ namespace Jtc.Optimization.BlazorClient
                 Wait.Hide();
             }
 
-            ToastService.ShowSuccess("Best Cost:" + result.Error.ToString("N"));
+            _stopWatch.Stop();
+            ToastService.ShowSuccess("Best Cost:" + result.Cost.ToString("N"));
             ToastService.ShowSuccess("Best Parameters:" + string.Join(",", result.ParameterSet.Select(s => s.ToString("N"))));
-            ActivityLogger.Add("Best Cost:", result.Error);
+            ActivityLogger.Add("Best Cost:", result.Cost);
             ActivityLogger.Add("Best Parameters:", result.ParameterSet);
+            ActivityLogger.Add("Total Time (s):", _stopWatch.ElapsedMilliseconds / 1000);
         }
 
     }

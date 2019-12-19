@@ -6,7 +6,7 @@ namespace Jtc.Optimization.Objects
 {
     public class IterationResult
     {
-        public double Error { get; set; }
+        public double Cost { get; set; }
         public double[] ParameterSet { get; set; }
     }
 }

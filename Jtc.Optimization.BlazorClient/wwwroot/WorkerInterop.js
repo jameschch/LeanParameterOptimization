@@ -11,8 +11,8 @@
             }
 
             worker.onmessage = function (event) {
-                console.log("Worker sent:" + event.data);
-                workerCallback.invokeMethodAsync(workerMethodname, { error: event.data });
+                //console.log("Worker sent:" + event.data);
+                workerCallback.invokeMethodAsync(workerMethodname, event.data);
             };
 
         }
@@ -21,7 +21,7 @@
             document.getElementsByTagName("body").innerHTML += "Sorry, your browser is not supported.";
         }
 
-        worker.postMessage([code, workerCallback]);
+        worker.postMessage(code);
     },
 
     workerCallback: null,

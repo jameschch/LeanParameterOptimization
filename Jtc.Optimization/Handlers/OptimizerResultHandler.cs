@@ -67,7 +67,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         }
 
-        public void SendFinalResult()
+        public void SendFinalResult(AlgorithmNodePacket job, Dictionary<int, Order> orders, Dictionary<DateTime, decimal> profitLoss, Dictionary<string, Holding> holdings, CashBook cashbook, StatisticsResults statisticsResults, Dictionary<string, string> banner)
         {
             if (_hasError)
             {
@@ -80,15 +80,9 @@ namespace Jtc.Optimization.LeanOptimizer
                 ////HACK: need to calculate statistics again as full results not exposed
                 var charts = new Dictionary<string, Chart>(_shadow.Charts);
 
-                var profitLoss = new SortedDictionary<DateTime, decimal>(Algorithm.Transactions.TransactionRecord);
-
-                var statisticsResults = (StatisticsResults)_shadow.GetType().InvokeMember("GenerateStatisticsResults",
-                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, _shadow,
-                    new object[] { charts, profitLoss });
-
                 FullResults = StatisticsAdapter.Transform(statisticsResults.TotalPerformance, statisticsResults.Summary);
 
-                _shadow.SendFinalResult();
+                _shadow.SendFinalResult(job, orders, profitLoss, holdings, cashbook, statisticsResults, banner);
 
             }
             catch (Exception)
@@ -99,9 +93,9 @@ namespace Jtc.Optimization.LeanOptimizer
         }
 
         #region Shadow Methods
-        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, IDataFeed dataFeed, ITransactionHandler transactionHandler)
+        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, ISetupHandler setupHandler, ITransactionHandler transactionHandler)
         {
-            _shadow.Initialize(job, messagingHandler, api, transactionHandler);
+            _shadow.Initialize(job, messagingHandler, api, setupHandler, transactionHandler);
         }
 
         public void Run()
@@ -171,10 +165,10 @@ namespace Jtc.Optimization.LeanOptimizer
             _shadow.SampleRange(samples);
         }
 
-        public void SetAlgorithm(IAlgorithm algorithm, decimal startingPortfolioValue)
+        public void SetAlgorithm(IAlgorithm algorithm)
         {
             Algorithm = algorithm;
-            _shadow.SetAlgorithm(algorithm, startingPortfolioValue);
+            _shadow.SetAlgorithm(algorithm);
 
         }
 
@@ -233,15 +227,12 @@ namespace Jtc.Optimization.LeanOptimizer
             _shadow.SetAlphaRuntimeStatistics(statistics);
         }
 
-        public void Initialize(AlgorithmNodePacket job, IMessagingHandler messagingHandler, IApi api, ITransactionHandler transactionHandler)
-        {
-            _shadow.Initialize(job, messagingHandler, api, transactionHandler);
-        }
 
         public void SetDataManager(IDataFeedSubscriptionManager dataManager)
         {
             _shadow.SetDataManager(dataManager);
         }
+
         #endregion
     }
 }
