@@ -3,9 +3,17 @@
 @inject Microsoft.JSInterop.IJSRuntime JSRuntime
 @using Jtc.Optimization.BlazorClient.Models
 
-    <EditForm Model="@MinimizeFunctionCode" OnValidSubmit="@OptimizeClick">
+<div class="container-fluid vh-100">
 
-        <div id="editor">@MinimizeFunctionCode.Code</div>
+    <EditForm Model="@MinimizeFunctionCode" OnValidSubmit="@OptimizeClick">
+        <div class="row">
+            <select value="@Language" @onchange="@LanguageChange">
+                <option value="javascript">Javascript</option>
+                <option value="csharp">C#</option>
+            </select>
+        </div>
+
+        <div id="editor"></div>
         <br />
         <button type="submit">Optimize</button>
         <br />
@@ -14,4 +22,6 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
     </EditForm>
-<Wait @ref="Wait"></Wait>
+    <Wait @ref="Wait"></Wait>
+
+</div>

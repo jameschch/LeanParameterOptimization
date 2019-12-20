@@ -3,8 +3,12 @@
 
 <BlazoredToasts />
 
-<div class="main">
+<div class="main wrapper" onload="MainLoaded">
+
+    <Sidebar />
+
     <div class="content px-4">
+        <SidebarShow />
         <BlazoredToasts />
         @Body
     </div>

@@ -11,10 +11,6 @@ namespace Jtc.Optimization.BlazorClient.Shared
         [Parameter]
         public Models.GeneConfiguration Gene { get; set; }
 
-        protected async override Task OnInitializedAsync()
-        {
-
-        }
 
         protected string GetStep()
         {

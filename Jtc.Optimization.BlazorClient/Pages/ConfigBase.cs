@@ -15,7 +15,9 @@ namespace Jtc.Optimization.BlazorClient
 {
     public class ConfigBase : ComponentBase
     {
-        protected Models.OptimizerConfiguration Config { get; set; }
+
+        private Models.OptimizerConfiguration _config;
+        protected Models.OptimizerConfiguration Config { get { return _config; } set { SetConfig(value); } }
         protected string Json { get; set; }
         protected IEnumerable<string> FitnessTypeNameOptions { get; set; } = Jtc.Optimization.Objects.FitnessOptions.Name;
         protected IEnumerable<string> ResultKeyOptions { get; set; } = StatisticsBinding.Binding.Select(s => s.Value).OrderBy(a => a);
@@ -24,7 +26,7 @@ namespace Jtc.Optimization.BlazorClient
         protected string OptimizerTypeNameDisabled { get; set; }
 
         [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        public IJSRuntime JSRuntime { get; set; }
         [Inject]
         public HttpClient httpClient { get; set; }
         [Inject]
@@ -42,11 +44,12 @@ namespace Jtc.Optimization.BlazorClient
                 Fitness = new Models.FitnessConfiguration(),
                 Genes = new Models.GeneConfiguration[] { new Models.GeneConfiguration() }
             };
-
             //todo: allow upload of fitness
             //FitnessTypeNameOptions = Jtc.Optimization.Objects.FitnessTypeNameOptions.Options; assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o);
 
             ToggleFitness();
+
+            await base.OnInitializedAsync();
         }
 
 
@@ -58,7 +61,7 @@ namespace Jtc.Optimization.BlazorClient
         protected async Task Save()
         {
             ValidSubmit();
-            await JsRuntime.InvokeAsync<string>("MainInterop.downloadConfig", Json);
+            await JSRuntime.InvokeAsync<string>("MainInterop.downloadConfig", Json);
         }
 
         public void FitnessTypeNameChange(ChangeEventArgs e)
@@ -86,7 +89,7 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UploadFile()
         {
-            var data = await new EvalContext(JsRuntime).InvokeAsync<string>("MainInterop.getFileData()");
+            var data = await new EvalContext(JSRuntime).InvokeAsync<string>("MainInterop.getFileData()");
             try
             {
                 Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);
@@ -107,6 +110,18 @@ namespace Jtc.Optimization.BlazorClient
         protected string IsSelected(string item)
         {
             return (Config.FitnessTypeName == item) ? "true" : "false";
+        }
+
+        private void SetConfig(Models.OptimizerConfiguration value)
+        {
+            var settings = new EvalContextSettings();
+            settings.SerializableTypes.Add(typeof(Models.OptimizerConfiguration));
+            using (dynamic context = new EvalContext(JSRuntime, settings))
+            {
+                var serialized = System.Text.Json.JsonSerializer.Serialize(value);
+                (context as EvalContext).Expression = () => context.MainInterop.storeConfig(serialized);
+            }
+            _config = value;
         }
 
     }

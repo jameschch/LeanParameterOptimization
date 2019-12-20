@@ -1,0 +1,26 @@
+﻿@inherits BlazorClient.Shared.SidebarBase
+
+<nav id="sidebar" class="@Active">
+
+    @*<div id="dismiss">
+        Close
+    </div>*@
+
+    <div class="sidebar-header">
+        <h1>Algorithm Optimization</h1>
+    </div>
+
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="javascript:;" data-toggle="collapse" aria-expanded="false" @onclick='() => NavigateClick("CodeEditor")'>Editor</a>
+        </li>
+        <li>
+            <a href="javascript:;" data-toggle="collapse" aria-expanded="false" @onclick='() => NavigateClick("Config")'>Config</a>
+        </li>
+        <li>
+            <a href="javascript:;" data-toggle="collapse" aria-expanded="false" @onclick='() => NavigateClick("Chart")'>Chart</a>
+        </li>
+    </ul>
+</nav>
+<div class="overlay"></div>
+

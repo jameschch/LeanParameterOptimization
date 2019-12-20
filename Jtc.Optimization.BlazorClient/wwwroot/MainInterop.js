@@ -41,6 +41,14 @@
 
     activityLogChanged: (e) => {
         e.target.scrollTop(Number.MAX_SAFE_INTEGER);
+    },
+
+    storeConfig: (data) => {
+        sessionStorage.setItem("config", data);
+    },
+
+    fetchConfig: (data) => {
+        return sessionStorage.getItem("config");
     }
 
 };

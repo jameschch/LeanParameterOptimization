@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Jtc.Optimization.BlazorClient
@@ -19,7 +20,7 @@ namespace Jtc.Optimization.BlazorClient
     {
 
         [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        public IJSRuntime JSRuntime { get; set; }
         [Inject]
         public IToastService ToastService { get; set; }
         protected Models.MinimizeFunctionCode MinimizeFunctionCode { get; set; }
@@ -29,6 +30,9 @@ namespace Jtc.Optimization.BlazorClient
         public ActivityLogger ActivityLogger { get; set; }
         protected WaitBase Wait { get; set; }
         Stopwatch _stopWatch = new Stopwatch();
+        private Objects.OptimizerConfiguration _config;
+
+        protected string Language { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,20 +40,47 @@ namespace Jtc.Optimization.BlazorClient
 
             MinimizeFunctionCode = new Models.MinimizeFunctionCode
             {
-                Code = Resource.CodeSample
+                Code = Resource.JavascriptCodeSample
                 // Code = "\r\nfunction minimize(p1 /*p2, anything, etc*/)\r\n{\r\n\treturn;\r\n}"
             };
 
-            using (dynamic context = new EvalContext(JsRuntime))
+            await base.OnInitializedAsync();
+        }
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
             {
-                (context as EvalContext).Expression = () => context.ace.edit("editor").setTheme("ace/theme/monokai");
+                using (dynamic context = new EvalContext(JSRuntime))
+                {
+                    (context as EvalContext).Expression = () => context.ace.edit("editor").setTheme("ace/theme/monokai");
+                    await (context as EvalContext).InvokeAsync<dynamic>();
+                }
+                using (dynamic context = new EvalContext(JSRuntime))
+                {
+                    (context as EvalContext).Expression = () => context.ace.edit("editor").session.setMode("ace/mode/javascript");
+                    await (context as EvalContext).InvokeAsync<dynamic>();
+                }
             }
-            using (dynamic context = new EvalContext(JsRuntime))
+            //todo: bdjr backticks
+            await new EvalContext(JSRuntime).InvokeAsync<dynamic>($"ace.edit(\"editor\").session.setValue(`{MinimizeFunctionCode.Code}`)");
+
+            using (dynamic context = new EvalContext(JSRuntime))
             {
-                (context as EvalContext).Expression = () => context.ace.edit("editor").session.setMode("ace/mode/javascript");
+                (context as EvalContext).Expression = () => context.MainInterop.fetchConfig("config");
+                var raw = await (context as EvalContext).InvokeAsync<string>();
+                if (raw != null)
+                {
+                    _config = JsonSerializer.Deserialize<Objects.OptimizerConfiguration>(raw);
+                }
             }
 
-            await base.OnInitializedAsync();
+            if (_config != null)
+            {
+                Console.WriteLine(JsonSerializer.Serialize(_config));
+            }
+
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         protected async Task OptimizeClick()
@@ -65,7 +96,7 @@ namespace Jtc.Optimization.BlazorClient
             {
                 //Console.WriteLine(MinimizeFunctionCode.Code);
 
-                var optimizer = new JavascriptOptimizer(JsRuntime, MinimizeFunctionCode.Code);
+                var optimizer = new JavascriptOptimizer(JSRuntime, MinimizeFunctionCode.Code);
                 var config = new OptimizerConfiguration
                 {
                     Genes = new GeneConfiguration[]
@@ -82,7 +113,6 @@ namespace Jtc.Optimization.BlazorClient
                 };
 
                 result = await optimizer.Start(config, ActivityLogger);
-
 
             }
             catch (Exception ex)
@@ -101,6 +131,27 @@ namespace Jtc.Optimization.BlazorClient
             ActivityLogger.Add("Best Cost:", result.Cost);
             ActivityLogger.Add("Best Parameters:", result.ParameterSet);
             ActivityLogger.Add("Total Time (s):", _stopWatch.ElapsedMilliseconds / 1000);
+        }
+
+        public async Task LanguageChange(ChangeEventArgs e)
+        {
+            using (dynamic context = new EvalContext(JSRuntime))
+            {
+                (context as EvalContext).Expression = () => context.ace.edit("editor").session.setMode($"ace/mode/{e.Value}");
+                await (context as EvalContext).InvokeAsync<dynamic>();
+                (context as EvalContext).Reset();
+
+                if (e.Value.ToString() == "javascript")
+                {
+                    MinimizeFunctionCode.Code = Resource.JavascriptCodeSample;
+                }
+                else if (e.Value.ToString() == "csharp")
+                {
+                    MinimizeFunctionCode.Code = Resource.CSharpCodeSample;
+                }
+                await (context as EvalContext).InvokeAsync<dynamic>($"ace.edit(\"editor\").session.setValue(`{MinimizeFunctionCode.Code}`)");
+            }
+            //StateHasChanged();
         }
 
     }

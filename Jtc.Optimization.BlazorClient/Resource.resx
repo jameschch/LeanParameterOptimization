@@ -117,7 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CodeSample" xml:space="preserve">
+  <data name="CSharpCodeSample" xml:space="preserve">
+    <value>public class Algorithm
+{
+	public double MinimizeWeightFromHeight(double[] parameters)
+	{
+		var heights = new double[] { 1.47, 1.50, 1.52, 1.55, 1.57, 1.60, 1.63, 1.65, 1.68, 1.70, 1.73, 1.75, 1.78, 1.80, 1.83 };
+		var weights = new double[] { 52.21, 53.12, 54.48, 55.84, 57.20, 58.57, 59.93, 61.29, 63.11, 64.47, 66.28, 68.10, 69.92, 72.19, 74.46 };
+
+		var cost = 0.0;
+
+		for (int i = 0; i &lt; heights.Length; i++)
+		{
+			cost += (parameters[0] * heights[i] - weights[i]) * (parameters[0] * heights[i] - weights[i]);
+		}
+
+		return cost;
+	}
+}</value>
+  </data>
+  <data name="JavascriptCodeSample" xml:space="preserve">
     <value>function solve(p1, p2) {
 
     var heights = [1.47, 1.50, 1.52, 1.55, 1.57, 1.60, 1.63, 1.65, 1.68, 1.70, 1.73, 1.75, 1.78, 1.80, 1.83];
