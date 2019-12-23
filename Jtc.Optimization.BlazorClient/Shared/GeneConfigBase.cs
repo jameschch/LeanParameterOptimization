@@ -19,7 +19,7 @@ namespace Jtc.Optimization.BlazorClient.Shared
                 return "1";
             }
 
-            return @Math.Pow(0.1, Gene.Precision.Value).ToString();
+            return Math.Pow(0.1, Gene.Precision.Value).ToString();
         }
 
 

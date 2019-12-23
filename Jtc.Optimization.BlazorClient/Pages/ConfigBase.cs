@@ -3,27 +3,34 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Linq;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
 using Jtc.Optimization.Objects;
 using Blazor.DynamicJavascriptRuntime.Evaluator;
 using Blazored.Toast.Services;
+using System.Text.Json;
+using Jtc.Optimization.BlazorClient.Shared;
 
 namespace Jtc.Optimization.BlazorClient
 {
     public class ConfigBase : ComponentBase
     {
 
-        private Models.OptimizerConfiguration _config;
-        protected Models.OptimizerConfiguration Config { get { return _config; } set { SetConfig(value); } }
+        protected Models.OptimizerConfiguration Config { get; set; }
         protected string Json { get; set; }
         protected IEnumerable<string> FitnessTypeNameOptions { get; set; } = Jtc.Optimization.Objects.FitnessOptions.Name;
         protected IEnumerable<string> ResultKeyOptions { get; set; } = StatisticsBinding.Binding.Select(s => s.Value).OrderBy(a => a);
         protected IEnumerable<string> OptimizerTypeNameOptions { get; set; } = Enum.GetNames(typeof(Enums.OptimizerTypeOptions)).OrderBy(o => o);
         protected string FitnessDisabled { get; set; }
         protected string OptimizerTypeNameDisabled { get; set; }
+        private static JsonSerializerOptions _options = new JsonSerializerOptions
+        {
+            AllowTrailingCommas = true,
+            PropertyNameCaseInsensitive = true,
+            IgnoreNullValues = true,
+            ReadCommentHandling = JsonCommentHandling.Skip
+        };
 
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
@@ -31,6 +38,8 @@ namespace Jtc.Optimization.BlazorClient
         public HttpClient httpClient { get; set; }
         [Inject]
         public IToastService ToastService { get; set; }
+        [Inject]
+        public BlazorClientState BlazorClientState { get; set; }
 
         [CascadingParameter]
         protected EditContext CurrentEditContext { get; set; }
@@ -49,13 +58,24 @@ namespace Jtc.Optimization.BlazorClient
 
             ToggleFitness();
 
+            using (dynamic context = new EvalContext(JSRuntime))
+            {
+                (context as EvalContext).Expression = () => context.MainInterop.fetchConfig();
+                var json = await (context as EvalContext).InvokeAsync<string>();
+
+                if (!string.IsNullOrEmpty(json))
+                {
+                    Config = JsonSerializer.Deserialize<Models.OptimizerConfiguration>(json, _options);
+                }
+            }
+
             await base.OnInitializedAsync();
         }
 
-
         protected void ValidSubmit()
         {
-            Json = JsonConvert.SerializeObject(Config, new JsonSerializerSettings { Formatting = Formatting.Indented, DefaultValueHandling = DefaultValueHandling.Ignore });
+            Json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            StoreConfig();
         }
 
         protected async Task Save()
@@ -92,12 +112,14 @@ namespace Jtc.Optimization.BlazorClient
             var data = await new EvalContext(JSRuntime).InvokeAsync<string>("MainInterop.getFileData()");
             try
             {
-                Config = JsonConvert.DeserializeObject<Models.OptimizerConfiguration>(data);
+                Config = JsonSerializer.Deserialize<Models.OptimizerConfiguration>(data, _options);
+
+                SetSession(Config);
 
                 Config.FitnessTypeName = Config.FitnessTypeName.Split('.').LastOrDefault();
                 Console.WriteLine(Config.FitnessTypeName);
             }
-            catch (JsonReaderException)
+            catch (Exception)
             {
                 ToastService.ShowError("The deserialization of config failed.");
                 throw;
@@ -112,16 +134,25 @@ namespace Jtc.Optimization.BlazorClient
             return (Config.FitnessTypeName == item) ? "true" : "false";
         }
 
-        private void SetConfig(Models.OptimizerConfiguration value)
+        private void SetSession(Models.OptimizerConfiguration value)
         {
             var settings = new EvalContextSettings();
             settings.SerializableTypes.Add(typeof(Models.OptimizerConfiguration));
             using (dynamic context = new EvalContext(JSRuntime, settings))
             {
-                var serialized = System.Text.Json.JsonSerializer.Serialize(value);
+                var serialized = JsonSerializer.Serialize(value);
                 (context as EvalContext).Expression = () => context.MainInterop.storeConfig(serialized);
             }
-            _config = value;
+        }
+
+        private void StoreConfig()
+        {
+            using (dynamic context = new EvalContext(JSRuntime))
+            {
+                (context as EvalContext).Expression = () => context.MainInterop.storeConfig(Json);
+            }
+
+            BlazorClientState.NotifyStateHasChanged(typeof(SidebarBase));
         }
 
     }

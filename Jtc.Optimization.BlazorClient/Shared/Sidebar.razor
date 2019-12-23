@@ -11,11 +11,12 @@
     </div>
 
     <ul class="list-unstyled components">
-        <li class="active">
+        <li>
             <a href="javascript:;" data-toggle="collapse" aria-expanded="false" @onclick='() => NavigateClick("CodeEditor")'>Editor</a>
         </li>
         <li>
             <a href="javascript:;" data-toggle="collapse" aria-expanded="false" @onclick='() => NavigateClick("Config")'>Config</a>
+            <p class="small @ConfigSaved">Config Saved</p>
         </li>
         <li>
             <a href="javascript:;" data-toggle="collapse" aria-expanded="false" @onclick='() => NavigateClick("Chart")'>Chart</a>

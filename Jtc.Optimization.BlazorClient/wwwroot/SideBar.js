@@ -6,7 +6,7 @@ window.Sidebar = {
             theme: "minimal"
         });
 
-        $('#dismiss, .overlay').on('click', function () {
+        $('#dismiss, .overlay, a[data-toggle=collapse]').on('click', function () {
             // hide sidebar
             $('#sidebar').removeClass('active');
             // hide overlay

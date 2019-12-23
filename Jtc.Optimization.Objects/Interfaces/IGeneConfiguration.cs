@@ -2,14 +2,11 @@
 {
     public interface IGeneConfiguration
     {
-        decimal? ActualDecimal { get; set; }
-        int? ActualInt { get; set; }
+        double? Actual { get; set; }
         bool Fibonacci { get; set; }
         string Key { get; set; }
-        decimal? MaxDecimal { get; set; }
-        int? MaxInt { get; set; }
-        decimal? MinDecimal { get; set; }
-        int? MinInt { get; set; }
+        double? Max { get; set; }
+        double? Min { get; set; }
         int? Precision { get; set; }
     }
 }

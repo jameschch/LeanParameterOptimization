@@ -11,7 +11,7 @@ using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization.BlazorClient.Models
 {
-    [Serializable]
+
     public class OptimizerConfiguration
     {
 
@@ -95,15 +95,15 @@ namespace Jtc.Optimization.BlazorClient.Models
         /// <summary>
         /// Algorithm backtest start date
         /// </summary>
-        [Required]
-        public DateTime StartDate { get; set; }
+        //[Required]
+        public DateTime? StartDate { get; set; }
 
         /// <summary>
         /// Algorithm backtest end date
         /// </summary>
         [GreaterThan("StartDate")]
-        [Required]
-        public DateTime EndDate { get; set; }
+        //[Required]
+        public DateTime? EndDate { get; set; }
 
         /// <summary>
         /// Likeliness of mutation

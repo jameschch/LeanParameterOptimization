@@ -47,7 +47,7 @@
         sessionStorage.setItem("config", data);
     },
 
-    fetchConfig: (data) => {
+    fetchConfig: () => {
         return sessionStorage.getItem("config");
     }
 

@@ -223,6 +223,10 @@ svg rect {
         background: #ddd;
     }
 
+#sidebar ul li p {
+    margin: 0 0 0 20px;
+}
+
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
     color: #fff;

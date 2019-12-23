@@ -9,17 +9,26 @@ namespace Jtc.Optimization.BlazorClient.Shared
     public class SidebarBase : ComponentBase
     {
 
-        [Inject] public IJSRuntime JsRuntime { get; set; }
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public BlazorClientState BlazorClientState { get; set; }
         protected string Active { get; set; }
+        protected string ConfigSaved { get { return GetConfigSaved(); } }
+
+        protected async override Task OnInitializedAsync()
+        {
+            BlazorClientState.SubscribeStateHasChange(this.GetType(), () => this.StateHasChanged());
+            await base.OnInitializedAsync();
+        }
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-
             if (firstRender)
             {
-                await JsRuntime.InvokeVoidAsync("Sidebar.initialize");
+                await JSRuntime.InvokeVoidAsync("Sidebar.initialize");
 
                 await base.OnAfterRenderAsync(firstRender);
             }
@@ -36,6 +45,17 @@ namespace Jtc.Optimization.BlazorClient.Shared
         protected void NavigateClick(string page)
         {
             NavigationManager.NavigateTo($"/{page}");
+        }
+
+        private string GetConfigSaved()
+        {
+            using (dynamic context = new EvalContext(JSRuntime))
+            {
+                (context as EvalContext).Expression = () => context.MainInterop.fetchConfig();
+                var json = (context as EvalContext).Invoke<string>();
+
+                return string.IsNullOrEmpty(json) ? "d-none" : null;
+            }
         }
 
     }

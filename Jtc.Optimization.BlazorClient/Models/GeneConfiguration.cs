@@ -1,5 +1,4 @@
 ﻿using Jtc.Optimization.Objects.Interfaces;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 namespace Jtc.Optimization.BlazorClient.Models
 {
 
-    [Serializable]
     public class GeneConfiguration
     {
         /// <summary>
@@ -20,29 +18,26 @@ namespace Jtc.Optimization.BlazorClient.Models
         public string Key { get; set; }
 
         /// <summary>
-        /// The minimum value for a decimal value
+        /// The minimum value for a value
         /// </summary>
         [Required]
-        [JsonConverter(typeof(Jtc.Optimization.BlazorClient.Misc.DecimalJsonConverter))]
-        public decimal? Min { get; set; }
+        public double? Min { get; set; }
 
         /// <summary>
-        /// The maximum value for a decimal value
+        /// The maximum value for a value
         /// </summary>
         [Required]
-        [JsonConverter(typeof(Jtc.Optimization.BlazorClient.Misc.DecimalJsonConverter))]
-        public decimal? Max { get; set; }
+        public double? Max { get; set; }
 
         /// <summary>
-        /// The decimal precision (rounding) for gene values
+        /// The precision (rounding) for gene values
         /// </summary>
         public int? Precision { get; set; }
 
         /// <summary>
-        /// The non-random starting value of a decimal
+        /// The non-random starting value
         /// </summary>
-        [JsonConverter(typeof(Jtc.Optimization.BlazorClient.Misc.DecimalJsonConverter))]
-        public decimal? Actual { get; set; }
+        public double? Actual { get; set; }
 
         /// <summary>
         /// When true, will randomly select a value between 0 to 10946 from the Fibonacci sequence instead of generating random values

@@ -21,7 +21,7 @@ namespace Jtc.Optimization.OnlineOptimizer
             ActivityLogger = activityLogger;
 
             var parameters = config.Genes.Select(s =>
-                new MinMaxParameterSpec(min: (double)(s.MinDecimal ?? s.MinInt.Value), max: (double)(s.MaxDecimal ?? s.MaxInt.Value),
+                new MinMaxParameterSpec(min: s.Min ?? s.Actual.Value, max: s.Max ?? s.Actual.Value,
                 transform: Transform.Linear, parameterType: s.Precision > 0 ? ParameterType.Continuous : ParameterType.Discrete)
                 ).ToArray();
 

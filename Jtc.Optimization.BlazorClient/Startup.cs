@@ -13,6 +13,7 @@ namespace Jtc.Optimization.BlazorClient
         {
             services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
             services.AddBlazoredToast();
+            services.AddSingleton<BlazorClientState>();
 #if !DEBUG
 
             services.Configure<IISServerOptions>(options =>

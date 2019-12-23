@@ -38,7 +38,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.IIS" Version="2.2.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
     <PackageReference Include="Microsoft.JSInterop" Version="3.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="1.1.0.19274" />
   </ItemGroup>

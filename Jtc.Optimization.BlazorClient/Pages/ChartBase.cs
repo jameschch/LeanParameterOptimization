@@ -7,14 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Jtc.Optimization.Transformation;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using Blazor.DynamicJavascriptRuntime.Evaluator;
 using Jtc.Optimization.BlazorClient.Shared;
 using Blazor.FileReader;
 using Blazored.Toast.Services;
 using Jtc.Optimization.Objects;
-using Newtonsoft.Json.Serialization;
 using System.Text.Json;
 using CenterCLR.XorRandomGenerator;
 
@@ -135,7 +133,7 @@ namespace Jtc.Optimization.BlazorClient
 
             using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data/Sample/{(SampleRate == 0 ? 1 : SampleRate)}"))))
             {
-                var data = JsonConvert.DeserializeObject<Dictionary<string, PlotlyData>>(file.ReadToEnd());
+                var data = JsonSerializer.Deserialize<Dictionary<string, PlotlyData>>(file.ReadToEnd());
                 ShowChart(data);
             }
         }

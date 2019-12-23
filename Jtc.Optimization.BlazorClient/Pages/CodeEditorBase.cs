@@ -97,28 +97,24 @@ namespace Jtc.Optimization.BlazorClient
                 //Console.WriteLine(MinimizeFunctionCode.Code);
 
                 var optimizer = new JavascriptOptimizer(JSRuntime, MinimizeFunctionCode.Code);
-                var config = new OptimizerConfiguration
-                {
-                    Genes = new GeneConfiguration[]
-                    {
-                    new  GeneConfiguration{ MinDecimal = 0.0m, MaxDecimal = 100m, Precision = 6 },
-                    new  GeneConfiguration{ MinDecimal = 0.0m, MaxDecimal = 100m, Precision = 6 }
-                    },
-                    PopulationSize = 10,
-                    Generations = 10000,
-                    Fitness = new FitnessConfiguration
-                    {
-                        OptimizerTypeName = Enums.OptimizerTypeOptions.RandomSearch.ToString()
-                    }
-                };
 
-                result = await optimizer.Start(config, ActivityLogger);
+                if (_config == null)
+                {
+                    ToastService.ShowError("No config was uploaded or created.");
+                    Wait.Hide();
+                    return;
+                }
+                else
+                {
+                    result = await optimizer.Start(_config, ActivityLogger);
+                }
+
 
             }
             catch (Exception ex)
             {
+                Wait.Hide();
                 ToastService.ShowError(ex.Message);
-                throw;
             }
             finally
             {
