@@ -11,6 +11,8 @@ namespace Jtc.Optimization.BlazorClient.Models
     public class MinimizeFunctionCode
     {
 
+        public string Language { get; set; } = "javascript";
+
         [JavascriptFunctionValidator]
         public string Code { get; set; }
 

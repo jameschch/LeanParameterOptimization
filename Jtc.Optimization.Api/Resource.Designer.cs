@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Jtc.Optimization.BlazorClient {
+namespace Jtc.Optimization.Api {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace Jtc.Optimization.BlazorClient {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    internal class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace Jtc.Optimization.BlazorClient {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Jtc.Optimization.BlazorClient.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Jtc.Optimization.Api.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Jtc.Optimization.BlazorClient {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,44 +61,12 @@ namespace Jtc.Optimization.BlazorClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to public class Algorithm
-        ///{
-        ///	public double MinimizeWeightFromHeight(double[] parameters)
-        ///	{
-        ///		var heights = new double[] { 1.47, 1.50, 1.52, 1.55, 1.57, 1.60, 1.63, 1.65, 1.68, 1.70, 1.73, 1.75, 1.78, 1.80, 1.83 };
-        ///		var weights = new double[] { 52.21, 53.12, 54.48, 55.84, 57.20, 58.57, 59.93, 61.29, 63.11, 64.47, 66.28, 68.10, 69.92, 72.19, 74.46 };
-        ///
-        ///		var cost = 0.0;
-        ///
-        ///		for (int i = 0; i &lt; heights.Length; i++)
-        ///		{
-        ///			cost += (parameters[0] * heights[i] - weights[i]) * (parameters[0] * heights[i] - [rest of string was truncated]&quot;;.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static string CSharpCodeSample {
+        internal static byte[] mscorlib {
             get {
-                return ResourceManager.GetString("CSharpCodeSample", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to function solve(p1, p2) {
-        ///
-        ///    var heights = [1.47, 1.50, 1.52, 1.55, 1.57, 1.60, 1.63, 1.65, 1.68, 1.70, 1.73, 1.75, 1.78, 1.80, 1.83];
-        ///    var weights = [52.21, 53.12, 54.48, 55.84, 57.20, 58.57, 59.93, 61.29, 63.11, 64.47, 66.28, 68.10, 69.92, 72.19, 74.46];
-        ///
-        ///    var cost = 0.0;
-        ///
-        ///    for (i = 0; i &lt; heights.length; i++) {
-        ///
-        ///        cost += (p1 * heights[i] - weights[i]) * (p2 * heights[i] - weights[i]);
-        ///    }
-        ///    
-        ///    return cost;
-        ///}.
-        /// </summary>
-        public static string JavascriptCodeSample {
-            get {
-                return ResourceManager.GetString("JavascriptCodeSample", resourceCulture);
+                object obj = ResourceManager.GetObject("mscorlib", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

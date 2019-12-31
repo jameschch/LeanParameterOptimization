@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,8 @@ namespace Jtc.Optimization.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(options => options.AddPolicy(PolicyName, builder => builder.AllowAnyOrigin()));
             services.AddSingleton(Configuration);
+            services.AddSingleton<CSharpRemoteCompiler, CSharpRemoteCompiler>();
+            services.AddSingleton<IMscorlibProvider, MscorlibProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

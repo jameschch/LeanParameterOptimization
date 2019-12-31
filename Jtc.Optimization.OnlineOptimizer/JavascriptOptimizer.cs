@@ -11,19 +11,17 @@ using SharpLearning.Optimization;
 namespace Jtc.Optimization.OnlineOptimizer
 {
 
-    public class JavascriptOptimizer : Optimizer
+    public class JavascriptOptimizer : OptimizerBase
     {
 
         private readonly IJSRuntime _jSRuntime;
-        private readonly string _code;
+        private readonly IBlazorClientConfiguration _blazorClientConfiguration;
         private double? _cost;
-        private bool _enableWorker;
 
-        public JavascriptOptimizer(IJSRuntime jSRuntime, string code)
+        public JavascriptOptimizer(IJSRuntime jSRuntime, IBlazorClientConfiguration blazorClientConfiguration)
         {
             _jSRuntime = jSRuntime;
-            _code = code;
-            _enableWorker = true;
+            _blazorClientConfiguration = blazorClientConfiguration;
         }
 
         public async override Task<OptimizerResult> Minimize(double[] parameters)
@@ -31,9 +29,9 @@ namespace Jtc.Optimization.OnlineOptimizer
             //Console.WriteLine("before:" + _code);
 
             var regex = new Regex(@".*function\s+([\d\w]+)\s*\(([\w\d,\s]+)\)");
-            var matches = regex.Matches(_code)[0].Groups;
+            var matches = regex.Matches(Code)[0].Groups;
 
-            var appending = new StringBuilder(_code);
+            var appending = new StringBuilder(Code);
             appending.Append("\r\n");
             appending.Append(matches[1].Value);
             appending.Append("(");
@@ -44,7 +42,7 @@ namespace Jtc.Optimization.OnlineOptimizer
             for (int i = 0; i < parameters.Count(); i++)
             {
                 var item = parameters[i];
-                appending.Append(item.ToString("N15"));
+                appending.Append(item.ToString("N15").TrimEnd('0'));
                 if (i < parameters.Count() - 1)
                 {
                     appending.Append(",");
@@ -59,7 +57,7 @@ namespace Jtc.Optimization.OnlineOptimizer
             settings.SerializableTypes.Add(typeof(DotNetObjectReference<JavascriptOptimizer>));
             dynamic context = new EvalContext(_jSRuntime, settings);
 
-            if (_enableWorker)
+            if (_blazorClientConfiguration.EnableJavascriptOptimizerWorker)
             {
                 //todo: support dotnet callback
                 //(context as EvalContext).Expression = () => context.WorkerInterop.setWorkerCallback(DotNetObjectReference.Create(this), nameof(this.SetResult));

@@ -23,6 +23,8 @@ namespace Jtc.Optimization.BlazorClient
         public IJSRuntime JSRuntime { get; set; }
         [Inject]
         public IToastService ToastService { get; set; }
+        [Inject]
+        public IServiceProvider ServiceProvider { get; set; }
         protected Models.MinimizeFunctionCode MinimizeFunctionCode { get; set; }
         [CascadingParameter]
         protected EditContext CurrentEditContext { get; set; }
@@ -96,7 +98,15 @@ namespace Jtc.Optimization.BlazorClient
             {
                 //Console.WriteLine(MinimizeFunctionCode.Code);
 
-                var optimizer = new JavascriptOptimizer(JSRuntime, MinimizeFunctionCode.Code);
+                OptimizerBase optimizer = null;
+                if (MinimizeFunctionCode.Language == "javascript")
+                {
+                    optimizer = (JavascriptOptimizer)ServiceProvider.GetService(typeof(JavascriptOptimizer));
+                }
+                else if (MinimizeFunctionCode.Language == "csharp")
+                {
+                    optimizer = (CSharpOptimizer)ServiceProvider.GetService(typeof(CSharpOptimizer));
+                }
 
                 if (_config == null)
                 {
@@ -106,15 +116,17 @@ namespace Jtc.Optimization.BlazorClient
                 }
                 else
                 {
-                    result = await optimizer.Start(_config, ActivityLogger);
+                    optimizer.Initialize(MinimizeFunctionCode.Code, ActivityLogger);
+                    result = await optimizer.Start(_config);
                 }
-
 
             }
             catch (Exception ex)
             {
                 Wait.Hide();
                 ToastService.ShowError(ex.Message);
+
+                return;
             }
             finally
             {
@@ -145,6 +157,8 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     MinimizeFunctionCode.Code = Resource.CSharpCodeSample;
                 }
+                MinimizeFunctionCode.Language = e.Value.ToString();
+
                 await (context as EvalContext).InvokeAsync<dynamic>($"ace.edit(\"editor\").session.setValue(`{MinimizeFunctionCode.Code}`)");
             }
             //StateHasChanged();

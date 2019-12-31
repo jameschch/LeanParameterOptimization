@@ -14,6 +14,11 @@ namespace Jtc.Optimization.BlazorClient.Attributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (((MinimizeFunctionCode)validationContext.ObjectInstance).Language != "javascript")
+            {
+                return ValidationResult.Success;
+            }
+
             EvalContext = EvalContext ?? new EvalContext(new MonoWebAssemblyJSRuntime());
 
             (EvalContext as EvalContext).Expression = () => EvalContext.ace.edit("editor").getValue();

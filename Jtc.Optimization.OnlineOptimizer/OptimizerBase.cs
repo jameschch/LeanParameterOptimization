@@ -9,16 +9,21 @@ using System.Threading.Tasks;
 namespace Jtc.Optimization.OnlineOptimizer
 {
 
-    public abstract class Optimizer
+    public abstract class OptimizerBase
     {
 
         private bool IsMaximizing { get; set; }
-        protected ActivityLogger ActivityLogger { get; set; }
+        protected IActivityLogger ActivityLogger { get; set; }
+        public string Code { get; private set; }
 
-
-        public async Task<IterationResult> Start(IOptimizerConfiguration config, ActivityLogger activityLogger)
+        public void Initialize(string code, IActivityLogger activityLogger)
         {
+            Code = code;
             ActivityLogger = activityLogger;
+        }
+
+        public async Task<IterationResult> Start(IOptimizerConfiguration config)
+        {
 
             var parameters = config.Genes.Select(s =>
                 new MinMaxParameterSpec(min: s.Min ?? s.Actual.Value, max: s.Max ?? s.Actual.Value,

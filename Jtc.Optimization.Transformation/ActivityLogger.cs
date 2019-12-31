@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jtc.Optimization.Transformation
 {
-    public class ActivityLogger
+    public class ActivityLogger : IActivityLogger
     {
 
         private StringBuilder _builder { get; }

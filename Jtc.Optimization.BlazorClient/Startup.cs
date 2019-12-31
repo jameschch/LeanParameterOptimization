@@ -4,6 +4,10 @@ using Blazored.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Jtc.Optimization.Objects;
+using Jtc.Optimization.Transformation;
+using System;
+using Jtc.Optimization.OnlineOptimizer;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -14,6 +18,15 @@ namespace Jtc.Optimization.BlazorClient
             services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
             services.AddBlazoredToast();
             services.AddSingleton<BlazorClientState>();
+            services.AddSingleton<IBlazorClientConfiguration, BlazorClientConfiguration>();
+            services.AddSingleton<IServiceProvider>(services.BuildServiceProvider());
+            //todo: local compile
+            //services.AddSingleton<ICSharpCompiler, CSharpCompiler>();
+            services.AddSingleton<ICSharpCompiler, CSharpRemoteCompiler>();
+            services.AddTransient<CSharpOptimizer, CSharpOptimizer>();
+            services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
+            services.AddSingleton<IMscorlibProvider, RemoteMscolibProvider>();
+
 #if !DEBUG
 
             services.Configure<IISServerOptions>(options =>

@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.Api\Jtc.Optimization.Api.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
   </ItemGroup>
