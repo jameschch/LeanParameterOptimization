@@ -88,7 +88,7 @@ namespace Jtc.Optimization.BlazorClient
         protected async Task OptimizeClick()
         {
 
-            Wait.Show();
+            await Wait.Show();
 
             _stopWatch.Start();
 
@@ -111,7 +111,7 @@ namespace Jtc.Optimization.BlazorClient
                 if (_config == null)
                 {
                     ToastService.ShowError("No config was uploaded or created.");
-                    Wait.Hide();
+                    await Wait.Hide();
                     return;
                 }
                 else
@@ -123,14 +123,13 @@ namespace Jtc.Optimization.BlazorClient
             }
             catch (Exception ex)
             {
-                Wait.Hide();
+                await Wait.Hide();
                 ToastService.ShowError(ex.Message);
-
-                return;
+                throw ex;
             }
             finally
             {
-                Wait.Hide();
+                await Wait.Hide();
             }
 
             _stopWatch.Stop();

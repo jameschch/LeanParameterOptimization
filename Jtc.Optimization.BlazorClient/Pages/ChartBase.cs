@@ -65,6 +65,8 @@ namespace Jtc.Optimization.BlazorClient
             {
                 (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
             }
+
+            await base.OnInitializedAsync();
         }
 
         protected override void OnAfterRender(bool firstRender)
@@ -82,7 +84,7 @@ namespace Jtc.Optimization.BlazorClient
 
         protected async Task UpdateChart()
         {
-            Wait.Show();
+            await Wait.Show();
 
             try
             {
@@ -105,7 +107,7 @@ namespace Jtc.Optimization.BlazorClient
             }
             finally
             {
-                Wait.Hide();
+                await Wait.Hide();
             }
         }
 
@@ -202,7 +204,7 @@ namespace Jtc.Optimization.BlazorClient
         protected async Task UploadFile()
         {
             _stopWatch.Start();
-            Wait.Show();
+            await Wait.Show();
             //todo: reinstate new only
             //if (!NewOnly)
             //{
@@ -235,7 +237,7 @@ namespace Jtc.Optimization.BlazorClient
             }
             finally
             {
-                Wait.Hide();
+                await Wait.Hide();
             }
         }
 

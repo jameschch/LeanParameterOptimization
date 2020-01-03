@@ -21,30 +21,22 @@ namespace Jtc.Optimization.Transformation
         {          
         }
 
-        public async override Task<Assembly> CreateAssembly(string code)
+        public override async Task<MemoryStream> CreateAssembly(string code)
         {
             return await CreateAssemblyRemotely(code);
         }
 
-        public async Task<Assembly> CreateAssemblyRemotely(string code)
+        public async Task<MemoryStream> CreateAssemblyRemotely(string code)
         {
-            var response = await HttpClient.PostAsync("compile", new StringContent(code));
+            var response = await HttpClient.PostAsync("http://localhost:5000/api/compiler", new StringContent(code, Encoding.UTF8, "text/plain"));
             if (response.IsSuccessStatusCode)
             {
-                Assembly.Load(await response.Content.ReadAsByteArrayAsync());
+                var stream = new MemoryStream();
+                await (await response.Content.ReadAsStreamAsync()).CopyToAsync(stream);
+                return stream;
             }
 
             throw new Exception("Compile on server failed.");
-        }
-
-        public Func<double[], double> GetDelegate(Assembly assembly)
-        {
-            var type = assembly.GetTypes().Single(s => s.DeclaringType != null && s.BaseType == typeof(object));
-            var instance = Activator.CreateInstance(type);
-
-            var objectMethods = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).Select(o => o.Name);
-
-            return (i) => (double)type.GetMethods(BindingFlags.Public | BindingFlags.Instance).Single(n => !objectMethods.Contains(n.Name)).Invoke(instance, new object[] { i });
         }
 
     }

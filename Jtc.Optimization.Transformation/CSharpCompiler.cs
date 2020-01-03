@@ -15,34 +15,27 @@ namespace Jtc.Optimization.Transformation
 
     public class CSharpCompiler : ICSharpCompiler
     {
-        private readonly IBlazorClientConfiguration _blazorClientConfiguration;
+
         protected HttpClient HttpClient { get; }
         private PortableExecutableReference _mscorlib;
+        private readonly IMscorlibProvider _mscorlibProvider;
 
         public CSharpCompiler(HttpClient httpClient, IMscorlibProvider mscorlibProvider)
         {
             HttpClient = httpClient;
-            _mscorlib = MetadataReference.CreateFromStream(new MemoryStream(mscorlibProvider.Get()));
+            _mscorlibProvider = mscorlibProvider;
         }
 
-        public CSharpCompiler(IBlazorClientConfiguration blazorClientConfiguration, HttpClient httpClient, IMscorlibProvider mscorlibProvider)
+        public async virtual Task<MemoryStream> CreateAssembly(string code)
         {
-            //todo: load on demand through service
-            //_mscorlib = ;
-             _mscorlib = MetadataReference.CreateFromStream(new MemoryStream(mscorlibProvider.Get()));
-            _blazorClientConfiguration = blazorClientConfiguration;
-            HttpClient = httpClient;
-        }
-
-        public async virtual Task<Assembly> CreateAssembly(string code)
-        {
+            _mscorlib = _mscorlib ?? MetadataReference.CreateFromStream(new MemoryStream(_mscorlibProvider.Get()));
 
             CSharpCompilation previousCompilation = null;
 
             var scriptCompilation = CSharpCompilation.CreateScriptCompilation(Guid.NewGuid().ToString(),
                 CSharpSyntaxTree.ParseText(code, CSharpParseOptions.Default.WithKind(SourceCodeKind.Script).WithLanguageVersion(LanguageVersion.Latest)),
                 references: new[] { _mscorlib },
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release, usings: new[] { "System" }), previousCompilation);
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release, concurrentBuild: false, usings: new[] { "System" }), previousCompilation);
 
             var errorDiagnostics = scriptCompilation.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error);
             if (errorDiagnostics.Any())
@@ -51,19 +44,18 @@ namespace Jtc.Optimization.Transformation
                 return null;
             }
 
-            using (var peStream = new MemoryStream())
+            var stream = new MemoryStream();
+            if (scriptCompilation.Emit(stream).Success)
             {
-                if (scriptCompilation.Emit(peStream).Success)
-                {
-                    return Assembly.Load(peStream.ToArray());
-                }
+                return await Task.FromResult(stream);
             }
 
             return null;
         }
 
-        public Func<double[], double> GetDelegate(Assembly assembly)
+        public Func<double[], double> GetDelegate(MemoryStream stream)
         {
+            var assembly = Assembly.Load(stream.ToArray());
             var type = assembly.GetTypes().Single(s => s.DeclaringType != null && s.BaseType == typeof(object));
             var instance = Activator.CreateInstance(type);
 

@@ -72,7 +72,7 @@ namespace Jtc.Optimization.BlazorClient {
         ///
         ///		for (int i = 0; i &lt; heights.Length; i++)
         ///		{
-        ///			cost += (parameters[0] * heights[i] - weights[i]) * (parameters[0] * heights[i] - [rest of string was truncated]&quot;;.
+        ///			cost += (parameters[0] * heights[i] - weights[i]) * (parameters[1] * heights[i] - [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CSharpCodeSample {
             get {

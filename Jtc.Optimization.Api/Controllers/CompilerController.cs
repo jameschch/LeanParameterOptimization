@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Jtc.Optimization.Api.Controllers
 {
 
-    [EnableCors("AllowAnyOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CompilerController : ControllerBase
@@ -24,9 +24,15 @@ namespace Jtc.Optimization.Api.Controllers
             _cSharpCompiler = cSharpCompiler;
         }
 
-        [HttpGet()]
-        public async Task<ActionResult> Index(string code)
+        [HttpPost]
+        public async Task<ActionResult> Index()
         {
+            var code = "";
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                code = await reader.ReadToEndAsync();
+            }
+
             var assembly = await _cSharpCompiler.CreateAssembly(code);
 
             if (assembly == null)
@@ -34,7 +40,7 @@ namespace Jtc.Optimization.Api.Controllers
                 return new StatusCodeResult(412);
             }
 
-            return File(assembly.GetManifestResourceStream(assembly.GetManifestResourceNames().Single()), "application/octet-stream");
+            return File(assembly.ToArray(), "application/octet-stream");
         }
 
     }

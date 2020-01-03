@@ -1,0 +1,1 @@
+"%PROGRAMFILES(x86)%\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\churcj.FLPROD\Appdata\Local\Temp\blazor-edge-debug" http://localhost:61221/codeeditor

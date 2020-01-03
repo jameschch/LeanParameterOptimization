@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Jtc.Optimization.Transformation
 {
-    public class RemoteMscolibProvider : IMscorlibProvider
+    public class MscolibRemoteProvider : IMscorlibProvider
     {
         public byte[] Get()
         {

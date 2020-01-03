@@ -44,11 +44,13 @@
     },
 
     storeConfig: (data) => {
-        sessionStorage.setItem("config", data);
+        localStorage.setItem("config", data);
+        //sessionStorage.setItem("config", data);
     },
 
     fetchConfig: () => {
-        return sessionStorage.getItem("config");
+        //return sessionStorage.getItem("config");
+        return localStorage.getItem("config");
     }
 
 };
