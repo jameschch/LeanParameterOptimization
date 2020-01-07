@@ -3,6 +3,7 @@ using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Transformation;
 using SharpLearning.Optimization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Jtc.Optimization.OnlineOptimizer
 
     public abstract class OptimizerBase
     {
-
+        protected IEnumerable<string> Keys { get; set; }
         private bool IsMaximizing { get; set; }
         protected IActivityLogger ActivityLogger { get; set; }
         public string Code { get; private set; }
@@ -29,6 +30,8 @@ namespace Jtc.Optimization.OnlineOptimizer
                 new MinMaxParameterSpec(min: s.Min ?? s.Actual.Value, max: s.Max ?? s.Actual.Value,
                 transform: Transform.Linear, parameterType: s.Precision > 0 ? ParameterType.Continuous : ParameterType.Discrete)
                 ).ToArray();
+
+            Keys = config.Genes.Where(g => g.Key != "id").Select(s => s.Key);
 
             IOptimizer optimizerMethod = null;
             if (config.Fitness != null)
@@ -59,10 +62,6 @@ namespace Jtc.Optimization.OnlineOptimizer
             }
 
             var result = await Task.Run(() => optimizerMethod.OptimizeBest(Minimize));
-
-            //var result = optimizerMethod.OptimizeBest(Minimize);
-
-            //Console.WriteLine("Error: " + result.Error.ToString("N"));
 
             return new IterationResult { ParameterSet = result.ParameterSet, Cost = IsMaximizing ? result.Error * -1 : result.Error };
         }

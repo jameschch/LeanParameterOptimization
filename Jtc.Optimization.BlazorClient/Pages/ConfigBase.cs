@@ -69,13 +69,18 @@ namespace Jtc.Optimization.BlazorClient
                 }
             }
 
+            using (dynamic context = new EvalContext(JSRuntime))
+            {
+                (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "scroll");
+            }
+
             await base.OnInitializedAsync();
         }
 
         protected void ValidSubmit()
         {
             Json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-            StoreConfig();
+            StoreConfig(Config);
         }
 
         protected async Task Save()
@@ -114,7 +119,7 @@ namespace Jtc.Optimization.BlazorClient
             {
                 Config = JsonSerializer.Deserialize<Models.OptimizerConfiguration>(data, _options);
 
-                SetSession(Config);
+                StoreConfig(Config);
 
                 Config.FitnessTypeName = Config.FitnessTypeName.Split('.').LastOrDefault();
                 Console.WriteLine(Config.FitnessTypeName);
@@ -134,7 +139,7 @@ namespace Jtc.Optimization.BlazorClient
             return (Config.FitnessTypeName == item) ? "true" : "false";
         }
 
-        private void SetSession(Models.OptimizerConfiguration value)
+        private void StoreConfig(Models.OptimizerConfiguration value)
         {
             var settings = new EvalContextSettings();
             settings.SerializableTypes.Add(typeof(Models.OptimizerConfiguration));
@@ -143,17 +148,10 @@ namespace Jtc.Optimization.BlazorClient
                 var serialized = JsonSerializer.Serialize(value);
                 (context as EvalContext).Expression = () => context.MainInterop.storeConfig(serialized);
             }
-        }
-
-        private void StoreConfig()
-        {
-            using (dynamic context = new EvalContext(JSRuntime))
-            {
-                (context as EvalContext).Expression = () => context.MainInterop.storeConfig(Json);
-            }
 
             BlazorClientState.NotifyStateHasChanged(typeof(SidebarBase));
         }
+
 
     }
 }

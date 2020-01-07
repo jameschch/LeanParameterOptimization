@@ -28,7 +28,7 @@ namespace Jtc.Optimization.BlazorClient
         protected Models.MinimizeFunctionCode MinimizeFunctionCode { get; set; }
         [CascadingParameter]
         protected EditContext CurrentEditContext { get; set; }
-        public string ActivityLog { get { return ActivityLogger?.Output; } }
+        public string ActivityLog { get { return ActivityLogger?.Status; } }
         public ActivityLogger ActivityLogger { get; set; }
         protected WaitBase Wait { get; set; }
         Stopwatch _stopWatch = new Stopwatch();
@@ -118,6 +118,16 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     optimizer.Initialize(MinimizeFunctionCode.Code, ActivityLogger);
                     result = await optimizer.Start(_config);
+
+                    // Console.WriteLine(ActivityLogger.Log);
+
+                    await JSRuntime.InvokeVoidAsync("MainInterop.storeChartData", ActivityLogger.Log);
+                    //todo: backticks
+                    //dynamic context = new EvalContext(JSRuntime);
+                    //(context as EvalContext).Expression = () => context.MainInterop.storeChartData(ActivityLogger.Log);
+                    //await (context as EvalContext).InvokeAsync<dynamic>();
+
+                    ToastService.ShowSuccess("Chart data was stored.");
                 }
 
             }

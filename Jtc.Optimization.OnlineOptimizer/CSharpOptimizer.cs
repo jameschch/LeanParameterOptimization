@@ -34,12 +34,17 @@ namespace Jtc.Optimization.OnlineOptimizer
                 _minimize = _cSharpCompiler.GetDelegate(assembly);
             }
 
-            var cost = _minimize.Invoke(parameters);
+            var cost = 0.0;
+            await Task.Run(() =>
+            {
+                cost = _minimize.Invoke(parameters);
+            });
 
             await Task.Run(() =>
             {
-                ActivityLogger.Add("Parameters:", parameters);
-                ActivityLogger.Add("Cost:", cost);
+                ActivityLogger.Add(Guid.NewGuid().ToString(), Keys, parameters, cost);
+                //ActivityLogger.Add("Parameters:", parameters);
+                //ActivityLogger.Add("Cost:", cost);
                 //ActivityLogger.StateHasChanged();
             });
 

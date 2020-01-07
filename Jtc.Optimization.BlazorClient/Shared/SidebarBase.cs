@@ -17,10 +17,11 @@ namespace Jtc.Optimization.BlazorClient.Shared
         public BlazorClientState BlazorClientState { get; set; }
         protected string Active { get; set; }
         protected string ConfigSaved { get { return GetConfigSaved(); } }
+        protected string ChartDataSaved { get { return GetChartDataSaved(); } }
 
         protected async override Task OnInitializedAsync()
         {
-            BlazorClientState.SubscribeStateHasChange(this.GetType(), () => this.StateHasChanged());
+            BlazorClientState.SubscribeStateHasChange(typeof(SidebarBase), () => this.StateHasChanged());
             await base.OnInitializedAsync();
         }
 
@@ -52,6 +53,17 @@ namespace Jtc.Optimization.BlazorClient.Shared
             using (dynamic context = new EvalContext(JSRuntime))
             {
                 (context as EvalContext).Expression = () => context.MainInterop.fetchConfig();
+                var json = (context as EvalContext).Invoke<string>();
+
+                return string.IsNullOrEmpty(json) ? "d-none" : null;
+            }
+        }
+
+        private string GetChartDataSaved()
+        {
+            using (dynamic context = new EvalContext(JSRuntime))
+            {
+                (context as EvalContext).Expression = () => context.MainInterop.fetchChartData();
                 var json = (context as EvalContext).Invoke<string>();
 
                 return string.IsNullOrEmpty(json) ? "d-none" : null;

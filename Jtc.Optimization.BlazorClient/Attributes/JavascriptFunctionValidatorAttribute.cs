@@ -14,15 +14,16 @@ namespace Jtc.Optimization.BlazorClient.Attributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (((MinimizeFunctionCode)validationContext.ObjectInstance).Language != "javascript")
-            {
-                return ValidationResult.Success;
-            }
-
             EvalContext = EvalContext ?? new EvalContext(new MonoWebAssemblyJSRuntime());
-
             (EvalContext as EvalContext).Expression = () => EvalContext.ace.edit("editor").getValue();
             var code = (EvalContext as EvalContext).Invoke<string>();
+
+            //todo: validate c#
+            if (((MinimizeFunctionCode)validationContext.ObjectInstance).Language != "javascript")
+            {
+                ((MinimizeFunctionCode)validationContext.ObjectInstance).Code = code;
+                return ValidationResult.Success;
+            }
 
             var isValid = Regex.IsMatch(code, @"function\s+([A-z0-9]+)\s*\(([\w\d,\s]+)\)\s*{(.|[\r\n])*return(.|[\r\n])*}");
 

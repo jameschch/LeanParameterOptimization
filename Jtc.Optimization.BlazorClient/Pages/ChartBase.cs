@@ -15,6 +15,7 @@ using Blazored.Toast.Services;
 using Jtc.Optimization.Objects;
 using System.Text.Json;
 using CenterCLR.XorRandomGenerator;
+using System.Text;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -27,7 +28,7 @@ namespace Jtc.Optimization.BlazorClient
         public int SampleRate { get; set; } = 1;
         public double? MinimumFitness { get; set; }
         public bool NewOnly { get; set; }
-        public string ActivityLog { get { return _activityLogger.Output; } }
+        public string ActivityLog { get { return _activityLogger.Status; } }
         private ActivityLogger _activityLogger { get; set; } = new ActivityLogger();
         public DateTime NewestTimestamp { get; set; }
         private List<int> _pickedColours;
@@ -36,7 +37,7 @@ namespace Jtc.Optimization.BlazorClient
         Stopwatch _stopWatch;
         protected WaitBase Wait { get; set; }
         [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        public IJSRuntime JSRuntime { get; set; }
         [Inject]
         public HttpClient HttpClient { get; set; }
         [Inject]
@@ -58,10 +59,10 @@ namespace Jtc.Optimization.BlazorClient
         {
 
             Program.HttpClient = HttpClient;
-            Program.JsRuntime = JsRuntime;
+            Program.JsRuntime = JSRuntime;
 
 
-            using (dynamic context = new EvalContext(JsRuntime))
+            using (dynamic context = new EvalContext(JSRuntime))
             {
                 (context as EvalContext).Expression = () => context.jQuery("body").css("overflow-y", "hidden");
             }
@@ -99,11 +100,51 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     var settings = new EvalContextSettings();
                     settings.SerializableTypes.Add(typeof(PlotlyData[]));
-                    using (dynamic context = new EvalContext(JsRuntime))
+                    using (dynamic context = new EvalContext(JSRuntime))
                     {
                         (context as EvalContext).Expression = () => context.PlotlyInterop.newPlot(Config);
                     }
                 }
+            }
+            finally
+            {
+                await Wait.Hide();
+            }
+        }
+
+        protected async Task GetStoredChart()
+        {
+            _stopWatch.Start();
+            await Wait.Show();
+            StateHasChanged();
+            //todo: reinstate new only
+            //if (!NewOnly)
+            //{
+            //    Config.Data.Datasets.Clear();
+            //    await JsRuntime.SetupChart(Config);
+            //}
+
+            _binder = new PlotlyBinder();
+
+            try
+            {
+                dynamic context = new EvalContext(JSRuntime);
+                (context as EvalContext).Expression = () => context.MainInterop.fetchChartData();
+                var log = await (context as EvalContext).InvokeAsync<string>();
+
+                using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(log)))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                        ShowChart(data);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex, "An error occurred attempting to bind.");
             }
             finally
             {
@@ -140,7 +181,7 @@ namespace Jtc.Optimization.BlazorClient
             }
         }
 
-        private void ShowChart(Dictionary<string, PlotlyData> data)
+        private async Task ShowChart(Dictionary<string, PlotlyData> data)
         {
 
             Config = data.Values.ToArray();
@@ -158,9 +199,10 @@ namespace Jtc.Optimization.BlazorClient
             var settings = new EvalContextSettings { EnableDebugLogging = true };
             settings.SerializableTypes.Add(Config.GetType());
             settings.JsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, IgnoreNullValues = true };
-            using (dynamic context = new EvalContext(JsRuntime, settings))
+            using (dynamic context = new EvalContext(JSRuntime, settings))
             {
                 (context as EvalContext).Expression = () => context.PlotlyInterop.newPlot(Config);
+                await (context as EvalContext).InvokeAsync<dynamic>();
             }
 
             _pickedColours.Clear();

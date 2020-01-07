@@ -57,11 +57,7 @@
     <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.min.js" />
     <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.min.js.map" />
     <None Include="wwwroot\lib\htmlwidgets-1.3\htmlwidgets.js" />
-    <None Include="wwwroot\lib\jquery-1.11.3\jquery.js" />
-    <None Include="wwwroot\lib\jquery-1.11.3\jquery.min.js" />
-    <None Include="wwwroot\lib\jquery-1.11.3\jquery.min.map" />
     <None Include="wwwroot\lib\plotly-binding-4.8.0\plotly.js" />
-    <None Include="wwwroot\lib\plotly-main-1.39.2\plotly-latest.min.js" />
     <None Include="wwwroot\lib\typedarray-0.1\typedarray.min.js" />
   </ItemGroup>
 

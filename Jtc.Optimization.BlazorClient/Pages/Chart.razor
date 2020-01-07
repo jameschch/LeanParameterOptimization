@@ -19,7 +19,8 @@
                 @*<button class="btn btn-secondary" @onclick="UpdateChartOnServer">Update Chart (Server)</button>*@
                 @*<button class="btn btn-secondary" disabled @onclick="StreamChart">Stream Chart</button>*@
             }
-            <label for="fileUpload" class="btn btn-secondary">Upload Data</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
+            <label for="fileUpload" class="btn btn-secondary">Upload Chart Data</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
+            <button class="btn btn-secondary" @onclick="GetStoredChart">Stored Chart Data</button>
 
         </div>
         <div class="col-sm-6">

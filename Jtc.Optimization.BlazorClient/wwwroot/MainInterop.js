@@ -51,6 +51,16 @@
     fetchConfig: () => {
         //return sessionStorage.getItem("config");
         return localStorage.getItem("config");
+    },
+
+     storeChartData: (data) => {
+        localStorage.setItem("chartData", data);
+        //sessionStorage.setItem("result", data);
+    },
+
+    fetchChartData: () => {
+        //return sessionStorage.getItem("result");
+        return localStorage.getItem("chartData");
     }
 
 };

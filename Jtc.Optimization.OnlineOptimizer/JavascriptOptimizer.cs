@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -81,8 +82,9 @@ namespace Jtc.Optimization.OnlineOptimizer
 
             await Task.Run(() =>
             {
-                ActivityLogger.Add("Parameters:", parameters);
-                ActivityLogger.Add("Cost:", _cost.Value);
+                ActivityLogger.Add(Guid.NewGuid().ToString(), Keys, parameters, _cost.Value);
+                //ActivityLogger.Add("Parameters:", parameters);
+                //ActivityLogger.Add("Cost:", _cost.Value);
                 //ActivityLogger.StateHasChanged();
             });
 

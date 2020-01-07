@@ -8,61 +8,82 @@ namespace Jtc.Optimization.Transformation
     public class ActivityLogger : IActivityLogger
     {
 
-        private StringBuilder _builder { get; }
+        private StringBuilder _status;
+        private StringBuilder _log;
         private const string DateFormat = "yyyy-MM-dd hh:mm:ss";
+        private const string DateWithMillisecondsFormat = "yyyy-MM-dd hh:mm:ss.ffff";
         private readonly Action _stateHasChanged;
         private readonly Action<string> _showMessage;
         private int _lastShowSecond;
 
-        public string Output
+        public string Status
         {
             get
             {
-                return _builder.ToString();
+                return _status.ToString();
+            }
+        }
+
+        public string Log
+        {
+            get
+            {
+                return _log.ToString();
             }
         }
 
         public ActivityLogger()
         {
-            _builder = new StringBuilder();
+            _status = new StringBuilder();
+            _log = new StringBuilder();
         }
 
-        public ActivityLogger(Action stateHasChanged, Action<string> showMessage)
+        public ActivityLogger(Action stateHasChanged, Action<string> showMessage) : this()
         {
-
-            _builder = new StringBuilder();
             _stateHasChanged = stateHasChanged;
             _showMessage = showMessage;
         }
 
         public void Add(string message, DateTime data)
         {
-            _builder.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.ToString(DateFormat)).Append(Environment.NewLine);
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.ToString(DateFormat)).Append(Environment.NewLine);
             ShowMessage();
         }
 
         public void Add(string message, TimeSpan data)
         {
-            _builder.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.TotalSeconds).Append(" secs").Append(Environment.NewLine);
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.TotalSeconds).Append(" secs").Append(Environment.NewLine);
             ShowMessage();
         }
 
         public void Add(string message, int data)
         {
-            _builder.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data).Append(Environment.NewLine);
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data).Append(Environment.NewLine);
             ShowMessage();
         }
 
         public void Add(string message, double data)
         {
-            _builder.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.ToString("N6")).Append(Environment.NewLine);
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.ToString("N6")).Append(Environment.NewLine);
             ShowMessage();
         }
 
         public void Add(string message, double[] data)
         {
-            _builder.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(string.Join(",", data.Select(s => s.ToString("N6")))).Append(Environment.NewLine);
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(string.Join(",", data.Select(s => s.ToString("N6")))).Append(Environment.NewLine);
             ShowMessage();
+        }
+
+        public void Add(string id, IEnumerable<string> keys, double[] parameters, double cost)
+        {
+            var paramText = string.Join(", ", Enumerable.Zip(keys, parameters, (k, v) => $"{k}: {v.ToString("N9").TrimEnd('0')}"));
+            _log.Append(DateTime.Now.ToString(DateWithMillisecondsFormat)).Append(" ").Append($"id: {id}, ");
+            _log.Append(paramText);
+
+            var costText = $", cost: {cost.ToString("N9").TrimEnd('0')}\r\n";
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(paramText).Append(costText);
+            ShowMessage();
+            _log.Append(costText);
         }
 
         public void StateHasChanged()
@@ -77,8 +98,8 @@ namespace Jtc.Optimization.Transformation
             if (_lastShowSecond != now && now % 2 > 0)
             {
                 _lastShowSecond = now;
-                var split = Output.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                _showMessage.Invoke(string.Join(Environment.NewLine, split.Skip(Math.Max(0, split.Count() - 2))));
+                var split = Status.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Last();
+                _showMessage.Invoke(split);
             }
         }
 
