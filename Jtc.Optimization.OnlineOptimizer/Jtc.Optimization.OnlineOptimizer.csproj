@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AsyncEnumerator" Version="4.0.2" />
     <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.9" />
     <PackageReference Include="Microsoft.JSInterop" Version="3.1.0" />
   </ItemGroup>
@@ -17,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SharpLearning.DecisionTrees">
+      <HintPath>SharpLearning.DecisionTrees.dll</HintPath>
+    </Reference>
     <Reference Include="SharpLearning.Optimization">
       <HintPath>SharpLearning.Optimization.dll</HintPath>
     </Reference>

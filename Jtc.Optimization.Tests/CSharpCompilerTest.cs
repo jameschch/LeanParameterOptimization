@@ -22,7 +22,7 @@ namespace Jtc.Optimization.Tests
             var assembly = await unit.CreateAssembly("public class Test { public double Getter(double[] input) { return input[0]+1; } }");
 
             var func = unit.GetDelegate(assembly);
-            var actual = func(new[] { 1d });
+            var actual = await func(new[] { 1d });
 
             Assert.Equal(2, actual);
         }

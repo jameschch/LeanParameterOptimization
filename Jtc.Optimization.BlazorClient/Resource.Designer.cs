@@ -63,7 +63,7 @@ namespace Jtc.Optimization.BlazorClient {
         /// <summary>
         ///   Looks up a localized string similar to public class Algorithm
         ///{
-        ///	public double MinimizeWeightFromHeight(double[] parameters)
+        ///	public Task&lt;double&gt; MinimizeWeightFromHeight(double[] parameters)
         ///	{
         ///		var heights = new double[] { 1.47, 1.50, 1.52, 1.55, 1.57, 1.60, 1.63, 1.65, 1.68, 1.70, 1.73, 1.75, 1.78, 1.80, 1.83 };
         ///		var weights = new double[] { 52.21, 53.12, 54.48, 55.84, 57.20, 58.57, 59.93, 61.29, 63.11, 64.47, 66.28, 68.10, 69.92, 72.19, 74.46 };
@@ -72,7 +72,7 @@ namespace Jtc.Optimization.BlazorClient {
         ///
         ///		for (int i = 0; i &lt; heights.Length; i++)
         ///		{
-        ///			cost += (parameters[0] * heights[i] - weights[i]) * (parameters[1] * heights[i] - [rest of string was truncated]&quot;;.
+        ///			cost += (parameters[0] * heights[i] - weights[i]) / (parameters[1] * height [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CSharpCodeSample {
             get {
@@ -90,7 +90,7 @@ namespace Jtc.Optimization.BlazorClient {
         ///
         ///    for (i = 0; i &lt; heights.length; i++) {
         ///
-        ///        cost += (p1 * heights[i] - weights[i]) * (p2 * heights[i] - weights[i]);
+        ///        cost += (p1 * heights[i] - weights[i]) / (p2 * heights[i] - weights[i]);
         ///    }
         ///    
         ///    return cost;

@@ -12,7 +12,7 @@ namespace Jtc.Optimization.OnlineOptimizer
     public class CSharpOptimizer : OptimizerBase
     {
         private readonly ICSharpCompiler _cSharpCompiler;
-        private Func<double[], double> _minimize;
+        private Func<double[], Task<double>> _minimize;
 
         public CSharpOptimizer(IBlazorClientConfiguration blazorClientConfiguration, IServiceProvider serviceProvider)
         {
@@ -34,11 +34,7 @@ namespace Jtc.Optimization.OnlineOptimizer
                 _minimize = _cSharpCompiler.GetDelegate(assembly);
             }
 
-            var cost = 0.0;
-            await Task.Run(() =>
-            {
-                cost = _minimize.Invoke(parameters);
-            });
+            var cost = await _minimize(parameters);
 
             await Task.Run(() =>
             {

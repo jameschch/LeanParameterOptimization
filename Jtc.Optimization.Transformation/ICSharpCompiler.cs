@@ -8,6 +8,6 @@ namespace Jtc.Optimization.Transformation
     public interface ICSharpCompiler
     {
         Task<MemoryStream> CreateAssembly(string code);
-        Func<double[], double> GetDelegate(MemoryStream stream);
+        Func<double[], Task<double>> GetDelegate(MemoryStream stream);
     }
 }

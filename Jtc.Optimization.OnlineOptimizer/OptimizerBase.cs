@@ -48,7 +48,7 @@ namespace Jtc.Optimization.OnlineOptimizer
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Bayesian.ToString())
                 {
                     optimizerMethod = new BayesianOptimizer(parameters: parameters, iterations: config.Generations, randomStartingPointCount: config.PopulationSize,
-                        functionEvaluationsPerIterationCount: config.PopulationSize, seed: 42);
+                        functionEvaluationsPerIterationCount: config.PopulationSize, seed: 42, runParallel: false);
                 }
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GlobalizedBoundedNelderMead.ToString())
                 {
@@ -57,11 +57,11 @@ namespace Jtc.Optimization.OnlineOptimizer
                 }
                 else if (config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GridSearch.ToString())
                 {
-                    optimizerMethod = new GridSearchOptimizer(parameters, runParallel: false);
+                    optimizerMethod = new GridSearchOptimizer(config.Genes.Select(s => new GridParameterSpec(RangeWithPrecision.Range(s.Min.Value, s.Max.Value, s.Precision.Value).ToArray())).ToArray(), runParallel: false);
                 }
             }
 
-            var result = await Task.Run(() => optimizerMethod.OptimizeBest(Minimize));
+            var result = await optimizerMethod.OptimizeBest(Minimize);
 
             return new IterationResult { ParameterSet = result.ParameterSet, Cost = IsMaximizing ? result.Error * -1 : result.Error };
         }

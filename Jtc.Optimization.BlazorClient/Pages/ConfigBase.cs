@@ -56,8 +56,6 @@ namespace Jtc.Optimization.BlazorClient
             //todo: allow upload of fitness
             //FitnessTypeNameOptions = Jtc.Optimization.Objects.FitnessTypeNameOptions.Options; assembly.GetTypes().Where(w => w.GetInterfaces().Contains(typeof(IFitness))).Select(s => s.FullName).OrderBy(o => o);
 
-            ToggleFitness();
-
             using (dynamic context = new EvalContext(JSRuntime))
             {
                 (context as EvalContext).Expression = () => context.MainInterop.fetchConfig();
@@ -68,6 +66,8 @@ namespace Jtc.Optimization.BlazorClient
                     Config = JsonSerializer.Deserialize<Models.OptimizerConfiguration>(json, _options);
                 }
             }
+
+            ToggleFitness();
 
             using (dynamic context = new EvalContext(JSRuntime))
             {
@@ -81,9 +81,10 @@ namespace Jtc.Optimization.BlazorClient
         {
             Json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             StoreConfig(Config);
+            ToastService.ShowSuccess("Config was stored.");
         }
 
-        protected async Task Save()
+        protected async Task Download()
         {
             ValidSubmit();
             await JSRuntime.InvokeAsync<string>("MainInterop.downloadConfig", Json);
@@ -98,8 +99,8 @@ namespace Jtc.Optimization.BlazorClient
 
         private void ToggleFitness()
         {
-            FitnessDisabled = FitnessTypeNameOptions.Contains(Config.FitnessTypeName.Split('.').LastOrDefault()) ? null : "disabled";
             OptimizerTypeNameDisabled = FitnessOptions.Genetic.Contains(Config.FitnessTypeName.Split('.').LastOrDefault()) ? "disabled" : null;
+            FitnessDisabled = FitnessOptions.Configurable.Contains(Config.FitnessTypeName.Split('.').LastOrDefault()) ? null : "disabled";
         }
 
         protected void AddGene()

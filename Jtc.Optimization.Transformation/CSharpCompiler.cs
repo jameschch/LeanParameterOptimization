@@ -35,7 +35,7 @@ namespace Jtc.Optimization.Transformation
             var scriptCompilation = CSharpCompilation.CreateScriptCompilation(Guid.NewGuid().ToString(),
                 CSharpSyntaxTree.ParseText(code, CSharpParseOptions.Default.WithKind(SourceCodeKind.Script).WithLanguageVersion(LanguageVersion.Latest)),
                 references: new[] { _mscorlib },
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release, concurrentBuild: false, usings: new[] { "System" }), previousCompilation);
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release, concurrentBuild: false, usings: new[] { "System", "System.Threading.Tasks" }), previousCompilation);
 
             var errorDiagnostics = scriptCompilation.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error);
             if (errorDiagnostics.Any())
@@ -53,7 +53,7 @@ namespace Jtc.Optimization.Transformation
             return null;
         }
 
-        public Func<double[], double> GetDelegate(MemoryStream stream)
+        public Func<double[], Task<double>> GetDelegate(MemoryStream stream)
         {
             var assembly = Assembly.Load(stream.ToArray());
             var type = assembly.GetTypes().Single(s => s.DeclaringType != null && s.BaseType == typeof(object));
@@ -61,7 +61,19 @@ namespace Jtc.Optimization.Transformation
 
             var objectMethods = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).Select(o => o.Name);
 
-            return (i) => (double)type.GetMethods(BindingFlags.Public | BindingFlags.Instance).Single(n => !objectMethods.Contains(n.Name)).Invoke(instance, new object[] { i });
+            return (i) =>
+            {
+                var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance).Single(n => !objectMethods.Contains(n.Name));
+
+                var returnValue = method.Invoke(instance, new object[] { i });
+
+                if (method.ReturnType != typeof(Task<double>))
+                {
+                    return Task.FromResult((double)returnValue);
+                }
+
+                return (Task<double>)returnValue;
+            };
         }
 
     }

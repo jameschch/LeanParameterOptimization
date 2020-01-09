@@ -44,34 +44,40 @@ namespace Jtc.Optimization.Transformation
             _showMessage = showMessage;
         }
 
+        public void Add(string message)
+        {
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(Environment.NewLine);
+            //ShowMessage();
+        }
+
         public void Add(string message, DateTime data)
         {
             _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.ToString(DateFormat)).Append(Environment.NewLine);
-            ShowMessage();
+            //ShowMessage();
         }
 
         public void Add(string message, TimeSpan data)
         {
             _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.TotalSeconds).Append(" secs").Append(Environment.NewLine);
-            ShowMessage();
+            //ShowMessage();
         }
 
         public void Add(string message, int data)
         {
             _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data).Append(Environment.NewLine);
-            ShowMessage();
+            //ShowMessage();
         }
 
         public void Add(string message, double data)
         {
             _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(data.ToString("N6")).Append(Environment.NewLine);
-            ShowMessage();
+            //ShowMessage();
         }
 
         public void Add(string message, double[] data)
         {
             _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(message).Append(" ").Append(string.Join(",", data.Select(s => s.ToString("N6")))).Append(Environment.NewLine);
-            ShowMessage();
+            //ShowMessage();
         }
 
         public void Add(string id, IEnumerable<string> keys, double[] parameters, double cost)
@@ -82,8 +88,8 @@ namespace Jtc.Optimization.Transformation
 
             var costText = $", cost: {cost.ToString("N9").TrimEnd('0')}\r\n";
             _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(paramText).Append(costText);
-            ShowMessage();
             _log.Append(costText);
+            ShowMessage();
         }
 
         public void StateHasChanged()
