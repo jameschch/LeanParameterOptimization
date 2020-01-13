@@ -8,7 +8,8 @@ namespace Jtc.Optimization.Objects
     {
 
         public bool CompileLocally { get; set; } = false;
-        public bool EnableJavascriptOptimizerWorker { get; set; } = false;
+        public bool EnableOptimizerWorker { get; set; } = true;
+        public bool EnableOptimizerMultithreading { get; set; } = false;
 
     }
 }

@@ -11,7 +11,7 @@ namespace Jtc.Optimization.BlazorClient
 
         Dictionary<Type, Action> _registry = new Dictionary<Type, Action>();
 
-        public void SubscribeStateHasChange(Type componentType, Action action)
+        public void SubscribeStateHasChanged(Type componentType, Action action)
         {
             if (_registry.ContainsKey(componentType))
             {

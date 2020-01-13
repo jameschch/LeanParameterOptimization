@@ -18,7 +18,7 @@ namespace Jtc.Optimization.Tests
             var unit = new PlotlyBinder();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
-            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
+            using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
             {
                 var actual = await unit.Read(file);
                 Assert.Equal(5, actual.Count());
@@ -32,7 +32,7 @@ namespace Jtc.Optimization.Tests
             var unit = new PlotlyBinder();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
-            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
+            using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
             {
                 var actual = await unit.Read(file, 2);
                 Assert.Equal(5, actual.Count());
@@ -46,7 +46,7 @@ namespace Jtc.Optimization.Tests
             var unit = new PlotlyBinder();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
-            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
+            using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
             {
                 var actual = await unit.Read(file, 1, false, DateTime.Parse("2019-05-17 03:29:38"));
                 Assert.True(actual.All(aa => aa.Value.Y.Count() == 1));
@@ -59,7 +59,7 @@ namespace Jtc.Optimization.Tests
             var unit = new PlotlyBinder();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
-            using (var file = new StreamReader(assembly.GetManifestResourceStream(name)))
+            using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
             {
                 var actual = await unit.Read(file, minimumFitness: 0d);
                 Assert.Equal(5, actual.Count());

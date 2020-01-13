@@ -1,16 +1,16 @@
-﻿window.WorkerInterop = {   
+﻿window.WorkerInterop = {
 
-    worker: null,
+    instance: null,
 
     runWorker: (code) => {
         if (typeof (Worker) !== "undefined") {
 
-            if (typeof (worker) === "undefined") {
-                worker = new Worker("worker.js");
-                console.log("Worker was initialized.");
+            if (typeof (instance) === "undefined") {
+                instance = new Worker("worker.js");
+                //console.log("Worker was initialized.");
             }
 
-            worker.onmessage = function (event) {
+            instance.onmessage = function (event) {
                 //console.log("Worker sent:" + event.data);
                 workerCallback.invokeMethodAsync(workerMethodname, event.data);
             };
@@ -21,7 +21,7 @@
             document.getElementsByTagName("body").innerHTML += "Sorry, your browser is not supported.";
         }
 
-        worker.postMessage(code);
+        instance.postMessage(code);
     },
 
     workerCallback: null,

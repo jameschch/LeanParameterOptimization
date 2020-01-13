@@ -16,6 +16,18 @@
         "jquery.min.js",
         "jquery.min.map"
       ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "workerpool@5.0.4",
+      "destination": "wwwroot/lib/workerpool/",
+      "files": [
+        "dist/worker.js",
+        "dist/worker.min.js",
+        "dist/workerpool.js",
+        "dist/workerpool.map",
+        "dist/workerpool.min.js"
+      ]
     }
   ]
 }

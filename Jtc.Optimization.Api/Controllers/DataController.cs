@@ -41,10 +41,10 @@ namespace Jtc.Optimization.Api.Controllers
         public JsonResult Sample(int sampleRate)
         {
             var builder = new StringBuilder();
-            using (var file = new StreamReader(Path.Combine(_configuration.GetValue<string>("ResultsPath"), "optimizer.txt")))
+            using (var file = new SwitchReader(new StreamReader(Path.Combine(_configuration.GetValue<string>("ResultsPath"), "optimizer.txt"))))
             {
-              var binder = new PlotlyBinder();
-           
+                var binder = new PlotlyBinder();
+
                 var data = binder.Read(file, sampleRate).Result;
 
                 return Json(data);

@@ -57,18 +57,21 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     (context as EvalContext).Expression = () => context.ace.edit("editor").setTheme("ace/theme/monokai");
                     await (context as EvalContext).InvokeAsync<dynamic>();
-                }
-                using (dynamic context = new EvalContext(JSRuntime))
-                {
+                
+                    context.Reset();
+
                     (context as EvalContext).Expression = () => context.ace.edit("editor").session.setMode("ace/mode/javascript");
                     await (context as EvalContext).InvokeAsync<dynamic>();
                 }
             }
-            //todo: bdjr backticks
-            await new EvalContext(JSRuntime).InvokeAsync<dynamic>($"ace.edit(\"editor\").session.setValue(`{MinimizeFunctionCode.Code}`)");
 
             using (dynamic context = new EvalContext(JSRuntime))
             {
+                (context as EvalContext).Expression = () => context.ace.edit("editor").session.setValue(MinimizeFunctionCode.Code);
+                await (context as EvalContext).InvokeAsync<dynamic>();
+               
+                context.Reset();
+
                 (context as EvalContext).Expression = () => context.MainInterop.fetchConfig("config");
                 var raw = await (context as EvalContext).InvokeAsync<string>();
                 if (raw != null)
@@ -90,6 +93,7 @@ namespace Jtc.Optimization.BlazorClient
 
             await Wait.Show();
 
+            _stopWatch.Reset();
             _stopWatch.Start();
 
             IterationResult result = null;

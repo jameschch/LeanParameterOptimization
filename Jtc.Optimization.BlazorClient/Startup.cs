@@ -25,7 +25,7 @@ namespace Jtc.Optimization.BlazorClient
             services.AddSingleton<CSharpRemoteCompiler, CSharpRemoteCompiler>();
             services.AddTransient<CSharpOptimizer, CSharpOptimizer>();
             services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
-            services.AddSingleton<IMscorlibProvider, MscolibRemoteProvider>();
+            services.AddSingleton<IMscorlibProvider, MscorlibRemoteProvider>();
 
 #if !DEBUG
 

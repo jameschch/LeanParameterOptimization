@@ -1,7 +1,9 @@
-﻿namespace  Jtc.Optimization.Transformation
+﻿using System.Threading.Tasks;
+
+namespace  Jtc.Optimization.Transformation
 {
     public interface IMscorlibProvider
     {
-        byte[] Get();
+        Task<byte[]> Get();
     }
 }

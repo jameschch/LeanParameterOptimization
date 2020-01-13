@@ -31,5 +31,11 @@ namespace Jtc.Optimization.Tests
             mock.Verify(m => m.InvokeAsync<double>("BlazorDynamicJavascriptRuntime.evaluate", It.Is<object[]>(p => p[0].ToString() == formatted)));
         }
 
+        [Fact]
+        public async Task Given_code_And_configured_to_run_in_worker_When_Minimizing_Then_should_evaluate_function_with_parameters()
+        {
+            //TODO:
+        }
+
     }
 }

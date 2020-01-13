@@ -30,13 +30,13 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.Toast" Version="2.0.7" />
-    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.9" />
+    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview3.19555.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview3.19555.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IIS" Version="2.2.2" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.JSInterop" Version="3.1.0" />
     <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="1.1.0.19274" />

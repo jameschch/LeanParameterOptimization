@@ -2,9 +2,11 @@
 using Jtc.Optimization.Objects;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CSharp;
 
 namespace Jtc.Optimization.Transformation
 {
@@ -14,7 +16,7 @@ namespace Jtc.Optimization.Transformation
         private double? _min { get; set; }
         private double? _max { get; set; }
 
-        public async Task<Dictionary<string, PlotlyData>> Read(StreamReader reader, int sampleRate = 1, bool disableNormalization = false,
+        public async Task<Dictionary<string, PlotlyData>> Read(SwitchReader reader, int sampleRate = 1, bool disableNormalization = false,
             DateTime? minimumDate = null, double? minimumFitness = null)
         {
             minimumDate = minimumDate ?? DateTime.MinValue;
@@ -52,7 +54,7 @@ namespace Jtc.Optimization.Transformation
                             {
                                 data.Add(pair[0], new PlotlyData { Name = pair[0] });
                             }
-                            data[pair[0]].X.Add(time.ToString("yyyy-MM-dd hh:mm:ss"));
+                            data[pair[0]].X.Add(time.ToString("yyyy-MM-dd hh:mm:ss.ffff"));
                             data[pair[0]].Y.Add(double.Parse(pair[1]));
                             data[pair[0]].Text.Add(pair[1]);
                         }

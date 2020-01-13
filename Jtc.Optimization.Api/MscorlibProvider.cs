@@ -10,9 +10,9 @@ namespace Jtc.Optimization.Api
     public class MscorlibProvider : IMscorlibProvider
     {
 
-        public byte[] Get()
+        public Task<byte[]> Get()
         {
-            return Resource.mscorlib;
+            return Task.FromResult(Resource.mscorlib);
         }
 
     }

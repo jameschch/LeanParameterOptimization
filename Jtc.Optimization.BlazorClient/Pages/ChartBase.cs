@@ -132,13 +132,10 @@ namespace Jtc.Optimization.BlazorClient
                 (context as EvalContext).Expression = () => context.MainInterop.fetchChartData();
                 var log = await (context as EvalContext).InvokeAsync<string>();
 
-                using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(log)))
+                using (var reader = new SwitchReader(new StringReader(log)))
                 {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
-                        ShowChart(data);
-                    }
+                    var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                    await ShowChart(data);
                 }
 
             }
@@ -160,7 +157,7 @@ namespace Jtc.Optimization.BlazorClient
                 _pickedColours.Clear();
             }
 
-            using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data"))))
+            using (var file = new SwitchReader(new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data")))))
             {
                 var data = await _binder.Read(file, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
                 ShowChart(data);
@@ -262,11 +259,11 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     using (Stream stream = await file.OpenReadAsync())
                     {
-                        using (var reader = new StreamReader(stream))
+                        using (var reader = new SwitchReader(new StreamReader(stream)))
                         {
                             //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
                             var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
-                            ShowChart(data);
+                            await ShowChart(data);
                         }
                     }
                 }

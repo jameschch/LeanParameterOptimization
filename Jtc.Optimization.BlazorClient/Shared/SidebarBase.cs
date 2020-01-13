@@ -21,7 +21,7 @@ namespace Jtc.Optimization.BlazorClient.Shared
 
         protected async override Task OnInitializedAsync()
         {
-            BlazorClientState.SubscribeStateHasChange(typeof(SidebarBase), () => this.StateHasChanged());
+            BlazorClientState.SubscribeStateHasChanged(typeof(SidebarBase), () => this.StateHasChanged());
             await base.OnInitializedAsync();
         }
 

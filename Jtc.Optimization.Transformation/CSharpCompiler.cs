@@ -28,7 +28,7 @@ namespace Jtc.Optimization.Transformation
 
         public async virtual Task<MemoryStream> CreateAssembly(string code)
         {
-            _mscorlib = _mscorlib ?? MetadataReference.CreateFromStream(new MemoryStream(_mscorlibProvider.Get()));
+            _mscorlib = _mscorlib ?? MetadataReference.CreateFromStream(new MemoryStream(await _mscorlibProvider.Get()));
 
             CSharpCompilation previousCompilation = null;
 
