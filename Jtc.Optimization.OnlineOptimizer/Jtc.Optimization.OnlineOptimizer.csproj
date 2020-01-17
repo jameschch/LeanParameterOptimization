@@ -18,11 +18,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SharpLearning.Common.Interfaces">
+      <HintPath>SharpLearning.Common.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpLearning.Containers">
+      <HintPath>SharpLearning.Containers.dll</HintPath>
+    </Reference>
     <Reference Include="SharpLearning.DecisionTrees">
       <HintPath>SharpLearning.DecisionTrees.dll</HintPath>
     </Reference>
     <Reference Include="SharpLearning.Optimization">
       <HintPath>SharpLearning.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpLearning.RandomForest">
+      <HintPath>SharpLearning.RandomForest.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -31,6 +40,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SharpLearning.Containers.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SharpLearning.DecisionTrees.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SharpLearning.Optimization.dll">

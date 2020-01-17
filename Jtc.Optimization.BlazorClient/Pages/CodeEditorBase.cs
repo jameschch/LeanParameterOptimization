@@ -82,7 +82,7 @@ namespace Jtc.Optimization.BlazorClient
 
             if (_config != null)
             {
-                Console.WriteLine(JsonSerializer.Serialize(_config));
+                //Console.WriteLine(JsonSerializer.Serialize(_config));
             }
 
             await base.OnAfterRenderAsync(firstRender);

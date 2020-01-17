@@ -132,7 +132,20 @@ namespace Jtc.Optimization.BlazorClient
             }
             ToggleFitness();
             Json = data;
+            ToastService.ShowInfo("Config was uploaded");
             StateHasChanged();
+        }
+
+        protected async Task LoadSample()
+        {
+            Config = JsonSerializer.Deserialize<Models.OptimizerConfiguration>(Resource.OptimizationConfigSample, _options);
+
+            StoreConfig(Config);
+
+            Config.FitnessTypeName = Config.FitnessTypeName.Split('.').LastOrDefault();
+            ToggleFitness();
+            Json = Resource.OptimizationConfigSample;
+            ToastService.ShowInfo("Sample was loaded");
         }
 
         protected string IsSelected(string item)

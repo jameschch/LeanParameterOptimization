@@ -152,4 +152,47 @@
     return cost;
 }</value>
   </data>
+  <data name="OptimizationConfigSample" xml:space="preserve">
+    <value>{
+  "genes": [
+    {
+      "key": "p1",
+      "min": 0.001,
+      "max": 100,
+      "precision": 3,
+      "fibonacci": false
+    },
+    {
+      "key": "p2",
+      "min": 0.001,
+      "max": 100,
+      "precision": 3,
+      "fibonacci": false
+    }
+  ],
+  "populationSize": 10,
+  "populationSizeMaximum": 24,
+  "generations": 10000,
+  "stagnationGenerations": 10,
+  "maxThreads": 8,
+  "algorithmTypeName": "1212",
+  "configPath": "../../../../Lean/Launcher/config.json",
+  "onePointCrossover": false,
+  "includeNegativeReturn": false,
+  "fitnessTypeName": "SharpeMaximizer",
+  "fitness": {
+    "scale": 1,
+    "modifier": 1,
+    "optimizerTypeName": "GridSearch",
+    "folds": 1
+  },
+  "mutationProbability": 0.100000001,
+  "crossoverProbability": 0.75,
+  "minimumTrades": 0,
+  "enableFitnessFilter": false,
+  "useActualGenesForWholeGeneration": false,
+  "useSharedAppDomain": false,
+  "enableRunningDuplicateParameters": false
+}</value>
+  </data>
 </root>
