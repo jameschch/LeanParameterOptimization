@@ -1,0 +1,45 @@
+{
+  "genes": [
+    {
+      "key": "take",
+      "min": 0.02,
+      "max": 0.1,
+      "precision": 2
+    },
+    {
+      "key": "fast",
+      "min": 6,
+      "max": 48,
+      "precision": 0,
+      "actual": 13
+    },
+    {
+      "key": "slow",
+      "min": 48,
+      "max": 500
+    }
+  ],
+  "populationSize": 24,
+  "populationSizeMaximum": 48,
+  "generations": 1000,
+  "stagnationGenerations": 30,
+  "maxThreads": 8,
+  "algorithmTypeName": "ParameterizedAlgorithm",
+  "configPath": "../../../../Lean/Launcher/config.json",
+  "onePointCrossover": true,
+  "algorithmLocation": "../../../Optimization.Example/bin/debug/Optimization.Example.dll",
+  "includeNegativeReturn": false,
+  "fitnessTypeName": "Optimization.OptimizerFitness",
+  "dataFolder": "../../../../Lean_base/Data",
+  "fitness": null,
+  "startDate": "2016-02-01T00:00:00Z",
+  "endDate": "2016-02-03T00:00:00Z",
+  "mutationProbability": 0.5,
+  "crossoverProbability": 0.75,
+  "minimumTrades": 1,
+  "enableFitnessFilter": true,
+  "useActualGenesForWholeGeneration": false,
+  "transactionLog": null,
+  "useSharedAppDomain": false,
+  "enableRunningDuplicateParameters": false
+}

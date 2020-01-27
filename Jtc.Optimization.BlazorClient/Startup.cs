@@ -8,6 +8,7 @@ using Jtc.Optimization.Objects;
 using Jtc.Optimization.Transformation;
 using System;
 using Jtc.Optimization.OnlineOptimizer;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization.BlazorClient
 {

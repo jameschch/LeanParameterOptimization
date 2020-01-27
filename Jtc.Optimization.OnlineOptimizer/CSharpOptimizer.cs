@@ -1,4 +1,5 @@
 ﻿using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Transformation;
 using SharpLearning.Optimization;
 using System;

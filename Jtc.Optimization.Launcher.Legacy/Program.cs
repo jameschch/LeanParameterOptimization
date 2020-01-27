@@ -3,19 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NLog;
 using Jtc.Optimization.LeanOptimizer;
+using NLog;
 
 namespace Jtc.Optimization.Launcher.Legacy
 {
-    class Program
+
+    public class Program
     {
 
         public static void Main(string[] args)
         {
-            new OptimizerInitializer().Initialize(args);
+            try
+            {
+                new OptimizerInitializer().Initialize(args);
 
+            }
+            catch (Exception ex)
+            {
+                LogProvider.ErrorLogger.Error(ex);
+                throw new Exception("Unhandled Exception", ex);
+            }
             Console.ReadKey();
         }
+
     }
 }

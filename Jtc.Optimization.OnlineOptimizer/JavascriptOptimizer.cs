@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazor.DynamicJavascriptRuntime.Evaluator;
 using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
 using Microsoft.JSInterop;
 using SharpLearning.Optimization;
 

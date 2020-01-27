@@ -1,0 +1,57 @@
+{
+  "genes": [
+    {
+      "key": "take",
+      "min": 0.001,
+      "max": 0.1,
+      "precision": 3,
+      "actual": 0.001
+    },
+    {
+      "key": "fast",
+      "min": 6,
+      "max": 48,
+      "precision": 0,
+      "actual": 13
+    },
+    {
+      "key": "slow",
+      "min": 48,
+      "max": 500,
+      "actual": 166
+    }
+  ],
+  "populationSize": 24,
+  "populationSizeMaximum": 48,
+  "generations": 2,
+  "stagnationGenerations": 30,
+  "maxThreads": 1,
+  "algorithmTypeName": "ParameterizedAlgorithm",
+  "configPath": "../../../../Lean/Launcher/config.json",
+  "algorithmLocation": "../../../../Optimization.Example/bin/debug/Optimization.Example.dll",
+  "includeNegativeReturn": true,
+  "onePointCrossover": true,
+  "fitnessTypeName": "Optimization.OptimizerFitness",
+  "useSharedAppDomain": false,
+  "dataFolder": "../../../../Lean/Data",
+  "startDate": "2016-02-01T00:00:00Z",
+  "endDate": "2016-02-03T00:00:00Z",
+  "mutationProbability": 0.5,
+  "crossoverProbability": 0.75,
+  "minimumTrades": 1,
+  "enableFitnessFilter": true,
+  "useActualGenesForWholeGeneration": false,
+  "transactionLog": null,
+  "enableRunningDuplicateParameters": false,
+  //"mutationProbability": 0.5,
+  //"crossoverProbability": 0.75
+  "fitness": {
+    //"scale": 1,
+    //"modifier": -1,
+    //"resultKey": "Beta",
+    //"name": "MinimizeBeta",
+    //"OptimizerTypeName": "ParticleSwarm"
+    "OptimizerTypeName": "RandomSearch"
+    //"OptimizerTypeName": "GlobalizedBoundedNelderMead"
+  }
+}
