@@ -34,6 +34,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.Integratio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimizer.Example", "Jtc.Optimization.LeanOptimizer.Example\Jtc.Optimization.LeanOptimizer.Example.csproj", "{B6177EC4-9C73-4420-B20D-47A69BB9BCF9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.Optimization", "SharpLearning.Optimization\SharpLearning.Optimization.csproj", "{6D834440-FC9C-42B2-9B85-3CBFD0769F45}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.Containers", "SharpLearning.Containers\SharpLearning.Containers.csproj", "{0605D487-5D03-403A-982B-669D33D0192A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.DecisionTrees", "SharpLearning.DecisionTrees\SharpLearning.DecisionTrees.csproj", "{8C0209E4-D0B7-4B6B-B030-83EA01DCD783}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.RandomForest", "SharpLearning.RandomForest\SharpLearning.RandomForest.csproj", "{6B746CF2-F0EC-4A21-A0B6-6A53BFAEA985}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.Common.Interfaces", "SharpLearning.Common.Interfaces\SharpLearning.Common.Interfaces.csproj", "{09B2EFAD-E40A-456E-8049-224291526110}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.InputOutput", "SharpLearning.InputOutput\SharpLearning.InputOutput.csproj", "{578BF26E-1A73-40C9-B6B9-627A952EF6CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +100,30 @@ Global
 		{B6177EC4-9C73-4420-B20D-47A69BB9BCF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6177EC4-9C73-4420-B20D-47A69BB9BCF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6177EC4-9C73-4420-B20D-47A69BB9BCF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D834440-FC9C-42B2-9B85-3CBFD0769F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D834440-FC9C-42B2-9B85-3CBFD0769F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D834440-FC9C-42B2-9B85-3CBFD0769F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D834440-FC9C-42B2-9B85-3CBFD0769F45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0605D487-5D03-403A-982B-669D33D0192A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0605D487-5D03-403A-982B-669D33D0192A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0605D487-5D03-403A-982B-669D33D0192A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0605D487-5D03-403A-982B-669D33D0192A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0209E4-D0B7-4B6B-B030-83EA01DCD783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0209E4-D0B7-4B6B-B030-83EA01DCD783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0209E4-D0B7-4B6B-B030-83EA01DCD783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0209E4-D0B7-4B6B-B030-83EA01DCD783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B746CF2-F0EC-4A21-A0B6-6A53BFAEA985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B746CF2-F0EC-4A21-A0B6-6A53BFAEA985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B746CF2-F0EC-4A21-A0B6-6A53BFAEA985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B746CF2-F0EC-4A21-A0B6-6A53BFAEA985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B2EFAD-E40A-456E-8049-224291526110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B2EFAD-E40A-456E-8049-224291526110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B2EFAD-E40A-456E-8049-224291526110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B2EFAD-E40A-456E-8049-224291526110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

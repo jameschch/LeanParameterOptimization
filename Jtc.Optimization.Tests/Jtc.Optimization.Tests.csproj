@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+
+    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,12 +32,6 @@
     <ProjectReference Include="..\Jtc.Optimization.Api\Jtc.Optimization.Api.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.BlazorClient\Jtc.Optimization.BlazorClient.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="SharpLearning.Optimization">
-      <HintPath>..\..\SharpLearning_fork\Build\Debug\netstandard2.0\SharpLearning.Optimization.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
