@@ -122,13 +122,13 @@ namespace Jtc.Optimization.BlazorClient {
         ///  ],
         ///  &quot;populationSize&quot;: 10,
         ///  &quot;populationSizeMaximum&quot;: 24,
-        ///  &quot;generations&quot;: 10000,
+        ///  &quot;generations&quot;: 1000,
         ///  &quot;stagnationGenerations&quot;: 10,
         ///  &quot;maxThreads&quot;: 8,
         ///  &quot;algorithmTypeName&quot;: &quot;1212&quot;,
         ///  &quot;configPath&quot;: &quot;../../../../Lean/Launcher/config.json&quot;,
         ///  &quot;onePointCrossover&quot;: false,
-        ///  &quot;includeNe [rest of string was truncated]&quot;;.
+        ///  &quot;includeNeg [rest of string was truncated]&quot;;.
         /// </summary>
         public static string OptimizationConfigSample {
             get {

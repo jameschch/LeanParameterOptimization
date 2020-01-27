@@ -172,7 +172,7 @@
   ],
   "populationSize": 10,
   "populationSizeMaximum": 24,
-  "generations": 10000,
+  "generations": 1000,
   "stagnationGenerations": 10,
   "maxThreads": 8,
   "algorithmTypeName": "1212",
@@ -183,7 +183,7 @@
   "fitness": {
     "scale": 1,
     "modifier": 1,
-    "optimizerTypeName": "GridSearch",
+    "optimizerTypeName": "RandomSearch",
     "folds": 1
   },
   "mutationProbability": 0.100000001,
