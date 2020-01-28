@@ -104,7 +104,7 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        public async Task<OptimizerResult[]> Optimize(HyperbandObjectiveFunction functionToMinimize)
+        public async Task<IEnumerable<OptimizerResult>> Optimize(HyperbandObjectiveFunction functionToMinimize)
         {
             var allResults = new List<OptimizerResult>();
 
@@ -142,15 +142,14 @@ namespace SharpLearning.Optimization
                     var configurationsToKeep = (int)Math.Round(configurationCount / m_eta);
                     parameterSets = results.OrderBy(v => v.Error)
                         .Take(configurationsToKeep)
-                        .Select(v => v.ParameterSet)
-                        .ToArray();
+                        .Select(v => v.ParameterSet);
                 }
 
                 allResults.AddRange(results);
                 //Trace.WriteLine($" Lowest loss so far: {allResults.OrderBy(v => v.Error).First().Error:F4}");
             }
 
-            return allResults.ToArray();
+            return allResults;
         }
     }
 }

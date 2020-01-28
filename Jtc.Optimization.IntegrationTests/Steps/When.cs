@@ -2,12 +2,8 @@
 using Jtc.Optimization.Objects;
 using QuantConnect.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace Jtc.Optimization.IntegrationTests.Steps
@@ -19,10 +15,11 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         [When(@"I optimize")]
         public void WhenIOptimize()
         {
-            if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Optimization.Example.dll")))
-            {
-                File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Optimization.Example.dll"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Optimization.Example.dll"));
-            }
+            //if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Jtc.Optimization.LeanOptimizer.Example.dll")))
+            //{
+            //    File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Jtc.Optimization.LeanOptimizer.Example.dll"), 
+            //        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Jtc.Optimization.LeanOptimizer.Example.dll"));
+            //}
 
             SpinWait.SpinUntil(() =>
             {
@@ -40,7 +37,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
 
 
 
-            Config.Set("algorithm-location", "../Optimization.Example/bin/debug/Optimization.Example.dll");
+            Config.Set("algorithm-location", "../Optimization.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll");
 
             var config = ScenarioContext.Current.Get<OptimizerConfiguration>();
 

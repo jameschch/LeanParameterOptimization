@@ -31,7 +31,7 @@ namespace SharpLearning.Optimization
         readonly int m_randomStartingPointsCount;
         readonly int m_functionEvaluationsPerIterationCount;
         readonly int m_randomSearchPointCount;
-        
+
         readonly int m_maxDegreeOfParallelism;
         readonly bool m_runParallel;
 
@@ -125,7 +125,7 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        public async Task<OptimizerResult[]> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
+        public async Task<IEnumerable<OptimizerResult>> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
         {
             var initialParameterSets = ProposeParameterSets(m_randomStartingPointsCount, null);
 
@@ -141,7 +141,7 @@ namespace SharpLearning.Optimization
                 results.AddRange(iterationResults);
             }
 
-            return results.ToArray();
+            return results;
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace SharpLearning.Optimization
         /// <param name="functionToMinimize"></param>
         /// <param name="parameterSets"></param>
         /// <returns></returns>
-        public async Task<List<OptimizerResult>> RunParameterSets(Func<double[], Task<OptimizerResult>> functionToMinimize,
-            double[][] parameterSets)
+        public async Task<IEnumerable<OptimizerResult>> RunParameterSets(Func<double[], Task<OptimizerResult>> functionToMinimize,
+            IEnumerable<double[]> parameterSets)
         {
             var results = new ConcurrentBag<OptimizerResult>();
             if (!m_runParallel)
@@ -165,7 +165,7 @@ namespace SharpLearning.Optimization
             }
             else
             {
-                var rangePartitioner = Partitioner.Create(parameterSets, true);
+                var rangePartitioner = Partitioner.Create(parameterSets.ToArray(), true);
                 var options = new ParallelOptions { MaxDegreeOfParallelism = m_maxDegreeOfParallelism };
                 Parallel.ForEach(rangePartitioner, options, async (param, loopState) =>
                 {
@@ -175,7 +175,7 @@ namespace SharpLearning.Optimization
                 });
             }
 
-            return results.ToList();
+            return results;
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace SharpLearning.Optimization
         /// These are used in the model for proposing new parameter sets.
         /// If no results are provided, random parameter sets will be returned.</param>
         /// <returns></returns>
-        public double[][] ProposeParameterSets(int parameterSetCount,
+        public IEnumerable<double[]> ProposeParameterSets(int parameterSetCount,
             IReadOnlyList<OptimizerResult> previousResults = null)
         {
             var previousParameterSetCount = previousResults == null ? 0 : previousResults.Count;
@@ -205,7 +205,7 @@ namespace SharpLearning.Optimization
             var validParameterSets = previousResults
                 .Where(v => !double.IsNaN(v.Error))
                 .OrderBy(v => v.Error); // TODO: This might still fail to provide same order if two different parameter sets yield the same error.
-            
+
             var model = FitModel(validParameterSets);
 
             return GenerateCandidateParameterSets(parameterSetCount, validParameterSets.ToList(), model);
@@ -223,7 +223,7 @@ namespace SharpLearning.Optimization
             return m_learner.Learn(observations, targets);
         }
 
-        double[][] GenerateCandidateParameterSets(int parameterSetCount,
+        IEnumerable<double[]> GenerateCandidateParameterSets(int parameterSetCount,
             IReadOnlyList<OptimizerResult> previousResults, RegressionForestModel model)
         {
             // TODO: Handle maximization and minimization. Currently minimizes.
@@ -237,14 +237,14 @@ namespace SharpLearning.Optimization
             // not the minimum.
             var candidates = results
                 .Where(v => !double.IsNaN(v.Error))
-                .OrderByDescending(r => r.Error) 
+                .OrderByDescending(r => r.Error)
                 .Take(parameterSetCount)
-                .Select(p => p.ParameterSet).ToArray();
+                .Select(p => p.ParameterSet);
 
             return candidates;
         }
 
-        OptimizerResult[] FindNextCandidates(RegressionForestModel model, double bestScore)
+        IEnumerable<OptimizerResult> FindNextCandidates(RegressionForestModel model, double bestScore)
         {
             // Additional set of random parameterSets to choose from during local search.
             var results = new List<OptimizerResult>();
@@ -257,7 +257,7 @@ namespace SharpLearning.Optimization
                 results.Add(new OptimizerResult(parameterSet, expectedImprovement));
             }
 
-            return results.ToArray();
+            return results;
         }
 
         double ComputeExpectedImprovement(double best, double[] parameterSet, RegressionForestModel model)

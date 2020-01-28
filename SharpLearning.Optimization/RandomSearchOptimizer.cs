@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SharpLearning.Optimization.ParameterSamplers;
@@ -57,7 +58,7 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        public async Task<OptimizerResult[]> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
+        public async Task<IEnumerable<OptimizerResult>> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
         {
             // Generate the cartesian product between all parameters
             var parameterSets = SampleRandomParameterSets(m_iterations,
@@ -77,7 +78,7 @@ namespace SharpLearning.Optimization
             }
             else
             {
-                var rangePartitioner = Partitioner.Create(parameterSets, true);
+                var rangePartitioner = Partitioner.Create(parameterSets.ToArray(), true);
                 var options = new ParallelOptions { MaxDegreeOfParallelism = m_maxDegreeOfParallelism };
                 Parallel.ForEach(rangePartitioner, options, async (param, loopState) =>
                 {
@@ -87,7 +88,7 @@ namespace SharpLearning.Optimization
                 });
             }
 
-            return results.ToArray();
+            return results;
         }
 
         /// <summary>
@@ -97,13 +98,13 @@ namespace SharpLearning.Optimization
         /// <param name="parameters"></param>
         /// <param name="sampler"></param>
         /// <returns></returns>
-        public static double[][] SampleRandomParameterSets(int parameterSetCount,
+        public static IEnumerable<double[]> SampleRandomParameterSets(int parameterSetCount,
             IParameterSpec[] parameters, IParameterSampler sampler)
         {
-            var parameterSets = new double[parameterSetCount][];
+            var parameterSets = new List<double[]>();
             for (int i = 0; i < parameterSetCount; i++)
             {
-                parameterSets[i] = SampleParameterSet(parameters, sampler);
+                parameterSets.Add(SampleParameterSet(parameters, sampler));
             }
 
             return parameterSets;

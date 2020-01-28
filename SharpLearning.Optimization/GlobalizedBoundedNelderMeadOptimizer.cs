@@ -108,7 +108,7 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        public async Task<OptimizerResult[]> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
+        public async Task<IEnumerable<OptimizerResult>> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
         {
             var dim = m_parameters.Length;
             var initialPoint = new double[dim];
@@ -274,7 +274,7 @@ namespace SharpLearning.Optimization
                 }
             }
 
-            return allResults.ToArray();
+            return allResults;
         }
 
         async Task<OptimizerResult> EvaluateFunction(Func<double[], Task<OptimizerResult>> functionToMinimize, double[] parameters)

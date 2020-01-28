@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SharpLearning.Optimization
@@ -20,6 +21,6 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        Task<OptimizerResult[]> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize);
+        Task<IEnumerable<OptimizerResult>> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize);
     }
 }

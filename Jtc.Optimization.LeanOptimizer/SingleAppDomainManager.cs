@@ -40,6 +40,11 @@ namespace Jtc.Optimization.LeanOptimizer
             return result;
         }
 
+        public new static Dictionary<string, Dictionary<string, decimal>> GetResults()
+        {
+            return SingleAppDomainManager.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
+        }
+
     }
 
 }

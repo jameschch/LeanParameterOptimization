@@ -19,7 +19,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         public void ThenTheSharpRatioShouldBe(double p0)
         {
             var actual = GetResults();
-            Assert.Equal(p0, (double)actual.First().Value["SharpeRatio"], 4);
+            Assert.Equal(p0, (double)actual.First().Value["SharpeRatio"], 3);
         }
 
         [Then(@"Total Trades should be (.*)")]

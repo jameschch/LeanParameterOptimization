@@ -28,7 +28,7 @@
   "maxThreads": 1,
   "algorithmTypeName": "ParameterizedAlgorithm",
   "configPath": "../../../../Lean/Launcher/config.json",
-  "algorithmLocation": "../../../../Optimization.Example/bin/debug/Optimization.Example.dll",
+  "algorithmLocation": "../../../../Jtc.Optimization.LeanOptimizer.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll",
   "includeNegativeReturn": true,
   "onePointCrossover": true,
   "fitnessTypeName": "Optimization.OptimizerFitness",

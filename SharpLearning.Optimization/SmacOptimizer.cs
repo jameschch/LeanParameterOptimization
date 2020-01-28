@@ -66,8 +66,8 @@ namespace SharpLearning.Optimization
         {
             m_parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
 
-            if(iterations < 1) throw new ArgumentException(nameof(iterations) + 
-                "must be at least 1. Was: " + iterations);
+            if (iterations < 1) throw new ArgumentException(nameof(iterations) +
+                 "must be at least 1. Was: " + iterations);
             if (randomStartingPointCount < 1) throw new ArgumentException(nameof(randomStartingPointCount) +
                 "must be at least 1. Was: " + randomStartingPointCount);
             if (functionEvaluationsPerIterationCount < 1) throw new ArgumentException(nameof(functionEvaluationsPerIterationCount) +
@@ -115,7 +115,7 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        public async Task<OptimizerResult[]> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
+        public async Task<IEnumerable<OptimizerResult>> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
         {
             var initialParameterSets = ProposeParameterSets(m_randomStartingPointsCount, null);
 
@@ -131,7 +131,7 @@ namespace SharpLearning.Optimization
                 results.AddRange(iterationResults);
             }
 
-            return results.ToArray();
+            return results;
         }
 
         /// <summary>
@@ -140,8 +140,8 @@ namespace SharpLearning.Optimization
         /// <param name="functionToMinimize"></param>
         /// <param name="parameterSets"></param>
         /// <returns></returns>
-        public async Task<List<OptimizerResult>> RunParameterSets(Func<double[], Task<OptimizerResult>> functionToMinimize, 
-            double[][] parameterSets)
+        public async Task<List<OptimizerResult>> RunParameterSets(Func<double[], Task<OptimizerResult>> functionToMinimize,
+            IEnumerable<double[]> parameterSets)
         {
             var results = new List<OptimizerResult>();
             foreach (var parameterSet in parameterSets)
@@ -162,7 +162,7 @@ namespace SharpLearning.Optimization
         /// These are used in the model for proposing new parameter sets.
         /// If no results are provided, random parameter sets will be returned.</param>
         /// <returns></returns>
-        public double[][] ProposeParameterSets(int parameterSetCount, 
+        public IEnumerable<double[]> ProposeParameterSets(int parameterSetCount,
             IReadOnlyList<OptimizerResult> previousResults = null)
         {
             var previousParameterSetCount = previousResults == null ? 0 : previousResults.Count;
@@ -177,7 +177,7 @@ namespace SharpLearning.Optimization
                 return randomParameterSets;
             }
 
-            var validParameterSets = previousResults.Where(v => !double.IsNaN(v.Error));            
+            var validParameterSets = previousResults.Where(v => !double.IsNaN(v.Error));
             var model = FitModel(validParameterSets);
 
             return GenerateCandidateParameterSets(parameterSetCount, validParameterSets.ToList(), model);
@@ -195,12 +195,12 @@ namespace SharpLearning.Optimization
             return m_learner.Learn(observations, targets);
         }
 
-        double[][] GenerateCandidateParameterSets(int parameterSetCount, 
+        IEnumerable<double[]> GenerateCandidateParameterSets(int parameterSetCount,
             IReadOnlyList<OptimizerResult> previousResults, RegressionForestModel model)
         {
             // Get top parameter sets from previous runs.
             var topParameterSets = previousResults.OrderBy(v => v.Error)
-                .Take(m_localSearchPointCount).Select(v => v.ParameterSet).ToArray();
+                .Take(m_localSearchPointCount).Select(v => v.ParameterSet);
 
             // Perform local search using the top parameter sets from previous run.
             var challengerCount = (int)Math.Ceiling(parameterSetCount / 2.0F);
@@ -208,7 +208,7 @@ namespace SharpLearning.Optimization
                 challengerCount, previousResults);
 
             // Create random parameter sets.
-            var randomParameterSetCount = parameterSetCount - challengers.Length;
+            var randomParameterSetCount = parameterSetCount - challengers.Count();
             var randomChallengers = RandomSearchOptimizer.SampleRandomParameterSets(
                 randomParameterSetCount, m_parameters, m_sampler);
 
@@ -216,23 +216,20 @@ namespace SharpLearning.Optimization
             return InterLeaveModelBasedAndRandomParameterSets(challengers, randomChallengers);
         }
 
-        double[][] InterLeaveModelBasedAndRandomParameterSets(double[][] challengers, 
-            double[][] randomChallengers)
+        IEnumerable<double[]> InterLeaveModelBasedAndRandomParameterSets(IEnumerable<double[]> challengers,
+            IEnumerable<double[]> randomChallengers)
         {
-            var finalParameterSets = new double[challengers.Length + randomChallengers.Length][];
-            Array.Copy(challengers, 0, finalParameterSets, 0, challengers.Length);
-            Array.Copy(randomChallengers, 0, finalParameterSets, challengers.Length, randomChallengers.Length);
-            return finalParameterSets;
+            return challengers.Concat(randomChallengers);
         }
 
-        double[][] GreedyPlusRandomSearch(double[][] parentParameterSets, RegressionForestModel model, 
+        IEnumerable<double[]> GreedyPlusRandomSearch(IEnumerable<double[]> parentParameterSets, RegressionForestModel model,
             int parameterSetCount, IReadOnlyList<OptimizerResult> previousResults)
         {
             // TODO: Handle maximization and minimization. Currently minimizes.
             var best = previousResults.Min(v => v.Error);
 
             var parameterSets = new List<(double[] parameterSet, double EI)>();
-           
+
             // Perform local search.
             foreach (var parameterSet in parentParameterSets)
             {
@@ -252,15 +249,14 @@ namespace SharpLearning.Optimization
 
             // Take the best parameterSets. Here we want the max expected improvement.
             return parameterSets.OrderByDescending(v => v.EI)
-                .Take(parameterSetCount).Select(v => v.parameterSet)
-                .ToArray();
+                .Take(parameterSetCount).Select(v => v.parameterSet);
         }
 
         /// <summary>
         /// Performs a local one-mutation neighborhood greedy search.
         /// Stop search when no neighbors increase expected improvement.
         /// </summary>
-        (double[] parameterSet, double expectedImprovement) LocalSearch(double[][] parentParameterSets, 
+        (double[] parameterSet, double expectedImprovement) LocalSearch(IEnumerable<double[]> parentParameterSets,
             RegressionForestModel model, double bestScore, double epsilon)
         {
             var bestParameterSet = parentParameterSets.First();
@@ -304,7 +300,7 @@ namespace SharpLearning.Optimization
                 for (int j = 0; j < parameterSetCount; j++)
                 {
                     // Copy parent and mutate one parameter.
-                    var newParameterSet = parentParameterSet.ToArray();
+                    var newParameterSet = parentParameterSet;
                     // TODO: Original paper normalizes all numerical parameters between 0 and 1.
                     newParameterSet[i] = parameterSpec.SampleValue(m_sampler);
                     neighbors.Add(newParameterSet);

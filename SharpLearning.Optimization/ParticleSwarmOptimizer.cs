@@ -81,7 +81,7 @@ namespace SharpLearning.Optimization
         /// </summary>
         /// <param name="functionToMinimize"></param>
         /// <returns></returns>
-        public async Task<OptimizerResult[]> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
+        public async Task<IEnumerable<OptimizerResult>> Optimize(Func<double[], Task<OptimizerResult>> functionToMinimize)
         {
             var particles = new double[m_numberOfParticles][];
 
@@ -168,7 +168,7 @@ namespace SharpLearning.Optimization
                 results.Add(new OptimizerResult(pBest[i], pBestScores[i]));
             }
 
-            return results.ToArray();
+            return results;
         }
 
         void BoundCheck(double[] newValues, double[] maxValues, double[] minValues)
