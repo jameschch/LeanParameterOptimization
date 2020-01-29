@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using Newtonsoft.Json;
 using Jtc.Optimization.Objects.Interfaces;
+using Jtc.Optimization.LeanOptimizer.Legacy;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -58,8 +59,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         protected void ExtendFailureKeys(DateTime extending)
         {
-            //todo: single app domain
-            var failures = OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain).Where(r => r.Value["SharpeRatio"] == ErrorRatio);
+            var failures = ResultMediator.GetResults(AppDomain.CurrentDomain).Where(r => r.Value["SharpeRatio"] == ErrorRatio);
 
             var previousKey = JsonConvert.SerializeObject(Config.StartDate);
             var extendingKey = JsonConvert.SerializeObject(extending);
@@ -74,10 +74,9 @@ namespace Jtc.Optimization.LeanOptimizer
 
             foreach (var item in switching)
             {
-                //todo: single app domain
-                var before = OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain)[item.Item1];
-                OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain).Remove(item.Item1);
-                OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain).Add(item.Item2, before);
+                var before = ResultMediator.GetResults(AppDomain.CurrentDomain)[item.Item1];
+                ResultMediator.GetResults(AppDomain.CurrentDomain).Remove(item.Item1);
+                ResultMediator.GetResults(AppDomain.CurrentDomain).Add(item.Item2, before);
             }
 
         }

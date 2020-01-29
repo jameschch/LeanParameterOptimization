@@ -91,7 +91,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
             GeneFactory.Initialize(config);
 
             var actual = GeneFactory.Generate(config[0], true);
-            Assert.AreEqual(200, (int)((KeyValuePair<string, object>)actual.Value).Value);
+            Assert.AreEqual(200, (double)((KeyValuePair<string, object>)actual.Value).Value);
 
             RandomizationProvider.Current = new BasicRandomization();
             actual = GeneFactory.Generate(config[1], false);

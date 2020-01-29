@@ -28,18 +28,12 @@
   "configPath": "../../../../Lean/Launcher/config.json",
   "onePointCrossover": true,
   "algorithmLocation": "../../../Optimization.Example/bin/debug/Optimization.Example.dll",
-  "includeNegativeReturn": false,
-  "fitnessTypeName": "Optimization.OptimizerFitness",
+  "fitnessTypeName": "Jtc.Optimization.LeanOptimizer.OptimizerFitness",
   "dataFolder": "../../../../Lean_base/Data",
-  "fitness": null,
   "startDate": "2016-02-01T00:00:00Z",
   "endDate": "2016-02-03T00:00:00Z",
   "mutationProbability": 0.5,
   "crossoverProbability": 0.75,
   "minimumTrades": 1,
-  "enableFitnessFilter": true,
-  "useActualGenesForWholeGeneration": false,
-  "transactionLog": null,
-  "useSharedAppDomain": false,
-  "enableRunningDuplicateParameters": false
+  "enableFitnessFilter": true
 }

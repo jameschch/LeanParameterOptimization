@@ -11,27 +11,20 @@ using Jtc.Optimization.Objects.Interfaces;
 namespace Jtc.Optimization.LeanOptimizer
 {
 
-    public class SingleAppDomainManager : OptimizerAppDomainManager
+    public class SingleAppDomainManager : BaseAppDomainManager<SingleAppDomainManager>
     {
 
-        static object _resultsLocker;
-
-        public new static void Initialize()
+        public SingleAppDomainManager() : base()
         {
-            
-            _resultsLocker = new object();
-
-            SetResults(AppDomain.CurrentDomain, new Dictionary<string, Dictionary<string, decimal>>());
+            ResultMediator.SetResults(AppDomain.CurrentDomain, new Dictionary<string, Dictionary<string, decimal>>());
         }
 
         static SingleRunner CreateRunnerInAppDomain()
         {
-            var rc = new SingleRunner();
-
-            return rc;
+            return new SingleRunner();
         }
 
-        public new static Dictionary<string, decimal> RunAlgorithm(Dictionary<string, object> list, IOptimizerConfiguration config)
+        public override Dictionary<string, decimal> RunAlgorithm(Dictionary<string, object> list, IOptimizerConfiguration config)
         {
             var rc = CreateRunnerInAppDomain();
 
@@ -42,9 +35,13 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public new static Dictionary<string, Dictionary<string, decimal>> GetResults()
         {
-            return SingleAppDomainManager.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
+            return  ResultMediator.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
         }
 
+        protected override IRunner CreateRunnerInAppDomain(ref AppDomain ad)
+        {
+            return CreateRunnerInAppDomain();
+        }
     }
 
 }

@@ -1,55 +1,82 @@
 {
   "genes": [
     {
+      "key": "period",
+      "min": 3,
+      "max": 34,
+      "fibonacci": true,
+      "actual": 6
+    },
+    {
       "key": "take",
-      "min": 0.02,
-      "max": 0.1,
-      "precision": 2,
-      "actual": 0.06
+      "min": 0.4,
+      "max": 0.7,
+      "precision": 1,
+      "actual": 0.5
     },
     {
-      "key": "fast",
-      "min": 6,
-      "max": 48,
+      "key": "volatility",
+      "min": 0.001,
+      "max": 0.5,
+      "precision": 3,
+      "actual": 0.129
+    },
+    {
+      "key": "slopeLong",
+      "min": 0.0001,
+      "max": 0.01,
+      "precision": 4,
+      "actual": 0.001
+    },
+    {
+      "key": "slopeShort",
+      "min": 0.01,
+      "max": 5,
+      "precision": 1,
+      "actual": 2.9
+    },
+    {
+      "key": "stopPeriod",
+      "min": 5,
+      "max": 200,
       "precision": 0,
-      "actual": 44
+      "fibonacci": true,
+      "actual": 79
     },
     {
-      "key": "slow",
-      "min": 48,
-      "max": 500,
-      "actual": 63
+      "key": "multiple",
+      "min": 1,
+      "max": 10,
+      //"fibonacci": false,
+      "actual": 1
     }
   ],
-  "populationSize": 24,
+  "populationSize": 12,
   "populationSizeMaximum": 48,
-  "generations": 20,
-  "stagnationGenerations": 30,
-  "maxThreads": 8,
+  "generations": 1000,
+  "stagnationGenerations": 200,
+  "maxThreads": 4,
   "configPath": "../../../../Lean/Launcher/config.json",
-  "algorithmTypeName": "ParameterizedAlgorithm",
-  "algorithmLocation": "../../../../Jtc.Optimization.LeanOptimizer.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll",
-  "includeNegativeReturn": true,
-  "onePointCrossover": true,
-  "fitnessTypeName": "Optimization.OptimizerFitness",
-  "useSharedAppDomain": false,
-  "enableRunningDuplicateParameters": false,
-  //"fitnessTypeName": "Optimization.ConfiguredFitness",
-  //"fitnessTypeName": "Optimization.NFoldCrossReturnMaximizer",
-  //"fitnessTypeName": "Optimization.NFoldCrossSharpeMaximizer",
-  //"fitnessTypeName": "Optimization.SharpeMaximizer",
-  "dataFolder": "../../../../Lean/Data",
-  "minimumTrades": 1,
+  "algorithmTypeName": "TrendFollowingAlgorithmForex",
+  "algorithmLocation": "../../../../Lean/Launcher/bin/debug/Jtc.Algorithm.dll",
+  "onePointCrossover": "false",
+  "fitnessTypeName": "Jtc.Optimization.LeanOptimizer.NFoldCrossSharpeMaximizer",
+  "useSharedAppDomain": true,
+  "dataFolder": "r:/Data",
+  "minimumTrades": 100,
   "enableFitnessFilter": true,
-  //"mutationProbability": 0.5,
-  //"crossoverProbability": 0.75
-  //"fitness": {
-  //  "scale": 1,
-  //  "modifier": -1,
-  //  "resultKey": "Beta",
-  //  "name": "MinimizeBeta",
-  //  "OptimizerTypeName": "ParticleSwarm"
-  //  "OptimizerTypeName": "RandomSearch"
-  //  "OptimizerTypeName": "GlobalizedBoundedNelderMead"
-  //}
+  "startDate": "2010-01-03",
+  "endDate": "2017-03-20",
+  "includeNegativeReturn": true,
+  "useActualGenesForWholeGeneration": false,
+  "fitness": {
+    //"scale": 1,
+    //"modifier": -1,
+    //"resultKey": "Beta",
+    //"name": "MinimizeBeta",
+    //"OptimizerTypeName": "ParticleSwarm"
+    "OptimizerTypeName": "ParticleSwarm",
+    "Folds": 4
+    //"OptimizerTypeName": "GlobalizedBoundedNelderMead"
+  }
 }

@@ -34,7 +34,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
             LogProvider.GenerationsLogger.Info(Termination);
 
-            var best = ((Chromosome)((SharpeMaximizer)_fitness).Best);
+            var best = (Chromosome)((SharpeMaximizer)_fitness).Best;
 
             var info = $"Algorithm: {_config.AlgorithmTypeName}, Fitness: {chromosome.Fitness}, {_fitness.Name}: " +
             $"{_fitness.GetValueFromFitness(chromosome.Fitness).ToString("F")}, {best.ToKeyValueString()}";

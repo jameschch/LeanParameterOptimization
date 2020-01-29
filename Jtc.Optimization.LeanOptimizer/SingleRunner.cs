@@ -32,7 +32,7 @@ namespace Jtc.Optimization.LeanOptimizer
         private object _resultsLocker = new object();
         private Dictionary<string, Dictionary<string, decimal>> GetResults()
         {
-            return SingleAppDomainManager.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
+            return ResultMediator.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
         }
 
         public Dictionary<string, decimal> Run(Dictionary<string, object> items, IOptimizerConfiguration config)
@@ -77,7 +77,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
             //store uniquely keyed config in app domain for each algorithm instance
             //todo: cleanup
-            SingleAppDomainManager.SetData(AppDomain.CurrentDomain, id, filteredConfig);
+            ResultMediator.SetData(AppDomain.CurrentDomain, id, filteredConfig);
 
             LogProvider.TraceLogger.Trace($"id: {id} started.");
             LaunchLean(id);

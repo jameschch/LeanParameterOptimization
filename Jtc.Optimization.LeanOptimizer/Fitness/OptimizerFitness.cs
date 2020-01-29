@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using Newtonsoft.Json;
 using Jtc.Optimization.Objects.Interfaces;
+using Jtc.Optimization.LeanOptimizer.Legacy;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -55,11 +56,11 @@ namespace Jtc.Optimization.LeanOptimizer
 
                 if (Config.UseSharedAppDomain)
                 {
-                    result = SingleAppDomainManager.RunAlgorithm(list, Config);
+                    result = SingleAppDomainManager.Instance.RunAlgorithm(list, Config);
                 }
                 else
                 {
-                    result = OptimizerAppDomainManager.RunAlgorithm(list, Config);
+                    result = LegacyAppDomainManager.Instance.RunAlgorithm(list, Config);
                 }
 
                 if (result == null)

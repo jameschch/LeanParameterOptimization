@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer.Legacy\Jtc.Optimization.LeanOptimizer.Legacy.csproj" />
+    <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer.Base\Jtc.Optimization.LeanOptimizer.Base.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
   </ItemGroup>
 

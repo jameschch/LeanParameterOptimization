@@ -1,4 +1,5 @@
 ﻿using Jtc.Optimization.LeanOptimizer;
+using Jtc.Optimization.LeanOptimizer.Legacy;
 using Jtc.Optimization.Objects;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             }
             else
             {
-                return OptimizerAppDomainManager.GetResults();
+                return LegacyAppDomainManager.Instance.GetResults();
             }
         }
 

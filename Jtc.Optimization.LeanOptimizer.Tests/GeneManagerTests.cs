@@ -60,9 +60,9 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
             unit.Start();
 
             fitness.Verify();
-            CollectionAssert.IsNotEmpty(actualChromose.Where(a => (int)((KeyValuePair<string, object>)a.GetGenes().First().Value).Value == actualValue));
+            CollectionAssert.IsNotEmpty(actualChromose.Where(a => (double)((KeyValuePair<string, object>)a.GetGenes().First().Value).Value == actualValue));
 
-            var actualCount = actualChromose.Where(a => (int)((KeyValuePair<string, object>)a.GetGenes().First().Value).Value == actualValue).Count();
+            var actualCount = actualChromose.Where(a => (double)((KeyValuePair<string, object>)a.GetGenes().First().Value).Value == actualValue).Count();
             Assert.AreEqual(useActualGenesForWholeGeneration ? 2 : 1, actualCount);
 
         }

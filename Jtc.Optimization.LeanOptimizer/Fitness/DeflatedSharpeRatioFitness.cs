@@ -9,6 +9,7 @@ using MathNet.Numerics.Distributions;
 using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Chromosomes;
 using Jtc.Optimization.Objects.Interfaces;
+using Jtc.Optimization.LeanOptimizer.Legacy;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -38,8 +39,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public virtual void Initialize()
         {
-            //todo: single app domain
-            var fullResults = OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain);
+            var fullResults = ResultMediator.GetResults(AppDomain.CurrentDomain);
             //let's exclude non-trading tests and any marked as error/failure with -10 Sharpe
             var hasTraded = fullResults.Where(d => d.Value["TotalNumberOfTrades"] != 0 && d.Value["SharpeRatio"] > -10);
             SharpeData = hasTraded.ToDictionary(k => k.Key, v => (double)v.Value["SharpeRatio"]);

@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Objects;
+using Jtc.Optimization.LeanOptimizer.Legacy;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -167,11 +168,11 @@ namespace Jtc.Optimization.LeanOptimizer
         {
             if (config.UseSharedAppDomain)
             {
-                return SingleAppDomainManager.RunAlgorithm(list, config);
+                return SingleAppDomainManager.Instance.RunAlgorithm(list, config);
             }
             else
             {
-                return OptimizerAppDomainManager.RunAlgorithm(list, config);
+                return LegacyAppDomainManager.Instance.RunAlgorithm(list, config);
             }
         }
 

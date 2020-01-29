@@ -31,7 +31,6 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
                 EndDate = new DateTime(2001, 1, 3)
             };
             _unit = new Wrapper(_config, Mock.Of<IFitnessFilter>());
-            OptimizerAppDomainManager.Initialize();
         }
 
 
@@ -39,9 +38,9 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
         public void EvaluateTest()
         {
             var originalHours = CurrentHours(_config);
-            OptimizerAppDomainManager.SetResults(AppDomain.CurrentDomain, new Dictionary<string, Dictionary<string, decimal>>());
+            ResultMediator.SetResults(AppDomain.CurrentDomain, new Dictionary<string, Dictionary<string, decimal>>());
 
-            OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain).Add("key", new Dictionary<string, decimal>() { { "SharpeRatio", 123m } });
+            ResultMediator.GetResults(AppDomain.CurrentDomain).Add("key", new Dictionary<string, decimal>() { { "SharpeRatio", 123m } });
 
             //will not adapt on first result
             Assert.AreEqual(originalHours, CurrentHours(_config));
@@ -77,13 +76,13 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
             var successKey = JsonConvert.SerializeObject(new Dictionary<string, object> { { "startDate", _config.StartDate }, { "period", 456 } });
             var expectedKey = JsonConvert.SerializeObject(new Dictionary<string, object> { { "startDate", extending }, { "period", 123 } });
 
-            OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain).Add(failureKey, failure);
-            OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain).Add(successKey, success);
+            ResultMediator.GetResults(AppDomain.CurrentDomain).Add(failureKey, failure);
+            ResultMediator.GetResults(AppDomain.CurrentDomain).Add(successKey, success);
 
             _unit.ExtendFailureKeysWrapper(extending);
 
-            Assert.AreEqual(1.5m, OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain)[successKey]["SharpeRatio"]);
-            Assert.AreEqual(-10m, OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain)[expectedKey]["SharpeRatio"]);
+            Assert.AreEqual(1.5m, ResultMediator.GetResults(AppDomain.CurrentDomain)[successKey]["SharpeRatio"]);
+            Assert.AreEqual(-10m, ResultMediator.GetResults(AppDomain.CurrentDomain)[expectedKey]["SharpeRatio"]);
         }
 
         private double CurrentHours(OptimizerConfiguration config)

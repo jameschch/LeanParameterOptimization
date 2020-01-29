@@ -15,7 +15,7 @@ Scenario Outline: Optimize parameters
 		| maxThreads | useSharedAppDomain | sharpRatio | totalTrades |
 		| 1          | true               | 4.8242     | 1           |
 		| 2          | true               | 4.8242     | 1           |
-		#| 1          | false              | 4.8242     | 1           |
-		#| 2          | false              | 4.8242     | 1           |
-		#| 7          | false              | 4.8242     | 1           |
+		| 1          | false              | 4.8242     | 1           |
+		| 2          | false              | 4.8242     | 1           |
+		| 7          | false              | 4.8242     | 1           |
 		| 7          | true               | 4.8242     | 1           |

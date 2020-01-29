@@ -43,12 +43,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
 
             if (config.UseSharedAppDomain)
             {
-                SingleAppDomainManager.Initialize();
                 config.AlgorithmTypeName = "ParameterizedSharedAppDomainAlgorithm";
-            }
-            else
-            {
-                OptimizerAppDomainManager.Initialize();
             }
 
             var manager = new MaximizerManager();

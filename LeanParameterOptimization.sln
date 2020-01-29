@@ -46,6 +46,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.Common.Interf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.InputOutput", "SharpLearning.InputOutput\SharpLearning.InputOutput.csproj", "{578BF26E-1A73-40C9-B6B9-627A952EF6CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimizer.Legacy", "Jtc.Optimization.LeanOptimizer.Legacy\Jtc.Optimization.LeanOptimizer.Legacy.csproj", "{A028E36A-18AD-4D7A-85CF-0CA19450A235}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimizer.Base", "Jtc.Optimization.LeanOptimizer.Base\Jtc.Optimization.LeanOptimizer.Base.csproj", "{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +128,14 @@ Global
 		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{578BF26E-1A73-40C9-B6B9-627A952EF6CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A028E36A-18AD-4D7A-85CF-0CA19450A235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A028E36A-18AD-4D7A-85CF-0CA19450A235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A028E36A-18AD-4D7A-85CF-0CA19450A235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A028E36A-18AD-4D7A-85CF-0CA19450A235}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

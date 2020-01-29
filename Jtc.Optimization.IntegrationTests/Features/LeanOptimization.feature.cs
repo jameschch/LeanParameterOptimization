@@ -86,6 +86,9 @@ namespace Jtc.Optimization.IntegrationTests.Features
         [Xunit.TraitAttribute("Category", "mytag")]
         [Xunit.InlineDataAttribute("1", "true", "4.8242", "1", new string[0])]
         [Xunit.InlineDataAttribute("2", "true", "4.8242", "1", new string[0])]
+        [Xunit.InlineDataAttribute("1", "false", "4.8242", "1", new string[0])]
+        [Xunit.InlineDataAttribute("2", "false", "4.8242", "1", new string[0])]
+        [Xunit.InlineDataAttribute("7", "false", "4.8242", "1", new string[0])]
         [Xunit.InlineDataAttribute("7", "true", "4.8242", "1", new string[0])]
         public virtual void OptimizeParameters(string maxThreads, string useSharedAppDomain, string sharpRatio, string totalTrades, string[] exampleTags)
         {

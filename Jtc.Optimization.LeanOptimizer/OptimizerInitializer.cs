@@ -48,21 +48,12 @@ namespace Jtc.Optimization.LeanOptimizer
                 }
             }
 
-            if (_config.UseSharedAppDomain)
-            {
-                SingleAppDomainManager.Initialize();
-            }
-            else
-            {
-                OptimizerAppDomainManager.Initialize();
-            }
-
             OptimizerFitness fitness = (OptimizerFitness)Assembly.GetExecutingAssembly().CreateInstance(_config.FitnessTypeName, false, BindingFlags.Default, null,
                 new object[] { _config, new FitnessFilter() }, null, null);
 
             if (_manager == null)
             {
-                if (new[] { typeof(SharpeMaximizer), typeof(NFoldCrossReturnMaximizer), typeof(NestedCrossSharpeMaximizer), typeof(NestedCrossSharpeMaximizer) }.Contains(fitness.GetType()))
+                if (new[] { typeof(SharpeMaximizer), typeof(NFoldCrossReturnMaximizer), typeof(NestedCrossSharpeMaximizer), typeof(NFoldCrossSharpeMaximizer) }.Contains(fitness.GetType()))
                 {
                     _manager = new MaximizerManager();
                     if (fitness.GetType() == typeof(OptimizerFitness))

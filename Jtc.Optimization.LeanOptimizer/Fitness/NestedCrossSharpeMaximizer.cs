@@ -1,4 +1,5 @@
-﻿using Jtc.Optimization.Objects;
+﻿using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ namespace Jtc.Optimization.LeanOptimizer
             var oneThirdConfig = Clone((OptimizerConfiguration)Config);
             oneThirdConfig.EndDate = Config.StartDate.Value.AddTicks(oneThird);
             //todo: single app domain
-            OptimizerAppDomainManager.RunAlgorithm(list, oneThirdConfig).Select(s => score[s.Key] += s.Value);
+            LegacyAppDomainManager.Instance.RunAlgorithm(list, oneThirdConfig).Select(s => score[s.Key] += s.Value);
 
             var twoThirdsConfig = Clone((OptimizerConfiguration)Config);
             twoThirdsConfig.EndDate = Config.StartDate.Value.AddTicks(oneThird * 2);
             //todo: single app domain
-            OptimizerAppDomainManager.RunAlgorithm(list, oneThirdConfig).Select(s => score[s.Key] += s.Value);
+            LegacyAppDomainManager.Instance.RunAlgorithm(list, oneThirdConfig).Select(s => score[s.Key] += s.Value);
             return score.ToDictionary(d => d.Key, d => d.Value / 3);
 
         }

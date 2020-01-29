@@ -1,3 +1,4 @@
+using Jtc.Optimization.LeanOptimizer.Legacy;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using QuantConnect.Configuration;
@@ -34,7 +35,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
 
-            Dictionary<string, Dictionary<string, decimal>> results = OptimizerAppDomainManager.GetResults(AppDomain.CurrentDomain);
+            Dictionary<string, Dictionary<string, decimal>> results = ResultMediator.GetResults(AppDomain.CurrentDomain);
             _config = config;
 
             _id = (items.ContainsKey("Id") ? items["Id"] : Guid.NewGuid().ToString("N")).ToString();
@@ -80,7 +81,7 @@ namespace Jtc.Optimization.LeanOptimizer
                     results.Remove(jsonKey);
                 }
                 results.Add(jsonKey, _resultsHandler.FullResults);
-                OptimizerAppDomainManager.SetResults(AppDomain.CurrentDomain, results);
+                ResultMediator.SetResults(AppDomain.CurrentDomain, results);
             }
 
             return _resultsHandler.FullResults;

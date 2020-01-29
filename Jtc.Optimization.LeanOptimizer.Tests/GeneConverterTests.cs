@@ -20,7 +20,11 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
             var config = JsonConvert.DeserializeObject<OptimizerConfiguration>(expected);
             expected = expected.Replace("\n", "").Replace(" ", "").Replace("\r", "");
 
-            var actual = JsonConvert.SerializeObject(config, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            var actual = JsonConvert.SerializeObject(config, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver(), 
+                DefaultValueHandling = DefaultValueHandling.Ignore });
+
+            //tolate extra deecimal zero
+            actual = actual.Replace(".0,", ",").Replace(".0}", "}");
 
             Assert.AreEqual(expected, actual);
 
