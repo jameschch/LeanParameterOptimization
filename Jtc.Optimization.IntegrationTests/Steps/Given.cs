@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -18,6 +19,22 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         [Given(@"I have an optimization\.config")]
         public void GivenIHaveAnOptimization_Config()
         {
+            //cleanup trace file
+            SpinWait.SpinUntil(() =>
+            {
+                try
+                {
+                    var stream = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "trace.txt"));
+                    stream.Dispose();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            },
+            TimeSpan.FromSeconds(1));
+
             var text = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "optimization_test.json"));
             var config = JsonConvert.DeserializeObject<OptimizerConfiguration>(text);
             ScenarioContext.Current.Set<OptimizerConfiguration>(config);

@@ -68,6 +68,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             },
             TimeSpan.FromSeconds(10));
 
+            //todo: flaky asserts due to missing log entries
             for (int i = 0; i < maxThreads; i++)
             {
                 log[i].EndsWith("started.");

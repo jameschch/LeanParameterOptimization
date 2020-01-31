@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Chromosomes;
 using Newtonsoft.Json;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.LeanOptimizer.Base;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

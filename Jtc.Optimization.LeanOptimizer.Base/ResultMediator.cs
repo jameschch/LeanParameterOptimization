@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Jtc.Optimization.LeanOptimizer
+namespace Jtc.Optimization.LeanOptimizer.Base
 {
     public class ResultMediator
     {

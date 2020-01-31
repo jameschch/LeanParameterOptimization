@@ -22,12 +22,9 @@ namespace Jtc.Optimization.LeanOptimizer.Example
     public class ParameterizedAlgorithm : QCAlgorithm
     {
 
-        public int FastPeriod = Config.GetInt("fast", 13);
-
-        public int SlowPeriod = Config.GetInt("slow", 56);
-
         public ExponentialMovingAverage Fast;
         public ExponentialMovingAverage Slow;
+        private decimal Take;
 
         public override void Initialize()
         {
@@ -37,20 +34,24 @@ namespace Jtc.Optimization.LeanOptimizer.Example
 
             AddSecurity(SecurityType.Equity, "SPY");
 
-            Fast = EMA("SPY", FastPeriod);
-            Slow = EMA("SPY", SlowPeriod);
+            Fast = EMA("SPY", Config.GetValue<int>("fast", 10));
+            Slow = EMA("SPY", Config.GetValue<int>("slow", 56));
+            Take = Config.GetValue<decimal>("slow", 0.1m);
         }
 
         public void OnData(TradeBars data)
         {
             // wait for our indicators to ready
-            if (!Fast.IsReady || !Slow.IsReady) return;
+            if (!Fast.IsReady || !Slow.IsReady)
+            {
+                return;
+            }
 
             if (Fast > Slow * 1.001m)
             {
                 SetHoldings("SPY", 1);
             }
-            else if (Portfolio["SPY"].HoldStock && Portfolio["SPY"].UnrealizedProfitPercent > Config.GetValue<decimal>("take", 0.2m))
+            else if (Portfolio["SPY"].HoldStock && Portfolio["SPY"].UnrealizedProfitPercent > Take)
             {
                 Liquidate("SPY");
             }

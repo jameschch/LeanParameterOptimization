@@ -1,3 +1,4 @@
+using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Jtc.Optimization.LeanOptimizer.Legacy
 
     public class LegacyAppDomainManager : BaseAppDomainManager<LegacyAppDomainManager>
     {
-
+        
         AppDomainSetup _setup;
 
         public LegacyAppDomainManager() : base()
@@ -34,7 +35,7 @@ namespace Jtc.Optimization.LeanOptimizer.Legacy
             var name = Guid.NewGuid().ToString("x");
             appDomain = AppDomain.CreateDomain(name, null, _setup);
 
-            var rc = (IRunner)appDomain.CreateInstanceAndUnwrap(Assembly.GetExecutingAssembly().FullName, RunnerType.FullName);
+            var rc = (IRunner)appDomain.CreateInstanceAndUnwrap("Jtc.Optimization.LeanOptimizer", "Jtc.Optimization.LeanOptimizer.Runner");
 
             return rc;
         }

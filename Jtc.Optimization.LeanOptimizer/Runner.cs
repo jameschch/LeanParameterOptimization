@@ -1,3 +1,4 @@
+using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.LeanOptimizer.Legacy;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;

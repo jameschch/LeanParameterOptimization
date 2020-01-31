@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jtc.Optimization.LeanOptimizer
+namespace Jtc.Optimization.LeanOptimizer.Base
 {
 
     public abstract class BaseAppDomainManager<T> where T : BaseAppDomainManager<T>, new()
@@ -42,13 +42,6 @@ namespace Jtc.Optimization.LeanOptimizer
         }
 
         protected abstract IRunner CreateRunnerInAppDomain(ref AppDomain ad);
-
-        public virtual Dictionary<string, decimal> RunAlgorithm(Dictionary<string, object> list, IOptimizerConfiguration config, Type runnerType)
-        {
-            RunnerType = runnerType;
-
-            return RunAlgorithm(list, config);
-        }
 
         public virtual Dictionary<string, decimal> RunAlgorithm(Dictionary<string, object> list, IOptimizerConfiguration config)
         {

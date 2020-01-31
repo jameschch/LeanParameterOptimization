@@ -49,7 +49,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
                 if (Config.StartDate.HasValue && Config.EndDate.HasValue)
                 {
-                    output += string.Format("Start: {0}, End: {1}, ", Config.StartDate, Config.EndDate);
+                    output += string.Format("Start: {0}, End: {1}, ", Config.StartDate.Value.ToString("yyyy-MM-DD"), Config.EndDate.Value.ToString("yyyy-MM-DD"));
                 }
 
                 Dictionary<string, decimal> result = null;

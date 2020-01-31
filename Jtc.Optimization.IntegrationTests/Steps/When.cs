@@ -15,27 +15,6 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         [When(@"I optimize")]
         public void WhenIOptimize()
         {
-            //if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Jtc.Optimization.LeanOptimizer.Example.dll")))
-            //{
-            //    File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Jtc.Optimization.LeanOptimizer.Example.dll"), 
-            //        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\Jtc.Optimization.LeanOptimizer.Example.dll"));
-            //}
-
-            SpinWait.SpinUntil(() =>
-            {
-                try
-                {
-                    File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "trace.txt"));
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            },
-            TimeSpan.FromSeconds(1));
-
-
 
             Config.Set("algorithm-location", "../Optimization.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll");
 

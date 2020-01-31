@@ -1,7 +1,7 @@
 using Jtc.Optimization.Objects.Interfaces;
 using System.Collections.Generic;
 
-namespace Jtc.Optimization.LeanOptimizer
+namespace Jtc.Optimization.LeanOptimizer.Base
 {
     public interface IRunner
     {

@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.InputOutput",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimizer.Legacy", "Jtc.Optimization.LeanOptimizer.Legacy\Jtc.Optimization.LeanOptimizer.Legacy.csproj", "{A028E36A-18AD-4D7A-85CF-0CA19450A235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimizer.Base", "Jtc.Optimization.LeanOptimizer.Base\Jtc.Optimization.LeanOptimizer.Base.csproj", "{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.LeanOptimizer.Base", "Jtc.Optimization.LeanOptimizer.Base\Jtc.Optimization.LeanOptimizer.Base.csproj", "{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

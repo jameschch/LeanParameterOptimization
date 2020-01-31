@@ -1,3 +1,4 @@
+using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using QuantConnect.Configuration;
@@ -143,7 +144,7 @@ namespace Jtc.Optimization.LeanOptimizer
             Config.Set("api-handler", nameof(EmptyApiHandler));
             Config.Set("backtesting.result-handler", nameof(OptimizerResultHandler));
 
-            Composer.Instance.Reset();
+            //Composer.Instance.Reset();
 
             //todo: instance logging
             //var logFileName = "log" + DateTime.Now.ToString("yyyyMMddssfffffff") + "_" + id + ".txt";
