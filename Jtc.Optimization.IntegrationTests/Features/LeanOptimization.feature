@@ -1,6 +1,5 @@
 ﻿Feature: LeanOptimization
 
-@mytag
 Scenario Outline: Optimize parameters
 	Given I have an optimization.config
 	And I have set maxThreads and generations to <maxThreads>

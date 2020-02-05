@@ -1,6 +1,7 @@
 ﻿using Jtc.Optimization.LeanOptimizer;
 using Jtc.Optimization.LeanOptimizer.Legacy;
 using Jtc.Optimization.Objects;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using Xunit;
 
 namespace Jtc.Optimization.IntegrationTests.Steps
 {
@@ -20,14 +20,14 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         public void ThenTheSharpRatioShouldBe(double p0)
         {
             var actual = GetResults();
-            Assert.Equal(p0, (double)actual.First().Value["SharpeRatio"], 3);
+            Assert.AreEqual(p0, (double)actual.First().Value["SharpeRatio"], 3);
         }
 
         [Then(@"Total Trades should be (.*)")]
         public void ThenTotalTradesShouldBe(int p0)
         {
             var actual = GetResults();
-            Assert.Equal(p0, actual.First().Value["TotalNumberOfTrades"]);
+            Assert.AreEqual(p0, actual.First().Value["TotalNumberOfTrades"]);
         }
 
         [Then(@"last run should produce different result")]

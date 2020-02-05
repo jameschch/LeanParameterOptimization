@@ -35,6 +35,8 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             },
             TimeSpan.FromSeconds(1));
 
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+
             var text = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "optimization_test.json"));
             var config = JsonConvert.DeserializeObject<OptimizerConfiguration>(text);
             ScenarioContext.Current.Set<OptimizerConfiguration>(config);

@@ -15,7 +15,7 @@
   "algorithm-language": "CSharp",
 
   //Physical DLL location
-  "algorithm-location": "QuantConnect.Algorithm.CSharp.dll",
+  "algorithm-location": "../Optimization.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll",
   //"algorithm-location": "../../../Algorithm.Python/BasicTemplateFrameworkAlgorithm.py",
   //"algorithm-location": "QuantConnect.Algorithm.FSharp.dll",
   //"algorithm-location": "QuantConnect.Algorithm.VisualBasic.dll",

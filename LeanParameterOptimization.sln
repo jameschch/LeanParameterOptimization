@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.IntegrationTests", "Jtc.Optimization.IntegrationTests\Jtc.Optimization.IntegrationTests.csproj", "{296A637B-1535-4DD7-B0F3-FEF7D9F4509B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimizer.Example", "Jtc.Optimization.LeanOptimizer.Example\Jtc.Optimization.LeanOptimizer.Example.csproj", "{B6177EC4-9C73-4420-B20D-47A69BB9BCF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.LeanOptimizer.Example", "Jtc.Optimization.LeanOptimizer.Example\Jtc.Optimization.LeanOptimizer.Example.csproj", "{B6177EC4-9C73-4420-B20D-47A69BB9BCF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLearning.Optimization", "SharpLearning.Optimization\SharpLearning.Optimization.csproj", "{6D834440-FC9C-42B2-9B85-3CBFD0769F45}"
 EndProject
