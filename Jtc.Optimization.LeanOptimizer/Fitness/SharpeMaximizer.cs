@@ -20,7 +20,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public virtual string ScoreKey { get; set; } = "SharpeRatio";
         public override string Name { get; set; } = "Sharpe";
-        public IChromosome Best { get; set; }
+        public virtual IChromosome Best { get; set; }
         private ConditionalWeakTable<OptimizerResult, string> _resultIndex;
         private bool _hasActualValues;
         private object _locker = new object();

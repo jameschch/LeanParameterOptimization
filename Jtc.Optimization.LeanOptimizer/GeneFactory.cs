@@ -48,7 +48,7 @@ namespace Jtc.Optimization.LeanOptimizer
             {
                 RandomizationProvider.Current = _fibonacci;
             }
-            else
+            else if (_basic != null)
             {
                 RandomizationProvider.Current = _basic;
             }

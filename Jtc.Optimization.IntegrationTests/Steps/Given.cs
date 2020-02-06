@@ -1,4 +1,5 @@
-﻿using Jtc.Optimization.Objects;
+﻿using Jtc.Optimization.LeanOptimizer;
+using Jtc.Optimization.Objects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,18 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         {
             ScenarioContext.Current.Get<OptimizerConfiguration>().UseSharedAppDomain = useSharedAppDomain;
         }
+
+        [Given(@"I have set Fitness to WalkForwardSharpeMaximizer with folds (.*)")]
+        public void GivenIHaveSetFitnessToWalkForwardSharpeMaximizerWithFolds(int p0)
+        {
+            ScenarioContext.Current.Get<OptimizerConfiguration>().FitnessTypeName = typeof(WalkForwardSharpeMaximizer).FullName;
+            ScenarioContext.Current.Get<OptimizerConfiguration>().Fitness = new FitnessConfiguration
+            {
+                Folds = p0,
+                OptimizerTypeName = "RandomSearch"
+            };
+        }
+
 
     }
 }
