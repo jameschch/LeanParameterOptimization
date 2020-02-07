@@ -1,4 +1,5 @@
-﻿using QuantConnect;
+﻿using Harmony;
+using QuantConnect;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.DataFeeds;
 using QuantConnect.Lean.Engine.Results;
@@ -23,6 +24,7 @@ namespace Jtc.Optimization.LeanOptimizer
     {
         protected IAlgorithm Algorithm { get; set; }
 
+        private const string PatchMethod = "SaveResults";
         private BacktestingResultHandler _shadow;
 
         #region Properties
@@ -62,20 +64,42 @@ namespace Jtc.Optimization.LeanOptimizer
         private bool _hasError;
         private static Type _shadowType = typeof(BacktestingResultHandler);
         private static BindingFlags _flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        static object _locker = new object();
 
         #endregion
 
         public OptimizerResultHandler()
         {
             _shadow = new BacktestingResultHandler();
+            Patch();
         }
 
         public OptimizerResultHandler(BacktestingResultHandler handler)
         {
             _shadow = handler;
+            Patch();
         }
 
-        //HACK: calculate statistics but not store result
+        private void Patch()
+        {
+            lock (_locker)
+            {
+                var harmony = HarmonyInstance.Create(PatchMethod);
+                harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
+        }
+
+        [HarmonyPatch(typeof(BaseResultsHandler))]
+        [HarmonyPatch(PatchMethod)]
+        class SaveResultsPatch
+        {
+            static bool Prefix(string name, Result result)
+            {
+                return false;
+            }
+        }
+
+        //HACK: calculate and retain full statistics but not store result
         public void SendFinalResult()
         {
             if (_hasError)
