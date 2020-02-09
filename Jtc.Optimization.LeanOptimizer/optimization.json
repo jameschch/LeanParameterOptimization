@@ -1,82 +1,124 @@
 {
   "genes": [
     {
-      "key": "period",
-      "min": 3,
-      "max": 34,
-      "fibonacci": true,
-      "actual": 6
+      "key": "explorationRate",
+      "min": 0.5,
+      "max": 0.9,
+      "precision": 2,
+      "actual": 0.9
     },
     {
-      "key": "take",
-      "min": 0.4,
-      "max": 0.7,
-      "precision": 1,
-      "actual": 0.5
+      "key": "learningRate",
+      "min": 0.1,
+      "max": 0.9,
+      "precision": 2,
+      "actual": 0.3
     },
     {
-      "key": "volatility",
-      "min": 0.001,
-      "max": 0.5,
-      "precision": 3,
-      "actual": 0.129
-    },
-    {
-      "key": "slopeLong",
-      "min": 0.0001,
-      "max": 0.01,
-      "precision": 4,
-      "actual": 0.001
-    },
-    {
-      "key": "slopeShort",
-      "min": 0.01,
-      "max": 5,
-      "precision": 1,
-      "actual": 2.9
-    },
-    {
-      "key": "stopPeriod",
-      "min": 5,
-      "max": 200,
-      "precision": 0,
-      "fibonacci": true,
-      "actual": 79
-    },
-    {
-      "key": "multiple",
-      "min": 1,
-      "max": 10,
-      //"fibonacci": false,
-      "actual": 1
+      "key": "lossAversion",
+      "min": 1.0,
+      "max": 3.0,
+      "precision": 1
+      //"actual": 0.097
     }
   ],
   "populationSize": 12,
-  "populationSizeMaximum": 48,
-  "generations": 1000,
-  "stagnationGenerations": 200,
-  "maxThreads": 4,
+  "populationSizeMaximum": 24,
+  "generations": 5000,
+  "stagnationGenerations": 500,
+  "maxThreads": 1,
   "configPath": "../../../../Lean/Launcher/config.json",
-  "algorithmTypeName": "TrendFollowingAlgorithmForex",
-  "algorithmLocation": "../../../../Lean/Launcher/bin/debug/Jtc.Algorithm.dll",
-  "onePointCrossover": "false",
-  "fitnessTypeName": "Jtc.Optimization.LeanOptimizer.NFoldCrossSharpeMaximizer",
-  "useSharedAppDomain": true,
+  "algorithmTypeName": "PorquePig",
+  "algorithmLocation": "Jtc.Algorithm.dll",
+  "onePointCrossover": "true",
   "dataFolder": "r:/Data",
-  "minimumTrades": 100,
-  "enableFitnessFilter": true,
-  "startDate": "2010-01-03",
-  "endDate": "2017-03-20",
   "includeNegativeReturn": true,
-  "useActualGenesForWholeGeneration": false,
+  "UseSharedAppDomain": true,
+  "EnableRunningDuplicateParameters": true,
+  "startDate": "2016-06-01",
+  "endDate": "2018-06-01",
+  // "endDate": "2018-06-30",
+  "enableFitnessFilter": true,
+  "minimumTrades": 1,
+  "fitnessTypeName": "Jtc.Optimization.LeanOptimizer.NFoldCrossSharpeMaximizer",
   "fitness": {
     //"scale": 1,
     //"modifier": -1,
     //"resultKey": "Beta",
     //"name": "MinimizeBeta",
-    //"OptimizerTypeName": "ParticleSwarm"
     "OptimizerTypeName": "ParticleSwarm",
-    "Folds": 4
-    //"OptimizerTypeName": "GlobalizedBoundedNelderMead"
+    "folds": 2
   }
 }
+//{
+//   "key": "profitIndicator",
+//   "min": 0.001,
+//   "max": 0.1,
+//   "precision": 3,
+//   "actual": 0.084
+// },
+//,
+//    {
+//      "key": "discountRate",
+//      "min": 0.2,
+//      "max": 0.8,
+//      "precision": 1,
+//      "actual": 0.5
+//    },
+//    {
+//      "key": "unrealizedScale",
+//      "min": 0.01,
+//      "max": 0.3,
+//      "precision": 2,
+//      "actual": 0.02
+//    },
+//    {
+//      "key": "tabuTime",
+//      "min": 1,
+//      "max": 10,
+//      //"precision": 1
+//      "actual": 8
+//    },
+//    {
+//      "key": "period",
+//      "min": 1,
+//      "max": 1000,
+//      "fibonacci": true,
+//      "actual": 89
+//    },
+//    {
+//      "key": "slowPeriod",
+//      "min": 1,
+//      "max": 1000,
+//      "fibonacci": true,
+//      "actual": 2
+//    },
+//    {
+//      "key": "fastPeriod",
+//      "min": 1,
+//      "max": 1000,
+//      "fibonacci": true,
+//      "actual": 987
+//    },
+//    {
+//      "key": "signalPeriod",
+//      "min": 1,
+//      "max": 1000,
+//      "fibonacci": true,
+//      "actual": 34
+//    },
+//    {
+//      "key": "lotSize",
+//      "min": 20,
+//      "max": 50,
+//      //"precision": 1,
+//      "actual": 50
+//    }
+   
+    //{
+    //  "key": "lossAversion",
+    //  "min": 1,
+    //  "max": 5,
+    //  //"precision": 0
+    //  //"actual": 4
+    //}

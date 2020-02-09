@@ -14,7 +14,7 @@
     <PackageReference Include="SharpLearning.Metrics" Version="0.29.0" />
     <PackageReference Include="SharpLearning.Optimization" Version="0.31.7" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
-    <PackageReference Include="System.IO.Abstractions" Version="8.0.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="8.0.5" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
 
