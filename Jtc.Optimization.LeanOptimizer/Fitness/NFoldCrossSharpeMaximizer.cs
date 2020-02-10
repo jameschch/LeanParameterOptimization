@@ -64,7 +64,7 @@ namespace Jtc.Optimization.LeanOptimizer
                     return foldScore;
                 }
 
-                score = foldScore.ToDictionary(k => k.Key, v => score[v.Key] += v.Value);
+                score = foldScore.Select(s => new KeyValuePair<string, decimal>(s.Key, score[s.Key] + s.Value)).ToDictionary(k => k.Key, v => v.Value);
 
                 previousConfig = iterationConfig;
             }

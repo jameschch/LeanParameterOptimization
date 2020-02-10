@@ -48,12 +48,14 @@ namespace Jtc.Optimization.LeanOptimizer
                 }
             }
 
-            OptimizerFitness fitness = (OptimizerFitness)Assembly.GetExecutingAssembly().CreateInstance(_config.FitnessTypeName, false, BindingFlags.Default, null,
+            var fitnessTypeName = _config.FitnessTypeName.Contains(".") ? _config.FitnessTypeName : "Jtc.Optimization.LeanOptimizer." + _config.FitnessTypeName;
+
+            OptimizerFitness fitness = (OptimizerFitness)Assembly.GetExecutingAssembly().CreateInstance(fitnessTypeName, false, BindingFlags.Default, null,
                 new object[] { _config, new FitnessFilter() }, null, null);
 
             if (_manager == null)
             {
-                if (new[] { typeof(SharpeMaximizer), typeof(NFoldCrossReturnMaximizer), typeof(NestedCrossSharpeMaximizer), typeof(NFoldCrossSharpeMaximizer) }.Contains(fitness.GetType()))
+                if (new[] { typeof(SharpeMaximizer), typeof(NFoldCrossReturnMaximizer), typeof(NestedCrossSharpeMaximizer), typeof(NFoldCrossSharpeMaximizer), typeof(WalkForwardSharpeMaximizer) }.Contains(fitness.GetType()))
                 {
                     _manager = new MaximizerManager();
                     if (fitness.GetType() == typeof(OptimizerFitness))

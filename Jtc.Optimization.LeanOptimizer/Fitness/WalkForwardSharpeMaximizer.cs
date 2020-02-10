@@ -76,6 +76,9 @@ namespace Jtc.Optimization.LeanOptimizer
                 LogProvider.GenerationsLogger.Info(output);
             }
 
+            Best.Fitness = (double)allScores.Average(a => a.Fitness);
+
+            //todo: return value is not used
             return (double)allScores.Average(a => a.Value);
         }
 

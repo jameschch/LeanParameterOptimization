@@ -30,6 +30,7 @@ namespace Jtc.Optimization.LeanOptimizer
         {
             GeneFactory.Initialize(_config.Genes);
             var chromosome = new Chromosome(false, GeneFactory.Config);
+            //todo: should use return value
             _fitness.Evaluate(chromosome);
 
             LogProvider.GenerationsLogger.Info(Termination);
