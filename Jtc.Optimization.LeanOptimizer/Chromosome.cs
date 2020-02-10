@@ -46,7 +46,16 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public Dictionary<string, object> ToDictionary()
         {
-            return this.GetGenes().ToDictionary(d => ((KeyValuePair<string, object>)d.Value).Key, d => ((KeyValuePair<string, object>)d.Value).Value);
+            //maximiser returns double that should be cooerced to int
+            var list = new Dictionary<string, object>();
+            foreach (var item in this.GetGenes())
+            {
+                var pair = (KeyValuePair<string, object>)item.Value;
+                var precision = _config.Single(s => s.Key == pair.Key).Precision ?? 0;
+                list.Add(pair.Key, precision > 0 ? pair.Value : Convert.ChangeType(pair.Value, typeof(int)));
+            }
+
+            return list;
         }
 
         public string ToKeyValueString()
