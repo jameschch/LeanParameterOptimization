@@ -28,12 +28,12 @@ namespace Jtc.Optimization.Objects
         public int PopulationSizeMaximum { get; set; } = 24;
 
         /// <summary>
-        /// The maximum generations
+        /// The maximum genetic generations or iterations of maximizer
         /// </summary>
         public int Generations { get; set; } = 1000;
 
         /// <summary>
-        /// Quit if fitness does not improve for generations
+        /// Quit if fitness does not improve for this number of genetic generations
         /// </summary>
         public int StagnationGenerations { get; set; } = 10;
 
@@ -43,7 +43,7 @@ namespace Jtc.Optimization.Objects
         public int MaxThreads { get; set; } = 8;
 
         /// <summary>
-        /// Override config.json setting
+        /// Override config.json setting with the class name of algorithm
         /// </summary>
         public string AlgorithmTypeName { get; set; }
 
@@ -53,7 +53,7 @@ namespace Jtc.Optimization.Objects
         public string ConfigPath { get; set; } = "../../../../Lean/Launcher/config.json";
 
         /// <summary>
-        /// 1 or 2 point crossover
+        /// 1 or 2 point genetic crossover
         /// </summary>
         public bool OnePointCrossover { get; set; } = false;
 
@@ -68,12 +68,12 @@ namespace Jtc.Optimization.Objects
         public bool IncludeNegativeReturn { get; set; }
 
         /// <summary>
-        /// Type name of fitness function. Defaults to fitness based on Sharpe Ratio
+        /// Type name of fitness function. Defaults to Sharpe Ratio fitness
         /// </summary>
-        public string FitnessTypeName { get; set; } = "Optimization.OptimizerFitness";
+        public string FitnessTypeName { get; set; } = "Jtc.Optimization.LeanOptimizer.OptimizerFitness";
 
         /// <summary>
-        /// Override config.json setting
+        /// Override config.json setting for the folder containing historical trade and symbol data 
         /// </summary>
         public string DataFolder { get; set; }
 
@@ -93,12 +93,12 @@ namespace Jtc.Optimization.Objects
         public DateTime? EndDate { get; set; }
 
         /// <summary>
-        /// Likeliness of mutation
+        /// Likeliness of genetic mutation
         /// </summary>
         public float MutationProbability { get; set; } = 0.1f;
 
         /// <summary>
-        /// Likeliness of crossover
+        /// Likeliness of genetic crossover
         /// </summary>
         public float CrossoverProbability { get; set; } = 0.75f;
 
@@ -113,8 +113,8 @@ namespace Jtc.Optimization.Objects
         public bool EnableFitnessFilter { get; set; }
 
         /// <summary>
-        /// The actual settings for a gene by default are used for a single chromosome of the first generation. 
-        /// Setting this to true will result in the entire first generation being populated with any actal genes specified.
+        /// By default, the actual value of a gene is used for a single chromosome of the first generation. 
+        /// Setting this to true will result in the entire first generation being populated with actal genes values.
         /// </summary>
         public bool UseActualGenesForWholeGeneration { get; set; }
 

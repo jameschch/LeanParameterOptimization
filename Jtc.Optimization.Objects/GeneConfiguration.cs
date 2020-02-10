@@ -17,12 +17,12 @@ namespace Jtc.Optimization.Objects
         public string Key { get; set; }
 
         /// <summary>
-        /// The minimum value for a value
+        /// The minimum value
         /// </summary>
         public double? Min { get; set; }
 
         /// <summary>
-        /// The maximum value for a value
+        /// The maximum value
         /// </summary>
         public double? Max { get; set; }
 
@@ -37,7 +37,7 @@ namespace Jtc.Optimization.Objects
         public double? Actual { get; set; }
 
         /// <summary>
-        /// When true, will randomly select a value between 0 to 10946 from the Fibonacci sequence instead of generating random values
+        /// When true, will randomly select a value between 0 to 10946 from the Fibonacci sequence instead of generating random values in Genetic optimization
         /// </summary>
         /// <remarks></remarks>
         public bool Fibonacci { get; set; }

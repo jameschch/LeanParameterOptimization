@@ -22,11 +22,11 @@ namespace Jtc.Optimization.Objects
         /// </summary>
         public string ResultKey { get; set; }
         /// <summary>
-        /// The scale factor of the fitness with a default value of 1. The maximum fitness value is 10000.
+        /// For ConfiguredFitenss, the scale factor of the fitness with a default value of 1. The maximum fitness value is 10000.
         /// </summary>
         public double? Scale { get; set; }
         /// <summary>
-        /// The modifier function of the fitness with a default value of 1. A value of -1 will invert the optimization to minimize the algorithm statistic result.
+        /// For ConfiguredFitenss, the modifier function of the fitness with a default value of 1. A value of -1 will invert the optimization to minimize the algorithm statistic result.
         /// </summary>
         public double? Modifier { get; set; }
         /// <summary>
