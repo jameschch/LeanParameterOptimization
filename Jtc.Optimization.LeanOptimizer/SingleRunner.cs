@@ -184,14 +184,17 @@ namespace Jtc.Optimization.LeanOptimizer
                 var algorithmManager = new AlgorithmManager(false);
                 systemHandlers.LeanManager.Initialize(systemHandlers, leanEngineAlgorithmHandlers, job, algorithmManager);
                 var engine = new Engine(systemHandlers, leanEngineAlgorithmHandlers, false);
-
-                engine.Run(job, algorithmManager, algorithmPath, new MultipleWorkerThread());
+                using (var workerThread = new MultipleWorkerThread())
+                {
+                    engine.Run(job, algorithmManager, algorithmPath, workerThread);
+                }
             }
             finally
             {
                 // clean up resources
                 systemHandlers.Dispose();
                 leanEngineAlgorithmHandlers.Dispose();
+
             }
 
         }
