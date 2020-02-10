@@ -1,12 +1,6 @@
 using GeneticSharp.Domain.Chromosomes;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -21,7 +15,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public override double Evaluate(IChromosome chromosome)
         {
-            var dualConfig = Clone<OptimizerConfiguration>((OptimizerConfiguration)Config);
+            var dualConfig = ((OptimizerConfiguration)Config).Clone();
             var start = Config.StartDate.Value;
             var end = Config.EndDate.Value;
             var diff = end - start;

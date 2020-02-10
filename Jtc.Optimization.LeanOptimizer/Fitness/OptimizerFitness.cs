@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Chromosomes;
 using Newtonsoft.Json;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.Objects;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -109,18 +110,6 @@ namespace Jtc.Optimization.LeanOptimizer
         {
             var serialized = JsonConvert.SerializeObject(source);
             return JsonConvert.DeserializeObject<T>(serialized);
-        }
-
-        protected class FitnessResult
-        {
-            /// <summary>
-            /// The value of the result
-            /// </summary>
-            public decimal Value { get; set; }
-            /// <summary>
-            /// The scaled or adjused fitness
-            /// </summary>
-            public double Fitness { get; set; }
         }
 
 

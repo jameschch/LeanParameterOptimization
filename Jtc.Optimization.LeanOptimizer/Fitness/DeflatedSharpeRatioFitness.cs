@@ -11,6 +11,7 @@ using GeneticSharp.Domain.Chromosomes;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.LeanOptimizer.Legacy;
 using Jtc.Optimization.LeanOptimizer.Base;
+using Jtc.Optimization.Objects;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

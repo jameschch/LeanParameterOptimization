@@ -31,7 +31,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
             foreach (var item in _calculator.Calculate(Config))
             {
-                var inSampleConfig = Clone((OptimizerConfiguration)Config);
+                var inSampleConfig = ((OptimizerConfiguration)Config).Clone();
                 inSampleConfig.StartDate = item.Value[0];
                 inSampleConfig.EndDate = item.Value[1];
                 var inSampleOptimizer = SharpeMaximizerFactory.Create(inSampleConfig, Filter);
@@ -57,7 +57,7 @@ namespace Jtc.Optimization.LeanOptimizer
                 var id = Guid.NewGuid().ToString("N");
                 list.Add("Id", id);
 
-                var outSampleConfig = Clone((OptimizerConfiguration)Config);
+                var outSampleConfig = ((OptimizerConfiguration)Config).Clone();
                 outSampleConfig.StartDate = item.Value[2];
                 outSampleConfig.EndDate = item.Value[3];
 

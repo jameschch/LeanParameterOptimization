@@ -25,7 +25,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public override Dictionary<string, decimal> GetScore(Dictionary<string, object> list, IOptimizerConfiguration config)
         {
-            var firstConfig = Clone((OptimizerConfiguration)Config);
+            var firstConfig = ((OptimizerConfiguration)Config).Clone();
 
             firstConfig.EndDate = firstConfig.EndDate.Value.Date.AddDays(1).AddTicks(-1);
             firstConfig.StartDate = firstConfig.StartDate.Value.Date;
@@ -53,7 +53,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
             for (int i = 0; i < _folds - 1; i++)
             {
-                var iterationConfig = Clone((OptimizerConfiguration)previousConfig);
+                var iterationConfig = previousConfig.Clone();
                 iterationConfig.StartDate = iterationConfig.EndDate.Value.AddTicks(1);
                 iterationConfig.EndDate = iterationConfig.StartDate.Value.AddTicks(foldSize);
 
