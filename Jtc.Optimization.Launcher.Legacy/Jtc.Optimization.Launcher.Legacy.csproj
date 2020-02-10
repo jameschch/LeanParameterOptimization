@@ -60,6 +60,9 @@
     <Reference Include="GeneticSharp.Infrastructure.Framework, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GeneticSharp.2.5.1\lib\net462\GeneticSharp.Infrastructure.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Jtc.Algorithm">
+      <HintPath>..\..\Lean\Launcher\bin\Debug\Jtc.Algorithm.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics, Version=4.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.4.8.0\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -97,7 +100,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Abstractions.8.0.3\lib\netstandard2.0\System.IO.Abstractions.dll</HintPath>
+      <HintPath>..\packages\System.IO.Abstractions.8.0.5\lib\netstandard2.0\System.IO.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System.IO.FileSystem.AccessControl, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
