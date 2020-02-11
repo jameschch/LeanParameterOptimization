@@ -31,6 +31,8 @@ namespace Jtc.Optimization.LeanOptimizer
         private OptimizerResultHandler _resultsHandler;
         IOptimizerConfiguration _config;
         private object _resultsLocker = new object();
+        private bool _disposed;
+
         private Dictionary<string, Dictionary<string, decimal>> GetResults()
         {
             return ResultMediator.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
@@ -194,9 +196,32 @@ namespace Jtc.Optimization.LeanOptimizer
                 // clean up resources
                 systemHandlers.Dispose();
                 leanEngineAlgorithmHandlers.Dispose();
-
             }
 
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~SingleRunner()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                //todo:
+            }
+
+            _disposed = true;
         }
 
         //due to single app domain, multiple instances of worker thread are needed.

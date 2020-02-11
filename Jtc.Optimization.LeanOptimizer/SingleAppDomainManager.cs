@@ -30,13 +30,22 @@ namespace Jtc.Optimization.LeanOptimizer
             var rc = CreateRunnerInAppDomain();
 
             var result = rc.Run(list, config);
+            rc.Dispose();
 
+            //todo: fix the leaks instead
+            //1 in 3 we manually collect
+            if (new Random().Next(0, 3) == 0)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+            }
             return result;
         }
 
         public new static Dictionary<string, Dictionary<string, decimal>> GetResults()
         {
-            return  ResultMediator.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
+            return ResultMediator.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
         }
 
         protected override IRunner CreateRunnerInAppDomain(ref AppDomain ad)

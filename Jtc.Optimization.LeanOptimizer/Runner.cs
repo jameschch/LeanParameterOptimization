@@ -30,6 +30,7 @@ namespace Jtc.Optimization.LeanOptimizer
         private OptimizerResultHandler _resultsHandler;
         IOptimizerConfiguration _config;
         private string _id;
+        private bool _disposed;
 
         public Dictionary<string, decimal> Run(Dictionary<string, object> items, IOptimizerConfiguration config)
         {
@@ -167,6 +168,31 @@ namespace Jtc.Optimization.LeanOptimizer
                 }
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~Runner()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                //todo:
+            }
+
+            _disposed = true;
+        }
+
 
     }
 }
