@@ -16,8 +16,9 @@ namespace Jtc.Optimization.Launcher.Legacy
         {
             try
             {
-                new OptimizerInitializer().Initialize(args);
+                LogManager.Configuration.LoggingRules.Remove(LogManager.Configuration.LoggingRules.Single(s => s.NameMatches("trace")));
 
+                new OptimizerInitializer().Initialize(args);
             }
             catch (Exception ex)
             {

@@ -33,13 +33,9 @@ namespace Jtc.Optimization.LeanOptimizer
             rc.Dispose();
 
             //todo: fix the leaks instead
-            //1 in 3 we manually collect
-            if (new Random().Next(0, 3) == 0)
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-            }
+            //GC.Collect(GC.GetGeneration(rc), GCCollectionMode.Forced, false);
+            //GC.WaitForPendingFinalizers();
+            //GC.Collect(GC.GetGeneration(rc), GCCollectionMode.Forced, false);
             return result;
         }
 
