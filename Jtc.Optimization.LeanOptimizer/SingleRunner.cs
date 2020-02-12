@@ -1,6 +1,7 @@
 using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
+using QuantConnect;
 using QuantConnect.Configuration;
 using QuantConnect.Data.Auxiliary;
 using QuantConnect.Lean.Engine;
@@ -181,11 +182,13 @@ namespace Jtc.Optimization.LeanOptimizer
             //job.PeriodStart = _config.StartDate;
             //job.PeriodFinish = _config.EndDate;
 
+            Engine engine;
+            AlgorithmManager algorithmManager;
             try
             {
-                var algorithmManager = new AlgorithmManager(false);
+                algorithmManager = new AlgorithmManager(false);
                 systemHandlers.LeanManager.Initialize(systemHandlers, leanEngineAlgorithmHandlers, job, algorithmManager);
-                var engine = new Engine(systemHandlers, leanEngineAlgorithmHandlers, false);
+                engine = new Engine(systemHandlers, leanEngineAlgorithmHandlers, false);
                 using (var workerThread = new MultipleWorkerThread())
                 {
                     engine.Run(job, algorithmManager, algorithmPath, workerThread);
@@ -194,34 +197,18 @@ namespace Jtc.Optimization.LeanOptimizer
             finally
             {
                 // clean up resources
+                ((OptimizerResultHandler)leanEngineAlgorithmHandlers.Results).Charts.Clear();
+                ((OptimizerResultHandler)leanEngineAlgorithmHandlers.Results).Messages.Clear();
                 systemHandlers.Dispose();
                 leanEngineAlgorithmHandlers.Dispose();
+                map = null;
+                systemHandlers = null;
+                leanEngineAlgorithmHandlers = null;
+                algorithmManager = null;
+                engine = null;
+                job = null;
             }
 
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~SingleRunner()
-        {
-            Dispose(false);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-            {
-                //todo:
-            }
-
-            _disposed = true;
         }
 
         //due to single app domain, multiple instances of worker thread are needed.

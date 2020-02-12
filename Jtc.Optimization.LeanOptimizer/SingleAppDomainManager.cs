@@ -20,22 +20,13 @@ namespace Jtc.Optimization.LeanOptimizer
             ResultMediator.SetResults(AppDomain.CurrentDomain, new Dictionary<string, Dictionary<string, decimal>>());
         }
 
-        static SingleRunner CreateRunnerInAppDomain()
-        {
-            return new SingleRunner();
-        }
-
         public override Dictionary<string, decimal> RunAlgorithm(Dictionary<string, object> list, IOptimizerConfiguration config)
         {
-            var rc = CreateRunnerInAppDomain();
+            var weak = new WeakReference<SingleRunner>(new SingleRunner());
 
+            weak.TryGetTarget(out var rc);
             var result = rc.Run(list, config);
-            rc.Dispose();
-
-            //todo: fix the leaks instead
-            //GC.Collect(GC.GetGeneration(rc), GCCollectionMode.Forced, false);
-            //GC.WaitForPendingFinalizers();
-            //GC.Collect(GC.GetGeneration(rc), GCCollectionMode.Forced, false);
+            rc = null;
             return result;
         }
 
@@ -46,7 +37,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         protected override IRunner CreateRunnerInAppDomain(ref AppDomain ad)
         {
-            return CreateRunnerInAppDomain();
+            throw new NotSupportedException();
         }
     }
 

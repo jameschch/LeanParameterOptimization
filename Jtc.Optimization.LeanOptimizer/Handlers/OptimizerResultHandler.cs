@@ -123,7 +123,7 @@ namespace Jtc.Optimization.LeanOptimizer
                 var profitLoss = new SortedDictionary<DateTime, decimal>(Algorithm.Transactions.TransactionRecord);
 
                 //var statisticsResults = GenerateStatisticsResults(charts, profitLoss);
-                var statisticsResults = (StatisticsResults)_shadowType.InvokeMember("GenerateStatisticsResults", _flags | BindingFlags.InvokeMethod, null, _shadow,
+                var statisticsResults = (StatisticsResults)_shadowType.BaseType.InvokeMember("GenerateStatisticsResults", _flags | BindingFlags.InvokeMethod, null, _shadow,
                    new object[] { charts, profitLoss });
 
                 //var runtime = GetAlgorithmRuntimeStatistics(statisticsResults.Summary);      
