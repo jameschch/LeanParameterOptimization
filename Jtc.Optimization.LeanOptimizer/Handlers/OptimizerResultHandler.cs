@@ -3,27 +3,22 @@ using QuantConnect;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.DataFeeds;
 using QuantConnect.Lean.Engine.Results;
-using QuantConnect.Lean.Engine.Setup;
 using QuantConnect.Lean.Engine.TransactionHandlers;
 using QuantConnect.Logging;
 using QuantConnect.Orders;
 using QuantConnect.Packets;
-using QuantConnect.Securities;
 using QuantConnect.Statistics;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
     public class OptimizerResultHandler : IResultHandler
     {
-        public IAlgorithm Algorithm { get; set; }
 
+        public IAlgorithm Algorithm { get; set; }
         private const string PatchMethod = "SaveResults";
         private BacktestingResultHandler _shadow;
 

@@ -2,10 +2,13 @@ using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using QuantConnect;
+using QuantConnect.Algorithm;
 using QuantConnect.Configuration;
 using QuantConnect.Data.Auxiliary;
+using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine;
 using QuantConnect.Lean.Engine.DataFeeds;
+using QuantConnect.Lean.Engine.HistoricalData;
 using QuantConnect.Lean.Engine.RealTime;
 using QuantConnect.Lean.Engine.Server;
 using QuantConnect.Lean.Engine.Setup;
@@ -14,11 +17,13 @@ using QuantConnect.Lean.Engine.TransactionHandlers;
 using QuantConnect.Logging;
 using QuantConnect.Packets;
 using QuantConnect.Queues;
+using QuantConnect.Statistics;
 using QuantConnect.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -207,7 +212,11 @@ namespace Jtc.Optimization.LeanOptimizer
                 // clean up resources
                 results.Charts.Clear();
                 results.Messages.Clear();
-                results.Algorithm.TradeBuilder.ClosedTrades.Clear();
+
+                results.Algorithm.Transactions.TransactionRecord.Clear();
+                var closedTrades = (List<Trade>)typeof(TradeBuilder).GetField("_closedTrades", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(results.Algorithm.TradeBuilder);
+                closedTrades.Clear();
+
                 results.Algorithm = null;
                 transactions.Orders.Clear();
                 transactions.OrderTickets.Clear();
