@@ -22,7 +22,7 @@ namespace Jtc.Optimization.LeanOptimizer
 {
     public class OptimizerResultHandler : IResultHandler
     {
-        protected IAlgorithm Algorithm { get; set; }
+        public IAlgorithm Algorithm { get; set; }
 
         private const string PatchMethod = "SaveResults";
         private BacktestingResultHandler _shadow;

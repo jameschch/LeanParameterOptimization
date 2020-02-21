@@ -32,7 +32,6 @@ namespace Jtc.Optimization.LeanOptimizer
         private OptimizerResultHandler _resultsHandler;
         IOptimizerConfiguration _config;
         private object _resultsLocker = new object();
-        private bool _disposed;
 
         private Dictionary<string, Dictionary<string, decimal>> GetResults()
         {
@@ -153,24 +152,33 @@ namespace Jtc.Optimization.LeanOptimizer
             //var logFileName = "log" + DateTime.Now.ToString("yyyyMMddssfffffff") + "_" + id + ".txt";
             Log.LogHandler = LogSingleton.Instance;
 
+            var jobQueue = new JobQueue();
+            var manager = new LocalLeanManager();
+
             var systemHandlers = new LeanEngineSystemHandlers(
-                new JobQueue(),
+                jobQueue,
                 new EmptyApiHandler(),
                 new QuantConnect.Messaging.Messaging(),
-                new LocalLeanManager());
+                manager);
 
             systemHandlers.Initialize();
 
             var map = new LocalDiskMapFileProvider();
+            var results = new OptimizerResultHandler();
+            var transactions = new BacktestingTransactionHandler();
+            var dataFeed = new FileSystemDataFeed();
+            var realTime = new BacktestingRealTimeHandler();
+            var data = new DefaultDataProvider();
+
             var leanEngineAlgorithmHandlers = new LeanEngineAlgorithmHandlers(
-                    new OptimizerResultHandler(),
+                    results,
                     new ConsoleSetupHandler(),
-                    new FileSystemDataFeed(),
-                    new BacktestingTransactionHandler(),
-                    new BacktestingRealTimeHandler(),
+                    dataFeed,
+                    transactions,
+                    realTime,
                     map,
                     new LocalDiskFactorFileProvider(map),
-                    new DefaultDataProvider(),
+                    data,
                     new OptimizerAlphaHandler(),
                     new EmptyObjectStore());
             _resultsHandler = (OptimizerResultHandler)leanEngineAlgorithmHandlers.Results;
@@ -197,16 +205,28 @@ namespace Jtc.Optimization.LeanOptimizer
             finally
             {
                 // clean up resources
-                ((OptimizerResultHandler)leanEngineAlgorithmHandlers.Results).Charts.Clear();
-                ((OptimizerResultHandler)leanEngineAlgorithmHandlers.Results).Messages.Clear();
+                results.Charts.Clear();
+                results.Messages.Clear();
+                results.Algorithm.TradeBuilder.ClosedTrades.Clear();
+                results.Algorithm = null;
+                transactions.Orders.Clear();
+                transactions.OrderTickets.Clear();
+                manager.Dispose();
                 systemHandlers.Dispose();
                 leanEngineAlgorithmHandlers.Dispose();
+                results = null;
+                dataFeed = null;
+                transactions = null;
+                realTime = null;
+                data = null;
                 map = null;
                 systemHandlers = null;
                 leanEngineAlgorithmHandlers = null;
                 algorithmManager = null;
                 engine = null;
                 job = null;
+                jobQueue = null;
+                manager = null;
             }
 
         }
