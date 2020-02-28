@@ -255,7 +255,8 @@ namespace Jtc.Optimization.BlazorClient
 
             try
             {
-                foreach (var file in await FileReaderService.CreateReference(FileUpload).EnumerateFilesAsync())
+                var fileReader = FileReaderService.CreateReference(FileUpload);
+                foreach (var file in await fileReader.EnumerateFilesAsync())
                 {
                     using (Stream stream = await file.OpenReadAsync())
                     {
@@ -268,7 +269,7 @@ namespace Jtc.Optimization.BlazorClient
                     }
                 }
 
-                await FileReaderService.CreateReference(FileUpload).ClearValue();
+                await fileReader.ClearValue();
             }
             catch (Exception ex)
             {

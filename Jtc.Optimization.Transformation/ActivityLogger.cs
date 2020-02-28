@@ -10,8 +10,8 @@ namespace Jtc.Optimization.Transformation
 
         private StringBuilder _status;
         private StringBuilder _log;
-        private const string DateFormat = "yyyy-MM-dd hh:mm:ss";
-        private const string DateWithMillisecondsFormat = "yyyy-MM-dd hh:mm:ss.ffff";
+        private const string DateFormat = "yyyy-MM-dd HH:mm:ss";
+        private const string DateWithMillisecondsFormat = "yyyy-MM-dd HH:mm:ss.ffff";
         private readonly Action _stateHasChanged;
         private readonly Action<string> _showMessage;
         private int _lastShowSecond;

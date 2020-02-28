@@ -5,6 +5,7 @@
 
 body {
     color: #ddd;
+    font-size: 0.9rem;
 }
 
 app {
@@ -235,4 +236,19 @@ a[aria-expanded="true"] {
 
 a[data-toggle="collapse"] {
     position: relative;
+}
+
+
+.btn {
+    font-size: 0.9rem;
+}
+
+#sidebarCollapse {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    background-image: url('/images/Hamburger_icon.svg');
+    height: 35px;
+    background-size: 100% auto;
+    width: 35px;
 }

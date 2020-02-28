@@ -24,6 +24,7 @@ namespace Jtc.Optimization.Transformation
             var data = new Dictionary<string, PlotlyData>();
             var rand = new XorRandom();
             string line;
+            int counter = 0;
             while ((line = await reader.ReadLineAsync()) != null)
             {
                 if (rand.Next(1, sampleRate) != 1)
@@ -54,11 +55,16 @@ namespace Jtc.Optimization.Transformation
                             {
                                 data.Add(pair[0], new PlotlyData { Name = pair[0] });
                             }
-                            data[pair[0]].X.Add(time.ToString("yyyy-MM-dd hh:mm:ss.ffff"));
+                            data[pair[0]].X.Add(time.ToString("yyyy-MM-dd HH:mm:ss.ffff"));
                             data[pair[0]].Y.Add(double.Parse(pair[1]));
                             data[pair[0]].Text.Add(pair[1]);
                         }
 
+                    }
+                    counter++;
+                    if (counter % 1000 == 0)
+                    {
+                        Console.WriteLine($"{DateTime.UtcNow.ToString("s")} Processing: {counter}");
                     }
                     //System.Diagnostics.Debug.WriteLine("Processing...");
                 }
@@ -112,7 +118,6 @@ namespace Jtc.Optimization.Transformation
                     {
                         list.Value.Y[i] = normalizer.Normalize(_min.Value, _max.Value, oldMin, oldMax, list.Value.Y[i]);
                     }
-                    //System.Diagnostics.Debug.WriteLine("Added to set:" + list.Key);
                 }
 
                 data = nonEmpty.Concat(new[] { data.Last() }).ToDictionary(k => k.Key, v => v.Value);

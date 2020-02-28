@@ -1,9 +1,9 @@
 ﻿# LeanParameterOptimization
-Parameter optimization for LEAN Trading Algorithms
+Parameter optimization for Lean Trading Algorithms
 
 This toolset allows you to execute multiple parallel backtests using a local Lean clone. It is possible to configure several different optimization methods to fit your trading algorithm to an array of different success measures. 
 
-You must edit the config file [optimization.json](https://github.com/jameschch/LeanOptimization/blob/master/Optimization/optimization.json) to define parameters and other settings. The gene values are fed into the Lean config and can be accessed in an algorithm using the QuantConnect.Configuration.Config methods.
+You must edit the config file [optimization.json](https://github.com/jameschch/LeanOptimization/blob/master/Optimization/optimization.json) to define parameters and other settings. The parameter values are fed into the Lean config and can be accessed in an algorithm using the QuantConnect.Configuration.Config methods.
 
 An example algorithm is provided here: [ParameterizedAlgorithm](https://github.com/jameschch/LeanOptimization/blob/master/Optimization.Example/ParameterizedAlgorithm.cs)
 
@@ -31,7 +31,7 @@ Specifying the SharpeMaximizer fitness allows access to all of the optimization 
 #### NFoldCrossSharpeMaximizer
 The simple SharpeMaximizer has been extended in NFoldCrossSharpeMaximizer so that the success score is measured over N-fold periods. This will prevent overfitting to a single in-sample period. 
 
-### WalkForwardSharpeMaximizer
+#### WalkForwardSharpeMaximizer
 Also now available is an experimental release of N-fold Walk Forward optimization.
 
 ## General
@@ -48,8 +48,8 @@ These methods can target several fitness and maximization goals:
 * N-Fold Cross-Validated Sharpe Ratio
 * N-Fold Cross-Validated Compounding Annual Return
 * Nested Cross-Validated Sharpe Ratio
-* Walk Forward Period Optimized Sharpe Ratio
-* Any Lean algorithm statistic (Sharpe Ratio, Alpha, Win Rate, etc)
+* Walk Forward Period Sharpe Ratio
+* Maximization of any Lean algorithm statistic (Sharpe Ratio, Alpha, Win Rate, etc)
 
 If it possible to run each parallel backtest in an isolated AppDomain, or in a single AppDomain. The latter option can be useful for training a machine learning model.
 
