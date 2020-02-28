@@ -58,11 +58,11 @@ Now also provided are several Blazor interfaces:
 
 * Optimization Config Editor
 
-![Config](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/config.jpg)
+![Config](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/config.png)
 
 * Optimization Results Charting
 
-![Chart](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/chart.jpg)
+![Chart](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/chart.png)
 
 * Algorithm Code Editor (C#, Javascript)
 
