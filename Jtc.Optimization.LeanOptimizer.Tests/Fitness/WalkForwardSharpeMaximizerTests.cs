@@ -16,7 +16,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
     [TestFixture()]
     public class WalkForwardSharpeMaximizerTests
     {
-
+        //todo: actual with precision
         [TestCase("2001-01-01", "2002-07-02", 2,
             new[]
             {
@@ -74,10 +74,10 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
                 actualDates.Add(unit.ActualOutSampleConfig[i].StartDate.Value);
                 actualDates.Add(unit.ActualOutSampleConfig[i].EndDate.Value);
 
-                actualValues.Add((double)unit.ActualInSampleChromosome[i].ToDictionary()["Key"]);
-                actualValues.Add((double)unit.ActualInSampleChromosome[i].ToDictionary()["Key2"]);
-                actualValues.Add((double)unit.ActualOutSampleList[i]["Key"]);
-                actualValues.Add((double)unit.ActualOutSampleList[i]["Key2"]);
+                actualValues.Add((int)unit.ActualInSampleChromosome[i].ToDictionary()["Key"]);
+                actualValues.Add((int)unit.ActualInSampleChromosome[i].ToDictionary()["Key2"]);
+                actualValues.Add((int)unit.ActualOutSampleList[i]["Key"]);
+                actualValues.Add((int)unit.ActualOutSampleList[i]["Key2"]);
             }
 
             expectedDates.Select(s => DateTime.Parse(s)).ShouldDeepEqual(actualDates);
@@ -86,7 +86,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
 
         public static GeneConfiguration[] SetupGenes()
         {
-            return new[] { new GeneConfiguration { Key = "Key", Min = 0.1, Max = 10, Actual = 0 }, new GeneConfiguration { Key = "Key2", Min = 0.1, Max = 10, Actual = 0 } };
+            return new[] { new GeneConfiguration { Key = "Key", Min = 0, Max = 10.0, Actual = 0  }, new GeneConfiguration { Key = "Key2", Min = 0, Max = 10.0, Actual = 0 } };
         }
 
         private class Wrapper : WalkForwardSharpeMaximizer
