@@ -12,5 +12,12 @@ namespace Jtc.Optimization.Objects
         public bool EnableOptimizerWorker { get; set; } = true;
         public bool EnableOptimizerMultithreading { get; set; } = false;
 
+#if DEBUG
+        public string ApiUrl { get; set; } = "http://localhost:5000";
+#else
+        public string ApiUrl { get; set; } = "http://api.optimizer.ml";
+#endif
+
+
     }
 }

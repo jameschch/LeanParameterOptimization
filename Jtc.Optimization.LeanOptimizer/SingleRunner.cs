@@ -213,12 +213,14 @@ namespace Jtc.Optimization.LeanOptimizer
                 Composer.Instance.Reset();
                 results.Charts.Clear();
                 results.Messages.Clear();
-
-                results.Algorithm.Transactions.TransactionRecord.Clear();
-                var closedTrades = (List<Trade>)typeof(TradeBuilder).GetField("_closedTrades", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(results.Algorithm.TradeBuilder);
-                closedTrades.Clear();
-                results.Algorithm.HistoryProvider = null;
-                results.Algorithm = null;
+                if (results.Algorithm != null)
+                {
+                    results.Algorithm.Transactions.TransactionRecord.Clear();
+                    var closedTrades = (List<Trade>)typeof(TradeBuilder).GetField("_closedTrades", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(results.Algorithm.TradeBuilder);
+                    closedTrades.Clear();
+                    results.Algorithm.HistoryProvider = null;
+                    results.Algorithm = null;
+                }
                 transactions.Orders.Clear();
                 transactions.OrderTickets.Clear();
                 manager.Dispose();

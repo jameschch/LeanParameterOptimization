@@ -56,15 +56,15 @@ If it possible to run each parallel backtest in an isolated AppDomain, or in a s
 ## User Interfaces (WIP)
 Now also provided are several Blazor interfaces:
 
-* Optimization Config Editor
+* Optimization Config Editor - [http://optimizer.ml/config](http://optimizer.ml/config)
 
 ![Config](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/config.png)
 
-* Optimization Results Charting
+* Optimization Results Chart - [http://optimizer.ml/chart](http://optimizer.ml/chart)
 
 ![Chart](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/chart.png)
 
-* Algorithm Code Editor (C#, Javascript)
+* Algorithm Code Editor (C#, Javascript) - [http://optimizer.ml/codeeditor](http://optimizer.ml/codeeditor)
 
 ## WIP
 * Currently supporting in-browser multi-threaded optimization (i.e. running server-less) of basic algorithms

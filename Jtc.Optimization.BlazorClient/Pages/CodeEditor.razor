@@ -3,14 +3,16 @@
 @inject Microsoft.JSInterop.IJSRuntime JSRuntime
 @using Jtc.Optimization.BlazorClient.Models
 
-<div class="container-fluid vh-100">
+<div class="container-fluid vh-100 px-4">
 
     <EditForm Model="@MinimizeFunctionCode" OnValidSubmit="@OptimizeClick">
         <div class="row">
-            <select value="@Language" @onchange="@LanguageChange">
-                <option value="javascript">Javascript</option>
-                <option value="csharp">C#</option>
-            </select>
+            <div class="col-sm-12">
+                <select value="@Language" @onchange="@LanguageChange">
+                    <option value="javascript">Javascript</option>
+                    <option value="csharp">C#</option>
+                </select>
+            </div>
         </div>
 
         <div id="editor"></div>

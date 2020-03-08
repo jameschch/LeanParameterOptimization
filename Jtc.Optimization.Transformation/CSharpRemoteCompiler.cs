@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Jtc.Optimization.Objects;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization.Transformation
 {
 
     public class CSharpRemoteCompiler : CSharpCompiler
     {
+        private readonly IBlazorClientConfiguration _blazorClientConfiguration;
 
-
-        public CSharpRemoteCompiler(HttpClient httpClient, IMscorlibProvider mscorlibProvider) : base(httpClient, mscorlibProvider)
-        {          
+        public CSharpRemoteCompiler(HttpClient httpClient, IMscorlibProvider mscorlibProvider, IBlazorClientConfiguration blazorClientConfiguration)
+            : base(httpClient, mscorlibProvider)
+        {
+            _blazorClientConfiguration = blazorClientConfiguration;
         }
 
         public override async Task<MemoryStream> CreateAssembly(string code)
@@ -28,7 +25,8 @@ namespace Jtc.Optimization.Transformation
 
         public async Task<MemoryStream> CreateAssemblyRemotely(string code)
         {
-            var response = await HttpClient.PostAsync("http://localhost:5000/api/compiler", new StringContent(code, Encoding.UTF8, "text/plain"));
+            var response = await HttpClient.PostAsync(_blazorClientConfiguration.ApiUrl + "/api/compiler", 
+                new StringContent(code, Encoding.UTF8, "text/plain"));
             if (response.IsSuccessStatusCode)
             {
                 var stream = new MemoryStream();
