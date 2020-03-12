@@ -206,6 +206,7 @@ namespace Jtc.Optimization.LeanOptimizer
         public void ErrorMessage(string error, string stacktrace = "")
         {
             _shadow.ErrorMessage(error, stacktrace);
+            LogProvider.ErrorLogger.Error(new Exception($"{Algorithm.AlgorithmId}:{ error }:{stacktrace}"));
         }
 
         public void RuntimeError(string message, string stacktrace = "")

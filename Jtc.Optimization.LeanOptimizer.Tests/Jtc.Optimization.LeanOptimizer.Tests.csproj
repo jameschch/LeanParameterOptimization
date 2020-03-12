@@ -145,7 +145,9 @@
     <Compile Include="Fitness\DualPeriodSharpeFitnessTests.cs" />
     <Compile Include="Fitness\SharpeMaximizerTests.cs" />
     <Compile Include="Fitness\WalkForwardPeriodCalculatorTests.cs" />
+    <Compile Include="Fitness\WalkForwardWeightedMetricSharpeMaximizerTests.cs" />
     <Compile Include="Fitness\WalkForwardSharpeMaximizerTests.cs" />
+    <Compile Include="Fitness\WeightedMetricCostTest.cs" />
     <Compile Include="GeneConverterTests.cs" />
     <Compile Include="GeneFactoryTests.cs" />
     <Compile Include="GeneManagerTests.cs" />

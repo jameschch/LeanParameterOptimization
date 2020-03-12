@@ -9,6 +9,7 @@ namespace Jtc.Optimization.Objects
 
         public static Dictionary<string, string> Binding = new Dictionary<string, string>
         {
+            //todo: add psr etc
             {"Total Trades", "TotalNumberOfTrades"},
             {"Average Win","AverageWinRate"},
             {"Average Loss","AverageLossRate"},

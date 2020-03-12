@@ -9,6 +9,7 @@ using System.Reflection;
 using System.IO.Abstractions;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Objects;
+using Jtc.Optimization.LeanOptimizer.Fitness;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -55,7 +56,8 @@ namespace Jtc.Optimization.LeanOptimizer
 
             if (_manager == null)
             {
-                if (new[] { typeof(SharpeMaximizer), typeof(NFoldCrossReturnMaximizer), typeof(NestedCrossSharpeMaximizer), typeof(NFoldCrossSharpeMaximizer), typeof(WalkForwardSharpeMaximizer) }.Contains(fitness.GetType()))
+                if (new[] { typeof(SharpeMaximizer), typeof(NFoldCrossReturnMaximizer), typeof(NestedCrossSharpeMaximizer), typeof(NFoldCrossSharpeMaximizer), typeof(WalkForwardSharpeMaximizer),
+                     typeof(WalkForwardWeightedMetricSharpeMaximizer)}.Contains(fitness.GetType()))
                 {
                     _manager = new MaximizerManager();
                     if (fitness.GetType() == typeof(OptimizerFitness))

@@ -7,13 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jtc.Optimization.LeanOptimizer
+namespace Jtc.Optimization.LeanOptimizer.Fitness
 {
-    public class WalkForwardSharpeMaximizer : SharpeMaximizer
+    public class WalkForwardSharpeMaximizer : SharpeMaximizer, IWalkForwardSharpeMaximizer
     {
 
         public override string Name { get; set; } = "WalkForwardSharpe";
         private WalkForwardPeriodCalculator _calculator = new WalkForwardPeriodCalculator();
+        public List<FitnessResult> AllScores { get; } = new List<FitnessResult>();
+        public List<Dictionary<string, object>> AllBest { get; } = new List<Dictionary<string, object>>();
+
         public virtual ISharpeMaximizerFactory SharpeMaximizerFactory { get; } = new SharpeMaximizerFactory();
 
         public WalkForwardSharpeMaximizer(IOptimizerConfiguration config, IFitnessFilter filter) : base(config, filter)
@@ -27,8 +30,6 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public override double Evaluate(IChromosome chromosome)
         {
-            var allScores = new List<FitnessResult>();
-
             foreach (var item in _calculator.Calculate(Config))
             {
                 var inSampleConfig = ((OptimizerConfiguration)Config).Clone();
@@ -54,6 +55,7 @@ namespace Jtc.Optimization.LeanOptimizer
                 }
 
                 var list = ((Chromosome)Best).ToDictionary();
+                AllBest.Add(list);
                 var id = Guid.NewGuid().ToString("N");
                 list.Add("Id", id);
 
@@ -65,7 +67,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
                 var fitness = CalculateFitness(score);
 
-                allScores.Add(fitness);
+                AllScores.Add(fitness);
 
                 var output = new StringBuilder();
                 output.Append("Id: " + id + ", ");
@@ -76,10 +78,10 @@ namespace Jtc.Optimization.LeanOptimizer
                 LogProvider.GenerationsLogger.Info(output);
             }
 
-            Best.Fitness = (double)allScores.Average(a => a.Fitness);
+            Best.Fitness = (double)AllScores.Average(a => a.Fitness);
 
             //todo: return value is not used
-            return (double)allScores.Average(a => a.Value);
+            return (double)AllScores.Average(a => a.Value);
         }
 
 

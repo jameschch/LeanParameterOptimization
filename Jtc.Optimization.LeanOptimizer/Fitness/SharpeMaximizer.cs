@@ -87,7 +87,7 @@ namespace Jtc.Optimization.LeanOptimizer
                 _hasActualValues = true;
                 var result = optimizer.OptimizeBest(minimize);
 
-                Best = ToChromosome(result, chromosome);
+                Best = MergeFromResult(result, chromosome);
 
                 return result.Error;
             }
@@ -98,12 +98,11 @@ namespace Jtc.Optimization.LeanOptimizer
             }
         }
 
-        public OptimizerResult Minimize(double[] p, Chromosome configChromosome)
+        public virtual OptimizerResult Minimize(double[] p, Chromosome configChromosome)
         {
             var id = Guid.NewGuid().ToString("N");
             try
             {
-
                 StringBuilder output = new StringBuilder();
                 var list = configChromosome.ToDictionary();
 
@@ -176,8 +175,9 @@ namespace Jtc.Optimization.LeanOptimizer
             }
         }
 
-        private IChromosome ToChromosome(OptimizerResult result, IChromosome source)
+        private IChromosome MergeFromResult(OptimizerResult result, IChromosome source)
         {
+            //todo: shouldn't this be a clone?
             var destination = (Chromosome)source;
             destination.Id = _resultIndex.GetValue(result, (k) => Guid.NewGuid().ToString("N"));
 

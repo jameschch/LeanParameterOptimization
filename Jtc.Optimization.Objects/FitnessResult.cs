@@ -9,7 +9,7 @@
         /// </summary>
         public decimal Value { get; set; }
         /// <summary>
-        /// The scaled or adjused fitness
+        /// The scaled or adjusted fitness
         /// </summary>
         public double Fitness { get; set; }
     }

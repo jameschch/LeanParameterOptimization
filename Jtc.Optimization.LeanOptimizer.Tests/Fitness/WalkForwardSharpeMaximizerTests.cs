@@ -1,6 +1,7 @@
 ﻿using DeepEqual.Syntax;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using Jtc.Optimization.LeanOptimizer.Fitness;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using Moq;
