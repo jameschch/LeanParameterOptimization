@@ -1,6 +1,6 @@
 ﻿using Jtc.Optimization.Objects.Interfaces;
 
-namespace Jtc.Optimization.LeanOptimizer.Fitness
+namespace Jtc.Optimization.LeanOptimizer
 {
     class WalkForwardSharpeMaximizerFactory : IWalkForwardSharpeMaximizerFactory
     {

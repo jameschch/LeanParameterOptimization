@@ -14,11 +14,13 @@ namespace Jtc.Optimization.LeanOptimizer.Fitness.Tests
 
         WalkForwardWeightedMetricSharpeMaximizer _unit;
         private OptimizerConfiguration _config;
+        private Dictionary<string, object> _list;
 
         [SetUp]
         public void Setup()
         {
             _config = new OptimizerConfiguration { Genes = new[] { new GeneConfiguration { Key = "p1", Min = 1, Max = 2 }, new GeneConfiguration { Key = "p2", Min = 1, Max = 2 } } };
+            _list = new Dictionary<string, object> { { "p1", 1.0 }, {"p2", 0.1 }, {"Id", "abc123" } };
             IFitnessFilter filter = null;
             _unit = new WalkForwardWeightedMetricSharpeMaximizer(_config, filter);
             _unit.WalkForwardSharpeMaximizerFactory = new Factory();
@@ -27,7 +29,7 @@ namespace Jtc.Optimization.LeanOptimizer.Fitness.Tests
         [Test]
         public void GetScoreTest()
         {
-            var actual = _unit.GetScore(null, _config);
+            var actual = _unit.GetScore(_list, _config);
 
             Assert.AreEqual(2, actual["AverageSharpe"]);
             Assert.AreEqual(2.225, actual["WalkForwardWeightedMetricSharpe"]);

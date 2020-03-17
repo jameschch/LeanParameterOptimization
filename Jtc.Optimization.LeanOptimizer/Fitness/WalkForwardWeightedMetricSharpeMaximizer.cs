@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Jtc.Optimization.LeanOptimizer.Fitness
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class WalkForwardWeightedMetricSharpeMaximizer : SharpeMaximizer
     {
@@ -27,12 +27,19 @@ namespace Jtc.Optimization.LeanOptimizer.Fitness
         {
             var maximizer = WalkForwardSharpeMaximizerFactory.Create(config, Filter);
 
-            //todo: support actual gene
-            //non-normalized average sharpe
-            var score = maximizer.Evaluate(new Chromosome(false, config.Genes));
+            var chromosome = new Chromosome(true, config.Genes);
+            foreach (var item in config.Genes)
+            {
+                item.Actual = (double)list[item.Key];
+            }
 
+            //returns non-normalized average sharpe
+            var score = maximizer.Evaluate(chromosome);
+
+            var excluding = new[] { "Id", "startDate", "endDate" };
             //parameter matrix
-            var flattened = maximizer.AllBest.Select(s => s.Values.Select(v => (double)v).ToArray()).ToArray();
+            var flattened = maximizer.AllBest.Select(s => s.Where(w => !excluding.Contains(w.Key))
+                .Select(v => v.Value is int ? (double)(int)v.Value : (double)v.Value).ToArray()).ToArray();
 
             var cost = WeightedMetricCost.Calculate(maximizer.AllScores.Select(a => (double)a.Value).ToArray(), flattened);
 
@@ -41,13 +48,11 @@ namespace Jtc.Optimization.LeanOptimizer.Fitness
 
         protected override FitnessResult CalculateFitness(Dictionary<string, decimal> result)
         {
-            var id = result.Keys.First();
             var cost = (double)result[Name];
             var fitness = new FitnessResult { Fitness = cost, Value = result[AverageSharpe] };
 
             var output = new StringBuilder();
-            output.Append("Id: " + id + ", ");
-            output.AppendFormat("{0}: {1}", AverageSharpe, fitness.Value.ToString("0.##"));
+            output.AppendFormat("{0}: {1}, ", AverageSharpe, fitness.Value.ToString("0.##"));
             output.AppendFormat("{0}: {1}", Name, fitness.Fitness.ToString("0.##"));
             LogProvider.GenerationsLogger.Info(output);
 

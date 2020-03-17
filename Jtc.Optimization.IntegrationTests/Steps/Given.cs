@@ -1,5 +1,4 @@
 ﻿using Jtc.Optimization.LeanOptimizer;
-using Jtc.Optimization.LeanOptimizer.Fitness;
 using Jtc.Optimization.Objects;
 using Newtonsoft.Json;
 using System;

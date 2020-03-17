@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeneticSharp.Domain.Fitnesses;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.IO.Abstractions;
-using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Objects;
-using Jtc.Optimization.LeanOptimizer.Fitness;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

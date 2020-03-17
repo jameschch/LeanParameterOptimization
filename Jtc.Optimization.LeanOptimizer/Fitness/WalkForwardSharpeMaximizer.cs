@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jtc.Optimization.LeanOptimizer.Fitness
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class WalkForwardSharpeMaximizer : SharpeMaximizer, IWalkForwardSharpeMaximizer
     {

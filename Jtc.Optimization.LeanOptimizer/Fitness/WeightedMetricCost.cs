@@ -3,7 +3,7 @@ using MathNet.Numerics.Statistics;
 using System;
 using System.Linq;
 
-namespace Jtc.Optimization.LeanOptimizer.Fitness
+namespace Jtc.Optimization.LeanOptimizer
 {
     public class WeightedMetricCost
     {

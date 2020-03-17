@@ -2,7 +2,7 @@
 using Jtc.Optimization.Objects;
 using System.Collections.Generic;
 
-namespace Jtc.Optimization.LeanOptimizer.Fitness
+namespace Jtc.Optimization.LeanOptimizer
 {
     public interface IWalkForwardSharpeMaximizer
     {

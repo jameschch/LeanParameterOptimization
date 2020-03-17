@@ -31,14 +31,14 @@ namespace Jtc.Optimization.LeanOptimizer
             GeneFactory.Initialize(_config.Genes);
             var chromosome = new Chromosome(false, GeneFactory.Config);
             //todo: should use return value
-            _fitness.Evaluate(chromosome);
+            var cost = _fitness.Evaluate(chromosome);
 
             LogProvider.GenerationsLogger.Info(Termination);
 
             var best = (Chromosome)((SharpeMaximizer)_fitness).Best;
 
             var info = $"Algorithm: {_config.AlgorithmTypeName}, Fitness: {chromosome.Fitness}, {_fitness.Name}: " +
-            $"{_fitness.GetValueFromFitness(chromosome.Fitness).ToString("F")}, {best.ToKeyValueString()}";
+            $"{cost.ToString("F")}, {best.ToKeyValueString()}";
 
             LogProvider.GenerationsLogger.Info(info);
         }
