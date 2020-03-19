@@ -15,16 +15,23 @@ namespace Jtc.Optimization.LeanOptimizer
         private const string AverageSharpe = "AverageSharpe";
         public static object IsActualLocker = new object();
         private bool _isActual;
+        private int _foldMaxThreads;
+
         public IWalkForwardSharpeMaximizerFactory WalkForwardSharpeMaximizerFactory { get; set; }
         public override string Name { get; set; } = "WalkForwardWeightedMetricSharpe";
 
         public WalkForwardWeightedMetricSharpeMaximizer(IOptimizerConfiguration config, IFitnessFilter filter) : base(config, filter)
         {
+            //one thread for parent and max threads for fold optimizer
+            _foldMaxThreads = config.MaxThreads;
+            config.MaxThreads = 1;
+
             WalkForwardSharpeMaximizerFactory = new WalkForwardSharpeMaximizerFactory();
         }
 
         public override Dictionary<string, decimal> GetScore(Dictionary<string, object> list, IOptimizerConfiguration config)
         {
+            config.MaxThreads = _foldMaxThreads;
             var maximizer = WalkForwardSharpeMaximizerFactory.Create(config, Filter);
 
             var chromosome = new Chromosome(true, config.Genes);
