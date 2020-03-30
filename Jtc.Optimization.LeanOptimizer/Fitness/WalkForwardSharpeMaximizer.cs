@@ -63,6 +63,10 @@ namespace Jtc.Optimization.LeanOptimizer
                 outSampleConfig.StartDate = item.Value[2];
                 outSampleConfig.EndDate = item.Value[3];
 
+                lock (Locker)
+                {
+                    HasRunActual = false;
+                }
                 var score = this.GetScore(list, outSampleConfig);
 
                 var fitness = CalculateFitness(score);
@@ -80,7 +84,6 @@ namespace Jtc.Optimization.LeanOptimizer
 
             Best.Fitness = (double)AllScores.Average(a => a.Fitness);
 
-            //todo: return value is not used
             return (double)AllScores.Average(a => a.Value);
         }
 

@@ -216,6 +216,12 @@ namespace Jtc.Optimization.LeanOptimizer
                 if (results.Algorithm != null)
                 {
                     results.Algorithm.Transactions.TransactionRecord.Clear();
+                    results.Algorithm.SubscriptionManager.Subscriptions.SelectMany(s => s.Consolidators)?.ToList().ForEach(f =>
+                    {
+                        results.Algorithm.SubscriptionManager.RemoveConsolidator(f.WorkingData?.Symbol, f);
+                        UnregisterAllEvents(f);
+                    });
+                    ((QCAlgorithm)results.Algorithm).SubscriptionManager.Subscriptions.ToList().Clear();
                     var closedTrades = (List<Trade>)typeof(TradeBuilder).GetField("_closedTrades", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(results.Algorithm.TradeBuilder);
                     closedTrades.Clear();
                     results.Algorithm.HistoryProvider = null;
@@ -241,6 +247,27 @@ namespace Jtc.Optimization.LeanOptimizer
                 manager = null;
             }
 
+        }
+
+        //fix base consolidator event handler leak
+        private static void UnregisterAllEvents(object objectWithEvents)
+        {
+            Type theType = objectWithEvents.GetType().BaseType;
+            foreach (FieldInfo field in theType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                EventInfo eventInfo = theType.GetEvent(field.Name);
+                if (eventInfo != null)
+                {
+                    MulticastDelegate multicastDelegate = field.GetValue(objectWithEvents) as MulticastDelegate;
+                    if (multicastDelegate != null)
+                    {
+                        foreach (Delegate _delegate in multicastDelegate.GetInvocationList())
+                        {
+                            eventInfo.RemoveEventHandler(objectWithEvents, _delegate);
+                        }
+                    }
+                }
+            }
         }
 
         //due to single app domain, multiple instances of worker thread are needed.

@@ -179,5 +179,14 @@ namespace Jtc.Optimization.BlazorClient.Models
         /// </summary>
         [Range(1, int.MaxValue)]
         public int Folds { get; set; } = 1;
+        /// <summary>
+        /// Type of fitness/optimization algorithm to use for Walk forward weighted metric fold
+        /// </summary>
+        public string FoldOptimizerTypeName { get; set; }
+        /// <summary>
+        /// Number of generations for each fold for Walk forward weighted metric fold
+        /// </summary>
+        public int? FoldGenerations { get; set; }
+
     }
 }

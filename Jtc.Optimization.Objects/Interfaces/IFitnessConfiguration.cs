@@ -15,6 +15,8 @@ namespace Jtc.Optimization.Objects.Interfaces
         double? Scale { get; set; }
         double? Modifier { get; set; }
         string OptimizerTypeName { get; set; }
+        string FoldOptimizerTypeName { get; set; }
+        int? FoldGenerations { get; set; }
     }
 
 }

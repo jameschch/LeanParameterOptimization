@@ -10,7 +10,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public static double Calculate(double[] sharpeRatio, double[][] parameters)
         {
-            var normalizedSharpe = sharpeRatio.Select(s => Normalize(s)).Average();
+            var normalizedSharpe = sharpeRatio.Select(s => Math.Round(Normalize(s), 3)).Average();
 
             var matrix = Matrix<double>.Build.DenseOfColumns(parameters);
 
@@ -26,7 +26,7 @@ namespace Jtc.Optimization.LeanOptimizer
         /// <returns></returns>
         private static double Normalize(double value)
         {
-            return Math.Round(Math.Max(Math.Min(value, 4.0), -4.0), 2);
+            return Math.Max(Math.Min(value, 4.0), -4.0);
         }
 
     }

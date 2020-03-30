@@ -22,11 +22,10 @@ namespace Jtc.Optimization.LeanOptimizer
         public override string Name { get; set; } = "Sharpe";
         public virtual IChromosome Best { get; set; }
         private ConditionalWeakTable<OptimizerResult, string> _resultIndex;
-        private bool _hasActualValues;
-        private object _locker = new object();
+        protected static object Locker = new object();
         private const double ErrorFitness = 1.01;
-
-        private static bool _hasRunActual = false;
+        public int Seed { get; set; } = 42;
+        protected static bool HasRunActual {get; set; } = false;
 
         public SharpeMaximizer(IOptimizerConfiguration config, IFitnessFilter filter) : base(config, filter)
         {
@@ -48,24 +47,24 @@ namespace Jtc.Optimization.LeanOptimizer
                 {
                     if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.RandomSearch.ToString())
                     {
-                        optimizer = new RandomSearchOptimizer(parameters, iterations: Config.Generations, seed: 42, maxDegreeOfParallelism: Config.MaxThreads);
+                        optimizer = new RandomSearchOptimizer(parameters, iterations: Config.Generations, seed: Seed, maxDegreeOfParallelism: Config.MaxThreads);
                     }
                     else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.ParticleSwarm.ToString())
                     {
                         optimizer = new ParticleSwarmOptimizer(parameters, maxIterations: Config.Generations, numberOfParticles: Config.PopulationSize,
-                            seed: 42, maxDegreeOfParallelism: Config.MaxThreads);
+                            seed: Seed, maxDegreeOfParallelism: Config.MaxThreads);
                     }
                     else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Bayesian.ToString())
                     {
                         optimizer = new BayesianOptimizer(parameters: parameters, iterations: Config.Generations, randomStartingPointCount: Config.PopulationSize,
-                            functionEvaluationsPerIterationCount: Config.PopulationSize, seed: 42);
+                            functionEvaluationsPerIterationCount: Config.PopulationSize, seed: Seed);
                         //optimizer = new BayesianOptimizer(parameters, iterations: Config.Generations, randomStartingPointCount: Config.PopulationSize,
                         //    functionEvaluationsPerIteration: Config.MaxThreads, seed: 42, maxDegreeOfParallelism: Config.MaxThreads, allowMultipleEvaluations: true);
                     }
                     else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GlobalizedBoundedNelderMead.ToString())
                     {
                         optimizer = new GlobalizedBoundedNelderMeadOptimizer(parameters, maxRestarts: Config.Generations,
-                            maxIterationsPrRestart: Config.PopulationSize, seed: 42, maxDegreeOfParallelism: Config.MaxThreads);
+                            maxIterationsPrRestart: Config.PopulationSize, seed: Seed, maxDegreeOfParallelism: Config.MaxThreads);
                     }
                     //else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Smac.ToString())
                     //{
@@ -83,8 +82,6 @@ namespace Jtc.Optimization.LeanOptimizer
 
                 Func<double[], OptimizerResult> minimize = p => Minimize(p, (Chromosome)chromosome);
 
-                // run optimizer
-                _hasActualValues = true;
                 var result = optimizer.OptimizeBest(minimize);
 
                 Best = MergeFromResult(result, chromosome);
@@ -110,10 +107,10 @@ namespace Jtc.Optimization.LeanOptimizer
                 output.Append("Id: " + id + ", ");
 
                 var isActual = false;
-                lock (_locker)
+                lock (Locker)
                 {
-                    isActual = !_hasRunActual ? true : false;
-                    _hasRunActual = true;
+                    isActual = !HasRunActual ? true : false;
+                    HasRunActual = true;
                 }
 
                 for (int i = 0; i < Config.Genes.Count(); i++)

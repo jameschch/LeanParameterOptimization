@@ -37,6 +37,15 @@ namespace Jtc.Optimization.Objects
         /// Number of cross validation folds
         /// </summary>
         public int Folds { get; set; }
+        /// <summary>
+        /// Type of fitness/optimization algorithm to use for Walk forward weighted metric fold
+        /// </summary>
+        public string FoldOptimizerTypeName { get; set; }
+        /// <summary>
+        /// Number of generations for each fold for Walk forward weighted metric fold
+        /// </summary>
+        public int? FoldGenerations { get; set; }
+
     }
 
 }
