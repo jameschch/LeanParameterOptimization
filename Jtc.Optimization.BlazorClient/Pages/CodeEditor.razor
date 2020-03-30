@@ -7,20 +7,22 @@
 
     <EditForm Model="@MinimizeFunctionCode" OnValidSubmit="@OptimizeClick">
         <div class="row">
-            <div class="col-sm-12">
-                <select value="@Language" @onchange="@LanguageChange">
-                    <option value="javascript">Javascript</option>
-                    <option value="csharp">C#</option>
-                </select>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="language">Language</label>
+                    <select name="language" value="@Language" @onchange="@LanguageChange">
+                        <option value="javascript">Javascript</option>
+                        <option value="csharp">C#</option>
+                    </select>
+                    <button class="ml-2" type="submit">Optimize</button>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <textarea id="activityLog" readonly class="w-100 small">@ActivityLog</textarea>
             </div>
         </div>
 
         <div id="editor"></div>
-        <br />
-        <button type="submit">Optimize</button>
-        <br />
-        <br />
-        <textarea id="activityLog" readonly class="w-100 small">@ActivityLog</textarea>
         <DataAnnotationsValidator />
         <ValidationSummary />
     </EditForm>

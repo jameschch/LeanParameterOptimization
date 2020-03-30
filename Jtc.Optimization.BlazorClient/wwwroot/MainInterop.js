@@ -1,6 +1,5 @@
 ﻿window.MainInterop = {
 
-
     readUploadedFileAsText: (inputFile) => {
         const temporaryFileReader = new FileReader();
 
@@ -53,7 +52,7 @@
         return localStorage.getItem("config");
     },
 
-     storeChartData: (data) => {
+    storeChartData: (data) => {
         localStorage.setItem("chartData", data);
         //sessionStorage.setItem("result", data);
     },

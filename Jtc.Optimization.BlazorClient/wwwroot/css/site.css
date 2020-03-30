@@ -245,7 +245,7 @@ a[data-toggle="collapse"] {
 
 #sidebarCollapse {
     position: absolute;
-    left: 2px;
+    left: 6px;
     top: 2px;
     background-image: url('/images/Hamburger_icon.svg');
     height: 35px;
