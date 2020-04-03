@@ -1,5 +1,4 @@
 ﻿using Jtc.Optimization.BlazorClient.Attributes;
-using Mono.WebAssembly.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
