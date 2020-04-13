@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 namespace Jtc.Optimization.Api
 {
@@ -28,8 +29,9 @@ namespace Jtc.Optimization.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors(options => options.AddPolicy(PolicyName, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+            services.AddMvc(m => m.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddCors(options => options.AddPolicy(PolicyName, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             services.AddSingleton(Configuration);
             services.AddSingleton<ICSharpCompiler, CSharpCompiler>();
             services.AddSingleton<IMscorlibProvider, MscorlibProvider>();
@@ -44,7 +46,11 @@ namespace Jtc.Optimization.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(PolicyName);
+            app.UseCors(builder => builder
+               .WithOrigins("http://optimizer.ml", "http://api.optimizer.ml", "http://www.optimizer.ml")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials());
             //app.UseHttpsRedirection();
             app.UseMvc();
 

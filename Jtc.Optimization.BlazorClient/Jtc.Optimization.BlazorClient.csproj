@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>
     <AssemblyName>Jtc.Optimization.BlazorClient</AssemblyName>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
@@ -21,6 +20,7 @@
     <Content Remove="Pages\Chart.razor" />
     <Content Remove="Pages\CodeEditor.razor" />
     <Content Remove="Pages\Config.razor" />
+    <Content Remove="Pages\Default.razor" />
   </ItemGroup>
 
 
@@ -51,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Default.razor" />
     <None Include="Pages\Chart.razor" />
     <None Include="Pages\CodeEditor.razor" />
     <None Include="Pages\Config.razor" />

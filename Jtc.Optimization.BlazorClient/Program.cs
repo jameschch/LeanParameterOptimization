@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazor.FileReader;
 using Blazored.Toast;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -35,6 +36,8 @@ namespace Jtc.Optimization.BlazorClient
             builder.Services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
             builder.Services.AddSingleton<IMscorlibProvider, MscorlibRemoteProvider>();
             builder.Services.AddBaseAddressHttpClient();
+
+            WebAssemblyHttpMessageHandlerOptions.DefaultCredentials = FetchCredentialsOption.Include;
 
 #if !DEBUG
 
