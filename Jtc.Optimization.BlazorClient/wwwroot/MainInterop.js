@@ -42,25 +42,5 @@
         e.target.scrollTop(Number.MAX_SAFE_INTEGER);
     },
 
-    storeConfig: (data) => {
-        localStorage.setItem("config", data);
-        //sessionStorage.setItem("config", data);
-    },
-
-    fetchConfig: () => {
-        //return sessionStorage.getItem("config");
-        return localStorage.getItem("config");
-    },
-
-    storeChartData: (data) => {
-        localStorage.setItem("chartData", data);
-        //sessionStorage.setItem("result", data);
-    },
-
-    fetchChartData: () => {
-        //return sessionStorage.getItem("result");
-        return localStorage.getItem("chartData");
-    }
-
 };
 

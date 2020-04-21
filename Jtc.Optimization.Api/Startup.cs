@@ -47,7 +47,7 @@ namespace Jtc.Optimization.Api
             }
 
             app.UseCors(builder => builder
-               .WithOrigins("http://optimizer.ml", "http://api.optimizer.ml", "http://www.optimizer.ml")
+               .WithOrigins("http://optimizer.ml", "https://optimizer.ml", "http://www.optimizer.ml", "https://www.optimizer.ml", "http://localhost:61221")
                .AllowAnyMethod()
                .AllowAnyHeader()
                .AllowCredentials());

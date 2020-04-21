@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Jtc.Optimization.BlazorClient
@@ -33,12 +34,13 @@ namespace Jtc.Optimization.BlazorClient
         protected WaitBase Wait { get; set; }
         Stopwatch _stopWatch = new Stopwatch();
         private Objects.OptimizerConfiguration _config;
+        public static CancellationTokenSource TokenSource { get; set; }
 
         protected string Language { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            ActivityLogger = new ActivityLogger(() => StateHasChanged(), (m) => Wait.ShowMessage(m));
+            ActivityLogger = new ActivityLogger(() => StateHasChanged(), m => Wait.ShowMessage(m));
 
             MinimizeFunctionCode = new Models.MinimizeFunctionCode
             {
@@ -57,7 +59,7 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     (context as EvalContext).Expression = () => context.ace.edit("editor").setTheme("ace/theme/monokai");
                     await (context as EvalContext).InvokeAsync<dynamic>();
-                
+
                     context.Reset();
 
                     (context as EvalContext).Expression = () => context.ace.edit("editor").session.setMode("ace/mode/javascript");
@@ -69,10 +71,10 @@ namespace Jtc.Optimization.BlazorClient
             {
                 (context as EvalContext).Expression = () => context.ace.edit("editor").session.setValue(MinimizeFunctionCode.Code);
                 await (context as EvalContext).InvokeAsync<dynamic>();
-               
+
                 context.Reset();
 
-                (context as EvalContext).Expression = () => context.MainInterop.fetchConfig("config");
+                (context as EvalContext).Expression = () => context.ClientStorage.fetchConfig("config");
                 var raw = await (context as EvalContext).InvokeAsync<string>();
                 if (raw != null)
                 {
@@ -123,14 +125,20 @@ namespace Jtc.Optimization.BlazorClient
                     var fitness = string.IsNullOrEmpty(_config.Fitness?.OptimizerTypeName) ? _config.FitnessTypeName : _config.Fitness.OptimizerTypeName;
                     ActivityLogger.Add("Starting " + fitness);
                     optimizer.Initialize(MinimizeFunctionCode.Code, ActivityLogger);
-                    result = await optimizer.Start(_config);
+
+                    TokenSource = new CancellationTokenSource();
+
+                    var task = Task.Run(() => optimizer.Start(_config), TokenSource.Token); // Pass same token to Task.Run.
+
+                    result = await task;
+                    TokenSource = null;
 
                     // Console.WriteLine(ActivityLogger.Log);
 
-                    await JSRuntime.InvokeVoidAsync("MainInterop.storeChartData", ActivityLogger.Log);
+                    await JSRuntime.InvokeVoidAsync("ClientStorage.storeChartData", ActivityLogger.Log);
                     //todo: backticks
                     //dynamic context = new EvalContext(JSRuntime);
-                    //(context as EvalContext).Expression = () => context.MainInterop.storeChartData(ActivityLogger.Log);
+                    //(context as EvalContext).Expression = () => context.ClientStorage.storeChartData(ActivityLogger.Log);
                     //await (context as EvalContext).InvokeAsync<dynamic>();
 
                     ToastService.ShowSuccess("Chart data was stored.");

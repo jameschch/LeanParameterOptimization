@@ -24,8 +24,8 @@ namespace Jtc.Optimization.Transformation
         }
 
         public async Task<MemoryStream> CreateAssemblyRemotely(string code)
-        {
-            var response = await HttpClient.PostAsync(_blazorClientConfiguration.ApiUrl + "/api/compiler", 
+        {            
+            var response = await HttpClient.PostAsync(HttpClient.BaseAddress.Scheme + "://" + _blazorClientConfiguration.ApiUrl + "/api/compiler", 
                 new StringContent(code, Encoding.UTF8, "text/plain"));
             if (response.IsSuccessStatusCode)
             {

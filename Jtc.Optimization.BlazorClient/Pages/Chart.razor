@@ -12,7 +12,7 @@
                 <label for="minimumFitness">Minimum Fitness:</label>
                 <input class="input-sm" type="text" id="minimumFitness" @bind="MinimumFitness" />
                 @*<label for="newOnly">New data only?:</label>
-        <input type="checkbox" id="newOnly" @bind="NewOnly" />*@
+                    <input type="checkbox" id="newOnly" @bind="NewOnly" />*@
                 @if (EnableServerData)
                 {
                     <button class="btn btn-secondary" @onclick="UpdateChart">Update Chart</button>
@@ -20,7 +20,10 @@
                     @*<button class="btn btn-secondary" disabled @onclick="StreamChart">Stream Chart</button>*@
                 }
                 <label for="fileUpload" class="btn btn-secondary mt-1">Upload Chart Data</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
-                <button class="btn btn-secondary mt-1" @onclick="GetStoredChart">Stored Chart Data</button>
+                @if (HasChartData)
+                {
+                    <button class="btn btn-secondary mt-1" @onclick="GetStoredChart">Show Chart Data</button>
+                }
             </div>
         </div>
         <div class="col-sm-6">

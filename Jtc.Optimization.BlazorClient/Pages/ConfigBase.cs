@@ -58,7 +58,7 @@ namespace Jtc.Optimization.BlazorClient
 
             using (dynamic context = new EvalContext(JSRuntime))
             {
-                (context as EvalContext).Expression = () => context.MainInterop.fetchConfig();
+                (context as EvalContext).Expression = () => context.ClientStorage.fetchConfig();
                 var json = await (context as EvalContext).InvokeAsync<string>();
 
                 if (!string.IsNullOrEmpty(json))
@@ -110,6 +110,12 @@ namespace Jtc.Optimization.BlazorClient
 
         protected void RemoveGene()
         {
+            if (FitnessOptions.Genetic.Contains(Config.FitnessTypeName) && Config.Genes.Length == 2)
+            {
+                ToastService.ShowError("Minimum of 2 genes for Genetic algorithms.");
+                return;
+            }
+
             Config.Genes = Config.Genes.Except(new[] { Config.Genes.Last() }).ToArray();
         }
 
@@ -160,7 +166,7 @@ namespace Jtc.Optimization.BlazorClient
             using (dynamic context = new EvalContext(JSRuntime, settings))
             {
                 var serialized = JsonSerializer.Serialize(value);
-                (context as EvalContext).Expression = () => context.MainInterop.storeConfig(serialized);
+                (context as EvalContext).Expression = () => context.ClientStorage.storeConfig(serialized);
             }
 
             BlazorClientState.NotifyStateHasChanged(typeof(SidebarBase));

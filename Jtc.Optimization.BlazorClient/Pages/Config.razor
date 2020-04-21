@@ -32,7 +32,7 @@
             <div class="row mt-1">
                 <div class="col-sm-12 d-flex justify-content-center">
                     <button type="button" class="btn btn-secondary" @onclick="AddGene">Add</button> &nbsp;
-                    @if (Config.Genes.Count() > 2)
+                    @if (Config.Genes.Count() > 1)
                     {
                         <button type="button" class="btn btn-secondary" @onclick="RemoveGene">Remove</button>
                     }

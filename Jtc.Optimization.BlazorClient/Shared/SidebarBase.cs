@@ -52,7 +52,7 @@ namespace Jtc.Optimization.BlazorClient.Shared
         {
             using (dynamic context = new EvalContext(JSRuntime))
             {
-                (context as EvalContext).Expression = () => context.MainInterop.fetchConfig();
+                (context as EvalContext).Expression = () => context.ClientStorage.fetchConfig();
                 var json = (context as EvalContext).Invoke<string>();
 
                 return string.IsNullOrEmpty(json) ? "d-none" : null;
@@ -63,10 +63,8 @@ namespace Jtc.Optimization.BlazorClient.Shared
         {
             using (dynamic context = new EvalContext(JSRuntime))
             {
-                (context as EvalContext).Expression = () => context.MainInterop.fetchChartData();
-                var json = (context as EvalContext).Invoke<string>();
-
-                return string.IsNullOrEmpty(json) ? "d-none" : null;
+                (context as EvalContext).Expression = () => context.ClientStorage.hasChartData();
+                return (context as EvalContext).Invoke<bool>() ? null : "d-none";
             }
         }
 

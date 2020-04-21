@@ -1,4 +1,5 @@
 ﻿using Blazor.DynamicJavascriptRuntime.Evaluator;
+using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace Jtc.Optimization.BlazorClient.Shared
         public IJSRuntime JsRuntime { get; set; }
         //public int ProgressPercent { get; set; }
         public string Message { get; set; } = "Running...";
+        [Inject]
+        public IToastService ToastService { get; set; }
 
         public async Task Show()
         {
@@ -38,6 +41,13 @@ namespace Jtc.Optimization.BlazorClient.Shared
             StateHasChanged();
         }
 
+        public void OnKeyDown()
+        {
+            CodeEditorBase.TokenSource?.Cancel();
+            CodeEditorBase.TokenSource = null;
+
+            ToastService.ShowInfo("Optimization was cancelled.");
+        }
 
     }
 }

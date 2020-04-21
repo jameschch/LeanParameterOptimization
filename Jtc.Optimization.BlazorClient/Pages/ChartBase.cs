@@ -48,6 +48,15 @@ namespace Jtc.Optimization.BlazorClient
         //todo: config
         protected bool EnableServerData { get; set; }
 
+        protected bool HasChartData { get { return GetHasChartData(); } }
+
+        private bool GetHasChartData()
+        {
+            dynamic context = new EvalContext(JSRuntime);
+            (context as EvalContext).Expression = () => context.ClientStorage.hasChartData();
+            return (context as EvalContext).Invoke<bool>();
+        }
+
         public ChartBase()
         {
             _pickedColours = new List<int>();
@@ -129,7 +138,7 @@ namespace Jtc.Optimization.BlazorClient
             try
             {
                 dynamic context = new EvalContext(JSRuntime);
-                (context as EvalContext).Expression = () => context.MainInterop.fetchChartData();
+                (context as EvalContext).Expression = () => context.ClientStorage.fetchChartData();
                 var log = await (context as EvalContext).InvokeAsync<string>();
 
                 using (var reader = new SwitchReader(new StringReader(log)))

@@ -4,6 +4,7 @@
 }
 
 body {
+    padding-top: 5px;
     color: #ddd;
     font-size: 0.9rem;
 }
@@ -73,6 +74,8 @@ h4 {
 textarea {
     background-color: #000000;
     color: #ddd;
+    border: grey 1px solid;
+    border-radius: 5px;
 }
 
 #wait, #loading {
