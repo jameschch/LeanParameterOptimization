@@ -75,15 +75,15 @@ These methods can target several fitness and maximization goals:
 ## User Interfaces
 Now also provided are several Blazor interfaces:
 
-* Optimization Config Editor - [http://optimizer.ml/config](http://optimizer.ml/config)
+* Optimization Config Editor - [https://optimizer.ml/config](https://optimizer.ml/config)
 
 ![Config](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/config.png)
 
-* Optimization Results Chart - [http://optimizer.ml/chart](http://optimizer.ml/chart)
+* Optimization Results Chart - [https://optimizer.ml/chart](https://optimizer.ml/chart)
 
 ![Chart](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/chart.png)
 
-* Algorithm Code Editor and Runner (C#, Javascript) - [http://optimizer.ml/codeeditor](http://optimizer.ml/codeeditor)
+* Algorithm Code Editor and Runner (C#, Javascript) - [https://optimizer.ml/codeeditor](https://optimizer.ml/codeeditor)
 
 ## WIP
 * Currently supporting in-browser multi-threaded optimization (i.e. running server-less) of basic algorithms
