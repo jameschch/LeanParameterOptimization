@@ -254,4 +254,5 @@ a[data-toggle="collapse"] {
     height: 35px;
     background-size: 100% auto;
     width: 35px;
+    z-index: 1;
 }
