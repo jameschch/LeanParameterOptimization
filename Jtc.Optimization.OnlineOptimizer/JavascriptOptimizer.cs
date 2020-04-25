@@ -30,6 +30,11 @@ namespace Jtc.Optimization.OnlineOptimizer
 
         public async override Task<OptimizerResult> Minimize(double[] parameters)
         {
+            if (CancellationToken.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
+
             //Console.WriteLine("before:" + _code);
             _allResults = new Dictionary<string, double?>();
 

@@ -5,6 +5,7 @@ using SharpLearning.Optimization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Jtc.Optimization.OnlineOptimizer
@@ -16,6 +17,7 @@ namespace Jtc.Optimization.OnlineOptimizer
         private bool IsMaximizing { get; set; }
         protected IActivityLogger ActivityLogger { get; set; }
         public string Code { get; private set; }
+        protected CancellationToken CancellationToken { get; private set; }
 
         public void Initialize(string code, IActivityLogger activityLogger)
         {
@@ -23,8 +25,9 @@ namespace Jtc.Optimization.OnlineOptimizer
             ActivityLogger = activityLogger;
         }
 
-        public async Task<IterationResult> Start(IOptimizerConfiguration config)
+        public async Task<IterationResult> Start(IOptimizerConfiguration config, CancellationToken cancellationToken)
         {
+            CancellationToken = cancellationToken;
 
             var parameters = config.Genes.Select(s =>
                 new MinMaxParameterSpec(min: s.Min ?? s.Actual.Value, max: s.Max ?? s.Actual.Value,

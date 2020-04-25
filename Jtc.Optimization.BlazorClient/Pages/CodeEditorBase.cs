@@ -2,6 +2,7 @@
 using Blazored.Toast.Services;
 using Jtc.Optimization.BlazorClient.Shared;
 using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.OnlineOptimizer;
 using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Components;
@@ -35,8 +36,10 @@ namespace Jtc.Optimization.BlazorClient
         Stopwatch _stopWatch = new Stopwatch();
         private Objects.OptimizerConfiguration _config;
         public static CancellationTokenSource TokenSource { get; set; }
-
-        protected string Language { get; set; }
+        [Inject]
+        public BlazorClientState BlazorClientState { get; set; }
+        [Inject]
+        public IBlazorClientConfiguration BlazorClientConfiguration { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,6 +50,8 @@ namespace Jtc.Optimization.BlazorClient
                 Code = Resource.JavascriptCodeSample
                 // Code = "\r\nfunction minimize(p1 /*p2, anything, etc*/)\r\n{\r\n\treturn;\r\n}"
             };
+
+            BlazorClientState.SubscribeStateHasChanged(typeof(CodeEditorBase), async () => await Cancel());
 
             await base.OnInitializedAsync();
         }
@@ -128,9 +133,22 @@ namespace Jtc.Optimization.BlazorClient
 
                     TokenSource = new CancellationTokenSource();
 
-                    var task = Task.Run(() => optimizer.Start(_config), TokenSource.Token); // Pass same token to Task.Run.
+                    var task = Task.Run(() => optimizer.Start(_config, TokenSource.Token), TokenSource.Token);
 
-                    result = await task;
+                    try
+                    {
+                        result = await task;
+
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        CodeEditorBase.TokenSource = null;
+                        await Wait.Hide();
+                        ToastService.ShowInfo("Optimization was cancelled.");
+                        TokenSource = null;
+                        return;
+                    }
+
                     TokenSource = null;
 
                     // Console.WriteLine(ActivityLogger.Log);
@@ -157,11 +175,11 @@ namespace Jtc.Optimization.BlazorClient
             }
 
             _stopWatch.Stop();
-            ToastService.ShowSuccess("Best Cost:" + result.Cost.ToString("N"));
-            ToastService.ShowSuccess("Best Parameters:" + string.Join(",", result.ParameterSet.Select(s => s.ToString("N"))));
-            ActivityLogger.Add("Best Cost:", result.Cost);
-            ActivityLogger.Add("Best Parameters:", result.ParameterSet);
-            ActivityLogger.Add("Total Time (s):", _stopWatch.ElapsedMilliseconds / 1000);
+            ToastService.ShowSuccess("Best Cost: " + result.Cost.ToString("N"));
+            ToastService.ShowSuccess("Best Parameters: " + string.Join(",", result.ParameterSet.Select(s => s.ToString("N"))));
+            ActivityLogger.Add("Best Cost: ", result.Cost);
+            ActivityLogger.Add("Best Parameters: ", result.ParameterSet);
+            ActivityLogger.Add("Total Time (s): ", _stopWatch.ElapsedMilliseconds / 1000);
         }
 
         public async Task LanguageChange(ChangeEventArgs e)
@@ -185,6 +203,13 @@ namespace Jtc.Optimization.BlazorClient
                 await (context as EvalContext).InvokeAsync<dynamic>($"ace.edit(\"editor\").session.setValue(`{MinimizeFunctionCode.Code}`)");
             }
             //StateHasChanged();
+        }
+
+        public async Task Cancel()
+        {
+            if (CodeEditorBase.TokenSource == null) return;
+
+            CodeEditorBase.TokenSource.Cancel();
         }
 
     }

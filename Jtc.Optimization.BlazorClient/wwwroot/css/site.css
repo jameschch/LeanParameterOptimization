@@ -108,6 +108,18 @@ textarea {
         overflow-y: hidden;
     }
 
+    #wait .cancel {
+        height: 4em;
+        top: 45%;
+        position: fixed;
+        background: transparent;
+        margin-top: 60px;
+        width: 100%;
+        text-align: center;
+        overflow-y: hidden;
+    }
+
+
 canvas {
     padding-bottom: 10px;
 }

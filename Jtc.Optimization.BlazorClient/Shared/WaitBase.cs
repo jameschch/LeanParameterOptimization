@@ -2,6 +2,7 @@
 using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Threading.Tasks;
 
 namespace Jtc.Optimization.BlazorClient.Shared
@@ -14,7 +15,9 @@ namespace Jtc.Optimization.BlazorClient.Shared
         //public int ProgressPercent { get; set; }
         public string Message { get; set; } = "Running...";
         [Inject]
-        public IToastService ToastService { get; set; }
+
+        public BlazorClientState BlazorClientState { get; set; }
+        protected string CancelClass { get; set; } = "d-none";
 
         public async Task Show()
         {
@@ -41,12 +44,23 @@ namespace Jtc.Optimization.BlazorClient.Shared
             StateHasChanged();
         }
 
-        public void OnKeyDown()
+        public void ShowConfirm()
         {
-            CodeEditorBase.TokenSource?.Cancel();
-            CodeEditorBase.TokenSource = null;
+            if (CodeEditorBase.TokenSource == null) return;
+            CancelClass = "cancel";
+            StateHasChanged();
+        }
 
-            ToastService.ShowInfo("Optimization was cancelled.");
+        public void YesCancelClick()
+        {
+            CancelClass = "d-none";
+            BlazorClientState.NotifyStateHasChanged(typeof(CodeEditorBase));
+        }
+
+        public void NoCancelClick()
+        {
+            CancelClass = "d-none";
+            StateHasChanged();
         }
 
     }

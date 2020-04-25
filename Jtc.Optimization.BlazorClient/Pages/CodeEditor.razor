@@ -1,23 +1,27 @@
 ﻿@page "/CodeEditor"
 @inherits Jtc.Optimization.BlazorClient.CodeEditorBase
-@inject Microsoft.JSInterop.IJSRuntime JSRuntime
 @using Jtc.Optimization.BlazorClient.Models
 
 <div class="container-fluid vh-100 px-4">
 
     <EditForm Model="@MinimizeFunctionCode" OnValidSubmit="@OptimizeClick">
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="language">Language</label>
-                    <select name="language" value="@Language" @onchange="@LanguageChange">
+                    <select name="language" value="@MinimizeFunctionCode.Language" @onchange="@LanguageChange">
                         <option value="javascript">Javascript</option>
                         <option value="csharp">C#</option>
                     </select>
-                    <button class="ml-2" type="submit">Optimize</button>
+                    @if (MinimizeFunctionCode.Language == "javascript")
+                    {
+                        <label for="enableMultiThreading">Enable multi-threading</label>
+                        <input type="checkbox" name="enableMultiThreading" value="@BlazorClientConfiguration.EnableOptimizerMultithreading" />
+                    }
+                    <button type="submit" class="btn btn-secondary ml-2">Optimize</button>
                 </div>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-6">
                 <textarea id="activityLog" readonly class="w-100 small">@ActivityLog</textarea>
             </div>
         </div>

@@ -1,9 +1,15 @@
 ﻿@inherits Jtc.Optimization.BlazorClient.Shared.WaitBase
 
 <div id="wait" class="displayNone">
-    <img src="/images/run2.gif" />
+    <img src="/images/run2.gif" @onclick="ShowConfirm" />
     <pre>@Message</pre>
+    <div class="@CancelClass">
+        <br />
+        <span>Cancel? Are you sure?</span>
+        <button type="button" class="btn btn-secondary ml-2" @onclick="YesCancelClick">Yes</button>
+        <button type="button" class="btn btn-secondary ml-2" @onclick="NoCancelClick">No</button>
+    </div>
     @*<div class="progress">
-        <div class="progress-bar" style="width:@ProgressPercent%"></div>
-    </div>*@
+            <div class="progress-bar" style="width:@ProgressPercent%"></div>
+        </div>*@
 </div>

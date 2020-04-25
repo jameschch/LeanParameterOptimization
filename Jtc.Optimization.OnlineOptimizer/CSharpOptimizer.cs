@@ -29,6 +29,11 @@ namespace Jtc.Optimization.OnlineOptimizer
 
         public async override Task<OptimizerResult> Minimize(double[] parameters)
         {
+            if (CancellationToken.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
+
             if (_minimize == null)
             {
                 var assembly = await _cSharpCompiler.CreateAssembly(Code);
