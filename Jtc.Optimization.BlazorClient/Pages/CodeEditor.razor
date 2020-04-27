@@ -16,7 +16,7 @@
                     @if (MinimizeFunctionCode.Language == "javascript")
                     {
                         <label for="enableMultiThreading">Enable multi-threading</label>
-                        <input type="checkbox" name="enableMultiThreading" value="@BlazorClientConfiguration.EnableOptimizerMultithreading" />
+                        <input type="checkbox" name="enableMultiThreading" @bind="BlazorClientConfiguration.EnableOptimizerMultithreading" />
                     }
                     <button type="submit" class="btn btn-secondary ml-2">Optimize</button>
                 </div>
