@@ -21,6 +21,7 @@
     <Content Remove="Pages\CodeEditor.razor" />
     <Content Remove="Pages\Config.razor" />
     <Content Remove="Pages\Default.razor" />
+    <Content Remove="Pages\Info.razor" />
   </ItemGroup>
 
 
@@ -51,10 +52,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Info.razor" />
     <None Include="Pages\Default.razor" />
     <None Include="Pages\Chart.razor" />
     <None Include="Pages\CodeEditor.razor" />
     <None Include="Pages\Config.razor" />
+    <None Include="wwwroot\donate-bitcoin\index.js" />
+    <None Include="wwwroot\donate-bitcoin\js\jquery.js" />
+    <None Include="wwwroot\donate-bitcoin\js\jquery.qrcode.min.js" />
     <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.js" />
     <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.js.map" />
     <None Include="wwwroot\lib\crosstalk-1.0.0\js\crosstalk.min.js" />
