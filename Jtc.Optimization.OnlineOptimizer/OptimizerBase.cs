@@ -63,6 +63,10 @@ namespace Jtc.Optimization.OnlineOptimizer
                     optimizerMethod = new GridSearchOptimizer(config.Genes.Select(s => new GridParameterSpec(RangeWithPrecision.Range(s.Min.Value, s.Max.Value, s.Precision.Value).ToArray())).ToArray(), runParallel: false);
                 }
             }
+            else
+            {
+                throw new ArgumentException("No optimizer was configured.");
+            }
 
             var result = await optimizerMethod.OptimizeBest(Minimize);
 
