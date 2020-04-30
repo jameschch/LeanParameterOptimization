@@ -71,12 +71,12 @@ namespace Jtc.Optimization.IntegrationTests.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Optimize parameters")]
-        [NUnit.Framework.TestCaseAttribute("1", "true", "4.8242", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("2", "true", "4.8242", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("1", "false", "4.8242", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("2", "false", "4.8242", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("7", "false", "4.8242", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("7", "true", "4.8242", "1", null)]
+        [NUnit.Framework.TestCaseAttribute("1", "true", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("2", "true", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("1", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("2", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("7", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("7", "true", "31.979", "7", null)]
         public virtual void OptimizeParameters(string maxThreads, string useSharedAppDomain, string sharpRatio, string totalTrades, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Optimize parameters", null, exampleTags);
@@ -92,7 +92,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  testRunner.When("I optimize", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
- testRunner.Then(string.Format("the Sharp Ratio should be {0}", sharpRatio), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("the Sharpe Ratio should be {0}", sharpRatio), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
  testRunner.And(string.Format("Total Trades should be {0}", totalTrades), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10

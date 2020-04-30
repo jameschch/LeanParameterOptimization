@@ -16,18 +16,25 @@ namespace Jtc.Optimization.IntegrationTests.Steps
     [Binding]
     public class Then
     {
-        [Then(@"the Sharp Ratio should be (.*)")]
-        public void ThenTheSharpRatioShouldBe(double p0)
+        [Then(@"the Sharpe Ratio should be (.*)")]
+        public void ThenTheSharpeRatioShouldBe(double p0)
         {
             var actual = GetResults();
-            Assert.AreEqual(p0, (double)actual.First().Value["SharpeRatio"], 3);
+            var predicted = GetPredicted(actual);
+            Assert.AreEqual(p0, (double)predicted.Value["SharpeRatio"], 0.001);
+        }
+
+        private static KeyValuePair<string, Dictionary<string, decimal>> GetPredicted(Dictionary<string, Dictionary<string, decimal>> actual)
+        {
+            return actual.First(w => w.Key.Contains("12") && w.Key.Contains("104") && w.Key.Contains("0.001"));
         }
 
         [Then(@"Total Trades should be (.*)")]
         public void ThenTotalTradesShouldBe(int p0)
         {
             var actual = GetResults();
-            Assert.AreEqual(p0, actual.First().Value["TotalNumberOfTrades"]);
+            var predicted = GetPredicted(actual);
+            Assert.AreEqual(p0, predicted.Value["TotalNumberOfTrades"]);
         }
 
         [Then(@"last run should produce different result")]
@@ -40,7 +47,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
 
                 //probabilistic assert that given random input, expect more than half to produce a different result
                 var percentUnique = (double)actual.Select(s => s.Value["SharpeRatio"]).Distinct().Count() / (double)ScenarioContext.Current.Get<OptimizerConfiguration>().MaxThreads;
-                Assert.True(percentUnique >= 0.5);
+                Assert.GreaterOrEqual(percentUnique, 0.5);
             }
         }
 

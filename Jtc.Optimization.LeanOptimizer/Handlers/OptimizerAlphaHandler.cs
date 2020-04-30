@@ -1,6 +1,7 @@
 ﻿using QuantConnect;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.Alpha;
+using QuantConnect.Lean.Engine.TransactionHandlers;
 using QuantConnect.Packets;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace Jtc.Optimization.LeanOptimizer
         {
         }
 
-        public void Initialize(AlgorithmNodePacket job, IAlgorithm algorithm, IMessagingHandler messagingHandler, IApi api)
+        public void Initialize(AlgorithmNodePacket job, IAlgorithm algorithm, IMessagingHandler messagingHandler, IApi api,
+            ITransactionHandler transactionHandler)
         {
             //HACK: needed to set id prior to initialize
             algorithm.SetAlgorithmId(((BacktestNodePacket)job).AlgorithmId);

@@ -11,6 +11,7 @@ using QuantConnect.Statistics;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Jtc.Optimization.LeanOptimizer
@@ -18,50 +19,27 @@ namespace Jtc.Optimization.LeanOptimizer
     public class OptimizerResultHandler : IResultHandler
     {
 
-        public IAlgorithm Algorithm { get; set; }
         private const string PatchMethod = "SaveResults";
         private BacktestingResultHandler _shadow;
-
-        #region Properties
+        public IAlgorithm Algorithm { get; set; }
         public Dictionary<string, decimal> FullResults { get; set; }
-
         public ConcurrentQueue<Packet> Messages
         {
-            get
-            {
-                return _shadow.Messages;
-            }
-
-            set
-            {
-                _shadow.Messages = value;
-            }
+            get { return _shadow.Messages; }
+            set { _shadow.Messages = value; }
         }
-
         public ConcurrentDictionary<string, Chart> Charts
         {
-            get
-            {
-                return _shadow.Charts;
-            }
-            set
-            {
-                _shadow.Charts = value;
-            }
+            get { return _shadow.Charts; }
+            set { _shadow.Charts = value; }
         }
-
-        public TimeSpan ResamplePeriod => _shadow.ResamplePeriod;
-
-        public TimeSpan NotificationPeriod => _shadow.NotificationPeriod;
-
+        protected TimeSpan ResamplePeriod => (TimeSpan)_shadowType.GetProperty("ResamplePeriod", _flags).GetValue(_shadow);
+        protected TimeSpan NotificationPeriod => (TimeSpan)_shadowType.GetProperty("NotificationPeriod", _flags).GetValue(_shadow);
         public bool IsActive => _shadow.IsActive;
-
         private bool _hasError;
         private static Type _shadowType = typeof(BacktestingResultHandler);
         private static BindingFlags _flags = BindingFlags.Instance | BindingFlags.NonPublic;
         static object _locker = new object();
-
-        #endregion
 
         public OptimizerResultHandler()
         {
@@ -105,16 +83,13 @@ namespace Jtc.Optimization.LeanOptimizer
 
             try
             {
-
-                //_processingFinalPacket = true;
-                _shadowType.GetField("_processingFinalPacket", _flags).SetValue(_shadow, true);
+                //ExitTriggered = true;
+                _shadowType.GetField("ExitTriggered", _flags).SetValue(_shadow, true);
 
 
                 var charts = new Dictionary<string, Chart>(_shadow.Charts);
-                //var orders = new Dictionary<int, Order>(_shadow.TransactionHandler.Orders);
                 var transactionHandler = (ITransactionHandler)_shadowType.GetField("TransactionHandler", _flags).GetValue(_shadow);
                 var orders = new Dictionary<int, Order>(transactionHandler.Orders);
-
                 var profitLoss = new SortedDictionary<DateTime, decimal>(Algorithm.Transactions.TransactionRecord);
 
                 //var statisticsResults = GenerateStatisticsResults(charts, profitLoss);
@@ -146,10 +121,14 @@ namespace Jtc.Optimization.LeanOptimizer
                 var job = (BacktestNodePacket)_shadowType.GetField("_job", _flags).GetValue(_shadow);
                 var startTime = (DateTime)_shadowType.GetProperty("StartTime", _flags).GetValue(_shadow);
                 var alphaRuntimeStatistics = (AlphaRuntimeStatistics)_shadowType.GetProperty("AlphaRuntimeStatistics", _flags).GetValue(_shadow);
+                var orderEvents = transactionHandler.OrderEvents.ToList();
 
-                var result = new BacktestResultPacket(job,
-                    new BacktestResult(charts, orders, profitLoss, statisticsResults.Summary, runtime, statisticsResults.RollingPerformances, statisticsResults.TotalPerformance)
-                    { AlphaRuntimeStatistics = alphaRuntimeStatistics }, Algorithm.EndDate, Algorithm.StartDate)
+                var result = new BacktestResultPacket(
+                    job,
+                    new BacktestResult(new BacktestResultParameters(charts, orders, profitLoss, statisticsResults.Summary, runtime,
+                    statisticsResults.RollingPerformances, orderEvents, statisticsResults.TotalPerformance, alphaRuntimeStatistics)),
+                    Algorithm.EndDate,
+                    Algorithm.StartDate)
                 {
                     ProcessingTime = (DateTime.UtcNow - startTime).TotalSeconds,
                     DateFinished = DateTime.Now,
@@ -177,10 +156,10 @@ namespace Jtc.Optimization.LeanOptimizer
             _shadow.Initialize(job, messagingHandler, api, transactionHandler);
         }
 
-        public void Run()
+        protected void Run()
         {
             _hasError = false;
-            _shadow.Run();
+            _shadowType.InvokeMember("Run", _flags | BindingFlags.InvokeMethod, null, _shadow, null);
         }
 
         public void DebugMessage(string message)
@@ -267,14 +246,18 @@ namespace Jtc.Optimization.LeanOptimizer
             if (!exitTriggered)
             {
                 ProcessSynchronousEvents(true);
+                field.SetValue(_shadow, true);
+
+                _shadowType.BaseType.InvokeMember("StopUpdateRunner", _flags | BindingFlags.InvokeMethod, null, _shadow, null);
+
+                SendFinalResult();
             }
 
-            field.SetValue(_shadow, true);
         }
 
-        public void PurgeQueue()
+        protected void PurgeQueue()
         {
-            _shadow.PurgeQueue();
+            _shadowType.InvokeMember("PurgeQueue", _flags | BindingFlags.InvokeMethod, null, _shadow, null);
         }
 
         public void ProcessSynchronousEvents(bool forceProcess = false)

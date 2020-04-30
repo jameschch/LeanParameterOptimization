@@ -16,6 +16,7 @@ using QuantConnect.Configuration;
 using QuantConnect.Data.Market;
 using QuantConnect.Indicators;
 using QuantConnect.Parameters;
+using System;
 
 namespace Jtc.Optimization.LeanOptimizer.Example
 {
@@ -24,13 +25,13 @@ namespace Jtc.Optimization.LeanOptimizer.Example
 
 
         private InstancedConfig _instancedConfig;
-        public InstancedConfig InstancedConfig { get { return GetInstancedConfig(); } }
+        private InstancedConfig InstancedConfig { get { return GetInstancedConfig(); } }
 
         public ExponentialMovingAverage Fast;
         public ExponentialMovingAverage Slow;
         private decimal Take;
 
-        public InstancedConfig GetInstancedConfig()
+        private InstancedConfig GetInstancedConfig()
         {
             _instancedConfig = _instancedConfig ?? new InstancedConfig(this);
             return _instancedConfig;
@@ -38,15 +39,15 @@ namespace Jtc.Optimization.LeanOptimizer.Example
 
         public override void Initialize()
         {
-            SetStartDate(2013, 10, 07);
-            SetEndDate(2013, 10, 11);
+            SetStartDate(InstancedConfig.GetValue<DateTime>("startDate", new DateTime(2001, 1, 1)));
+            SetEndDate(InstancedConfig.GetValue<DateTime>("endDate", new DateTime(1999, 1, 1))); //Invalid default will fail if used
             SetCash(100 * 1000);
 
             AddSecurity(SecurityType.Equity, "SPY");
 
             Fast = EMA("SPY", InstancedConfig.GetValue<int>("fast", 10));
             Slow = EMA("SPY", InstancedConfig.GetValue<int>("slow", 56));
-            Take = InstancedConfig.GetValue<decimal>("slow", 0.1m);
+            Take = InstancedConfig.GetValue<decimal>("take", 0.1m);
         }
 
         public void OnData(TradeBars data)

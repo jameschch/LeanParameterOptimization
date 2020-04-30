@@ -66,7 +66,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests.Handlers
 
             unit.SendFinalResult();
 
-            Assert.True((bool)shadowType.BaseType.GetField("_processingFinalPacket", flags).GetValue(shadow));
+            Assert.True((bool)shadowType.BaseType.GetField("ExitTriggered", flags).GetValue(shadow));
             transactionHandler.Verify(v => v.Orders);
             Assert.True(messagingHandler.SendWasCalled);
 
@@ -95,11 +95,16 @@ namespace Jtc.Optimization.LeanOptimizer.Tests.Handlers
 
     }
 
-    public class MessagingWrapper : IMessagingHandler
+    public class MessagingWrapper : IMessagingHandler, IDisposable
     {
         public bool HasSubscribers { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public bool SendWasCalled { get; set; }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
 
         public void Initialize()
         {

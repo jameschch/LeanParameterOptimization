@@ -28,15 +28,15 @@ namespace Jtc.Optimization.LeanOptimizer.Example
 
         public override void Initialize()
         {
-            SetStartDate(2013, 10, 07);
-            SetEndDate(2013, 10, 11);
+            SetStartDate(2013, 10, 8);
+            SetEndDate(2013, 10, 10);
             SetCash(100 * 1000);
 
             AddSecurity(SecurityType.Equity, "SPY");
 
             Fast = EMA("SPY", Config.GetValue<int>("fast", 10));
             Slow = EMA("SPY", Config.GetValue<int>("slow", 56));
-            Take = Config.GetValue<decimal>("slow", 0.1m);
+            Take = Config.GetValue<decimal>("take", 0.1m);
         }
 
         public void OnData(TradeBars data)

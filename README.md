@@ -93,4 +93,4 @@ Now also provided are several Blazor interfaces:
 * Other optimization methods in browser
 
 ## Issues
-There are occasionally breaking changes pushed to the Lean master branch. You should find my [fork](https://github.com/jameschch/Lean) is more stable for use with the Optimizer.
+There are occasionally breaking changes pushed to the Lean master branch. You should find my [fork](https://github.com/jameschch/Lean/tree/latest) is more stable for use with the Optimizer.
