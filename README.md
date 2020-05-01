@@ -3,9 +3,9 @@ Parameter optimization for Lean Trading Algorithms
 
 This toolset allows you to execute multiple parallel backtests using a local Lean clone. It is possible to configure several different optimization methods to fit your trading algorithm to an array of different success measures. 
 
-You must edit the config file [optimization.json](https://github.com/jameschch/LeanOptimization/blob/master/Optimization/optimization.json) to define parameters and other settings. The parameter values are fed into the Lean config and can be accessed in an algorithm using the QuantConnect.Configuration.Config methods.
+You must edit the config file [optimization.json](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer/optimization.json) to define parameters and other settings. The parameter values are fed into the Lean config and can be accessed in an algorithm using the QuantConnect.Configuration.Config methods.
 
-An example algorithm is provided here: [ParameterizedAlgorithm](https://github.com/jameschch/LeanOptimization/blob/master/Optimization.Example/ParameterizedAlgorithm.cs)
+An example algorithm is provided here: [ParameterizedAlgorithm](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer.Example/ParameterizedAlgorithm.cs)
 
 ## Quickstart
 1. Clone Lean from [here](https://github.com/QuantConnect/Lean).
@@ -16,7 +16,7 @@ An example algorithm is provided here: [ParameterizedAlgorithm](https://github.c
 6. Configure the maxThreads to define the number of parallel backtests.
 
 ## Configuration
-Full documentation is provided in comments: [OptimizerConfiguration](https://github.com/jameschch/LeanOptimization/blob/master/Optimization/OptimizerConfiguration.cs)
+Full documentation is provided in comments: [OptimizerConfiguration](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.Objects/OptimizerConfiguration.cs)
 
 The most important options:
 
