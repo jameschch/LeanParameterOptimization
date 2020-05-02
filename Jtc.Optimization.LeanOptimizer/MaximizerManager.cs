@@ -37,6 +37,11 @@ namespace Jtc.Optimization.LeanOptimizer
 
             var best = (Chromosome)((SharpeMaximizer)_fitness).Best;
 
+            if (best == null)
+            {
+                return;
+            }
+
             var info = $"Algorithm: {_config.AlgorithmTypeName}, Fitness: {chromosome.Fitness}, {_fitness.Name}: " +
             $"{cost.ToString("F")}, {best.ToKeyValueString()}";
 

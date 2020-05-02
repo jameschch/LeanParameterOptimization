@@ -130,7 +130,12 @@ namespace Jtc.Optimization.Objects
         /// </summary>
         /// <remarks>May be used for non-deterministic execution results</remarks>
         public bool EnableRunningDuplicateParameters { get; set; }
+
+        /// <summary>
+        /// If specified will override config.json setting
+        /// </summary>
+        public string AlgorithmLanguage { get; set; }
     }
 
-    
+
 }

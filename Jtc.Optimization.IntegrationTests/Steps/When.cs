@@ -15,9 +15,6 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         [When(@"I optimize")]
         public void WhenIOptimize()
         {
-
-            Config.Set("algorithm-location", "../Optimization.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll");
-
             var config = ScenarioContext.Current.Get<OptimizerConfiguration>();
 
             if (config.UseSharedAppDomain)

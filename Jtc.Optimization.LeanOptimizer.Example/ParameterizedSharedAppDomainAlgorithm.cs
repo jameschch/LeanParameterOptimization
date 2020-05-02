@@ -39,6 +39,7 @@ namespace Jtc.Optimization.LeanOptimizer.Example
 
         public override void Initialize()
         {
+            //you must use instanced config with shared app domain
             SetStartDate(InstancedConfig.GetValue<DateTime>("startDate", new DateTime(2001, 1, 1)));
             SetEndDate(InstancedConfig.GetValue<DateTime>("endDate", new DateTime(1999, 1, 1))); //Invalid default will fail if used
             SetCash(100 * 1000);

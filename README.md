@@ -5,20 +5,22 @@ This toolset allows you to execute multiple parallel backtests using a local Lea
 
 You must edit the config file [optimization.json](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer/optimization.json) to define parameters and other settings. The parameter values are fed into the Lean config and can be accessed in an algorithm using the QuantConnect.Configuration.Config methods.
 
-An example algorithm is provided here: [ParameterizedAlgorithm](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer.Example/ParameterizedAlgorithm.cs)
+An example algorithm is provided here: [ParameterizedAlgorithm.cs](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer.Example/ParameterizedAlgorithm.cs)
+and here: [ParameterizedSharedAppDomainAlgorithm.py](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py)
 
 ## Quickstart
 1. Clone Lean from [here](https://github.com/QuantConnect/Lean).
-2. Clone this repository so that it shares the same parent folder as the Lean clone.
-3. Edit the config file and enter the location of your trading algorithm dll in "algorithmLocation".
+2. Clone [LeanParameterOptimization](https://github.com/jameschch/LeanParameterOptimization) so that it shares the same parent folder as the Lean clone.
+3. Edit the optimization.json file and enter the location of your trading algorithm in "algorithmLocation".
 4. Now enter the class name of your algorithm in "algorithmTypeName".
 5. Enter the location of your trade and quote bar data in the "dataFolder" setting.
-6. Configure the maxThreads to define the number of parallel backtests.
+6. Configure the "maxThreads" to define the number of parallel backtests (ignored for Python).
+7. Set "algorithmLanguage" to CSharp or Python.
 
 ## Configuration
 Full documentation is provided in comments: [OptimizerConfiguration](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.Objects/OptimizerConfiguration.cs)
 
-The most important options:
+A few important options:
 
 ### fitnessTypeName
 
@@ -46,7 +48,7 @@ After each parent iteration, the fold optimization range is constrained with the
 The parent optimizer will stop early for cases in which all out-sample scores return a failure. This indicates that the in-sample does not generalize and can often be resolved with a longer optimization period.
 
 ### useSharedAppDomain
-If it possible to run each parallel backtest in an isolated AppDomain, or in a single AppDomain. The latter option can be useful for training a machine learning model and tends to execute more quickly.
+If it possible to run each parallel backtest in a dedicated AppDomain, or in a single AppDomain. The latter option can be useful for training a machine learning model and tends to execute more quickly. For Python algorithms this setting is ignored as only a single AppDomain is supported.
 
 ### minimumTrades
 Setting this value correctly will prevent fitting to a small number of high-success events that are unlikely to generalize. Any backtest not meeting the minimum trades will be ignored.
@@ -54,7 +56,7 @@ Setting this value correctly will prevent fitting to a small number of high-succ
 ### enableRunningDuplicateParameters
 When training a non-deterministic machine learning model (such as QLearning), this will allow executing the same parameters multiple times on a single period. By default, duplicate parameters are not executed more than once.
 
-## General
+## Optimizers
 The optimizers support multiple parallel executions of a Lean algorithm as standard. Currently, the following methods are available:
 * Genetic Tournament
 * Random Search

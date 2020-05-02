@@ -11,6 +11,7 @@
     <PackageReference Include="MathNet.Numerics" Version="4.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NLog" Version="4.6.5" />
+    <PackageReference Include="QuantConnect.pythonnet" Version="1.0.5.30" />
     <PackageReference Include="SharpLearning.CrossValidation" Version="0.29.0" />
     <PackageReference Include="SharpLearning.Metrics" Version="0.29.0" />
     <PackageReference Include="SharpLearning.Optimization" Version="0.31.7" />

@@ -91,31 +91,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         private void LaunchLean()
         {
-            Config.Set("environment", "backtesting");
-
-            if (!string.IsNullOrEmpty(_config.AlgorithmTypeName))
-            {
-                Config.Set("algorithm-type-name", _config.AlgorithmTypeName);
-            }
-
-            if (!string.IsNullOrEmpty(_config.AlgorithmLocation))
-            {
-                Config.Set("algorithm-location", Path.GetFileName(_config.AlgorithmLocation));
-            }
-
-            if (!string.IsNullOrEmpty(_config.DataFolder))
-            {
-                Config.Set("data-folder", _config.DataFolder);
-            }
-
-            if (!string.IsNullOrEmpty(_config.TransactionLog))
-            {
-                var filename = _config.TransactionLog;
-                filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                    Path.GetFileNameWithoutExtension(filename) + _id + Path.GetExtension(filename));
-
-                Config.Set("transaction-log", filename);
-            }
+            ConfigMerger.Merge(_config, _id);
 
             var systemHandlers = new LeanEngineSystemHandlers(
                 new JobQueue(),
@@ -130,9 +106,6 @@ namespace Jtc.Optimization.LeanOptimizer
 
             using (Log.LogHandler = new FileLogHandler(logFileName, true))
             {
-                //override config to use custom result handler
-                Config.Set("backtesting.result-handler", nameof(OptimizerResultHandler));
-
                 var map = new LocalDiskMapFileProvider();
                 var leanEngineAlgorithmHandlers = new LeanEngineAlgorithmHandlers(
                         new OptimizerResultHandler(),

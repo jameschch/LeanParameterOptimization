@@ -254,3 +254,5 @@ Charts/
 *.ncrunchproject
 /.vs/config/applicationhost.config
 *.bak
+
+**/__pycache__

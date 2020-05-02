@@ -31,7 +31,7 @@ namespace Jtc.Optimization.LeanOptimizer
             _file.File.Copy(_config.ConfigPath, System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json"), true);
 
             string path = _config.AlgorithmLocation;
-            if (!string.IsNullOrEmpty(path) && (path.Contains('\\') || path.Contains('/')))
+            if (!string.IsNullOrEmpty(path) && (path.Contains('\\') || path.Contains('/')) && !path.EndsWith("py"))
             {
                 _file.File.Copy(path, System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.IO.Path.GetFileName(path)), true);
                 string pdb = path.Replace(System.IO.Path.GetExtension(path), ".pdb");
@@ -64,6 +64,13 @@ namespace Jtc.Optimization.LeanOptimizer
                 {
                     _manager = new GeneManager();
                 }
+            }
+
+            //todo: some constraints for running python
+            if (_config.AlgorithmLanguage == "Python")
+            {
+                _config.UseSharedAppDomain = true;
+                _config.MaxThreads = 1;
             }
 
             _manager.Initialize(_config, fitness);

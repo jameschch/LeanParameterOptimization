@@ -123,35 +123,9 @@ namespace Jtc.Optimization.LeanOptimizer
 
         private void LaunchLean(string id)
         {
-            Config.Set("environment", "backtesting");
-
-            if (!string.IsNullOrEmpty(_config.AlgorithmTypeName))
-            {
-                Config.Set("algorithm-type-name", _config.AlgorithmTypeName);
-            }
-
-            if (!string.IsNullOrEmpty(_config.AlgorithmLocation))
-            {
-                Config.Set("algorithm-location", Path.GetFileName(_config.AlgorithmLocation));
-            }
-
-            if (!string.IsNullOrEmpty(_config.DataFolder))
-            {
-                Config.Set("data-folder", _config.DataFolder);
-            }
-
-            if (!string.IsNullOrEmpty(_config.TransactionLog))
-            {
-                var filename = _config.TransactionLog;
-                filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileNameWithoutExtension(filename) + id + Path.GetExtension(filename));
-
-                Config.Set("transaction-log", filename);
-            }
+            ConfigMerger.Merge(_config, id);
 
             Config.Set("api-handler", nameof(EmptyApiHandler));
-            Config.Set("backtesting.result-handler", nameof(OptimizerResultHandler));
-
-            //Composer.Instance.Reset();
 
             //todo: instance logging
             //var logFileName = "log" + DateTime.Now.ToString("yyyyMMddssfffffff") + "_" + id + ".txt";
@@ -221,10 +195,16 @@ namespace Jtc.Optimization.LeanOptimizer
                         results.Algorithm.SubscriptionManager.RemoveConsolidator(f.WorkingData?.Symbol, f);
                         UnregisterAllEvents(f);
                     });
-                    ((QCAlgorithm)results.Algorithm).SubscriptionManager.Subscriptions.ToList().Clear();
+                    if (results.Algorithm is QCAlgorithm)
+                    {
+                        ((QCAlgorithm)results.Algorithm).SubscriptionManager.Subscriptions.ToList().Clear();
+                    }
+                    if (_config.AlgorithmLanguage != "Python")
+                    {
+                        results.Algorithm.HistoryProvider = null;
+                    }
                     var closedTrades = (List<Trade>)typeof(TradeBuilder).GetField("_closedTrades", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(results.Algorithm.TradeBuilder);
                     closedTrades.Clear();
-                    results.Algorithm.HistoryProvider = null;
                     results.Algorithm = null;
                 }
                 transactions.Orders.Clear();

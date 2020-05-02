@@ -28,6 +28,7 @@ namespace Jtc.Optimization.Objects.Interfaces
         string TransactionLog { get; set; }
         bool EnableRunningDuplicateParameters { get; set; }
         bool UseSharedAppDomain { get; set; }
+        string AlgorithmLanguage { get; set; }
     }
 
 }

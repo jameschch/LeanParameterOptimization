@@ -71,13 +71,14 @@ namespace Jtc.Optimization.IntegrationTests.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Optimize parameters")]
-        [NUnit.Framework.TestCaseAttribute("1", "true", "31.979", "7", null)]
-        [NUnit.Framework.TestCaseAttribute("2", "true", "31.979", "7", null)]
-        [NUnit.Framework.TestCaseAttribute("1", "false", "31.979", "7", null)]
-        [NUnit.Framework.TestCaseAttribute("2", "false", "31.979", "7", null)]
-        [NUnit.Framework.TestCaseAttribute("7", "false", "31.979", "7", null)]
-        [NUnit.Framework.TestCaseAttribute("7", "true", "31.979", "7", null)]
-        public virtual void OptimizeParameters(string maxThreads, string useSharedAppDomain, string sharpRatio, string totalTrades, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("1", "true", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("2", "true", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("1", "false", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("2", "false", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("7", "false", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("7", "true", "false", "31.979", "7", null)]
+        [NUnit.Framework.TestCaseAttribute("1", "true", "true", "31.979", "7", null)]
+        public virtual void OptimizeParameters(string maxThreads, string useSharedAppDomain, string isPython, string sharpRatio, string totalTrades, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Optimize parameters", null, exampleTags);
 #line 3
@@ -90,14 +91,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 6
  testRunner.And(string.Format("I have set useSharedAppDomain to {0}", useSharedAppDomain), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 7
- testRunner.When("I optimize", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And(string.Format("the algorithm {0}", isPython), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 8
- testRunner.Then(string.Format("the Sharpe Ratio should be {0}", sharpRatio), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I optimize", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.And(string.Format("Total Trades should be {0}", totalTrades), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then(string.Format("the Sharpe Ratio should be {0}", sharpRatio), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
- testRunner.And("last run should produce different result", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("Total Trades should be {0}", totalTrades), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
+ testRunner.And("last run should produce different result", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 12
  testRunner.And("multiple threads should execute in parallel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

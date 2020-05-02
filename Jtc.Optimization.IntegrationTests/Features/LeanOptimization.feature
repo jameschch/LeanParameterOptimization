@@ -4,6 +4,7 @@ Scenario Outline: Optimize parameters
 	Given I have an optimization.config
 	And I have set maxThreads and generations to <maxThreads>
 	And I have set useSharedAppDomain to <useSharedAppDomain>
+	And the algorithm <isPython>
 	When I optimize
 	Then the Sharpe Ratio should be <sharpRatio>
 	And Total Trades should be <totalTrades>
@@ -11,13 +12,14 @@ Scenario Outline: Optimize parameters
 	And multiple threads should execute in parallel
 
 	Examples:
-		| maxThreads | useSharedAppDomain | sharpRatio | totalTrades |
-		| 1          | true               | 31.979     | 7           |
-		| 2          | true               | 31.979     | 7           |
-		| 1          | false              | 31.979     | 7           |
-		| 2          | false              | 31.979     | 7           |
-		| 7          | false              | 31.979     | 7           |
-		| 7          | true               | 31.979     | 7           |
+		| maxThreads | useSharedAppDomain | isPython | sharpRatio | totalTrades |
+		| 1          | true               | false    | 31.979     | 7           |
+		| 2          | true               | false    | 31.979     | 7           |
+		| 1          | false              | false    | 31.979     | 7           |
+		| 2          | false              | false    | 31.979     | 7           |
+		| 7          | false              | false    | 31.979     | 7           |
+		| 7          | true               | false    | 31.979     | 7           |
+		| 1          | true               | true	 | 31.979     | 7           |
 
 #Scenario Outline: Optimize parameters
 #	Given I have an optimization.config

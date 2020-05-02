@@ -79,6 +79,11 @@ namespace Jtc.Optimization.LeanOptimizer
                         throw new Exception("Genetic optimizer cannot be used with Sharpe Maximizer");
                     }
                 }
+                else
+                {
+                    throw new ArgumentException("No fitness section was configured.");
+                }
+
 
                 Func<double[], OptimizerResult> minimize = p => Minimize(p, (Chromosome)chromosome);
 

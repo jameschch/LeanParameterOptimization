@@ -21,6 +21,10 @@ namespace Jtc.Optimization.LeanOptimizer
             {
                 _folds = folds;
             }
+            if (config.EndDate == null || config.StartDate == null)
+            {
+                throw new ArgumentException("Must supply start and end dates");
+            }
         }
 
         public override Dictionary<string, decimal> GetScore(Dictionary<string, object> list, IOptimizerConfiguration config)

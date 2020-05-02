@@ -1,6 +1,7 @@
 ﻿using Jtc.Optimization.LeanOptimizer;
 using Jtc.Optimization.Objects;
 using Newtonsoft.Json;
+using QuantConnect.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,6 +68,20 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             };
         }
 
+        [Given(@"the algorithm (.*)")]
+        public void GivenTheAlgorithm(bool isPython)
+        {
+            if (isPython)
+            {
+                ScenarioContext.Current.Get<OptimizerConfiguration>().AlgorithmLocation =
+                    "../../../Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py";
+                ScenarioContext.Current.Get<OptimizerConfiguration>().AlgorithmLanguage = "Python";
+            }
+            else
+            {
+                Config.Set("algorithm-location", "../Optimization.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll");
+            }
+        }
 
     }
 }
