@@ -47,7 +47,7 @@ namespace Jtc.Optimization.LeanOptimizer
             {
                 item.Actual = (double)list[item.Key];
             }
-            var chromosome = new Chromosome(true, config.Genes);
+            var chromosome = new Chromosome(true, config.Genes, false);
 
             LogProvider.GenerationsLogger.Info(Newtonsoft.Json.JsonConvert.SerializeObject(chromosome.GetGenes()));
 

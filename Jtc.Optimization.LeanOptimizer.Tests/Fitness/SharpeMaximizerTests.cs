@@ -59,7 +59,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
 
             GeneFactory.Initialize(config.Genes);
             RandomizationProvider.Current = new BasicRandomization();
-            var chromosome = new Chromosome(true, genes);
+            var chromosome = new Chromosome(true, genes, false);
 
             var actual = unit.Object.Minimize(new[] { 3.21, 321, 456 }, chromosome);
 

@@ -139,6 +139,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ChromosomeTests.cs" />
     <Compile Include="Fitness\AdaptiveSharpeRatioFitnessTests.cs" />
     <Compile Include="Fitness\ConfiguredFitnessTests.cs" />
     <Compile Include="Fitness\DeflatedSharpeRatioFitnessTest.cs" />

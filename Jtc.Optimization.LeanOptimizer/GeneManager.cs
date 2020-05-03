@@ -49,7 +49,7 @@ namespace Jtc.Optimization.LeanOptimizer
             {
                 //first chromosome always use actuals. For others decide by config
                 var isActual = i == 0 || _config.UseActualGenesForWholeGeneration;
-                list.Add(new Chromosome(isActual, GeneFactory.Config));
+                list.Add(new Chromosome(isActual, GeneFactory.Config, true));
             }
 
             int max = _config.PopulationSizeMaximum < _config.PopulationSize ? _config.PopulationSize * 2 : _config.PopulationSizeMaximum;

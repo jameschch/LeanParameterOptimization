@@ -29,7 +29,7 @@ namespace Jtc.Optimization.LeanOptimizer
         public void Start()
         {
             GeneFactory.Initialize(_config.Genes);
-            var chromosome = new Chromosome(false, GeneFactory.Config);
+            var chromosome = new Chromosome(false, GeneFactory.Config, false);
             //todo: should use return value
             var cost = _fitness.Evaluate(chromosome);
 

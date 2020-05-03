@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 namespace Jtc.Optimization.LeanOptimizer
 {
 
-    public class Chromosome : ChromosomeBase
+    public class Chromosome : Jtc.Optimization.LeanOptimizer.ChromosomeBase
     {
 
         GeneConfiguration[] _config;
+        private readonly bool _isGenetic;
         bool _isActual;
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
 
-        public Chromosome(bool isActual, GeneConfiguration[] config) : base(config.Length)
+        public Chromosome(bool isActual, GeneConfiguration[] config, bool isGenetic) : base(config.Length, isGenetic)
         {
             _isActual = isActual;
             _config = config;
-
             for (int i = 0; i < _config.Length; i++)
             {
                 ReplaceGene(i, GenerateGene(i));
@@ -35,7 +35,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         public override IChromosome CreateNew()
         {
-            return new Chromosome(false, GeneFactory.Config);
+            return new Chromosome(false, GeneFactory.Config, _isGenetic);
         }
 
         public override IChromosome Clone()
@@ -69,6 +69,17 @@ namespace Jtc.Optimization.LeanOptimizer
             return output.ToString().TrimEnd(',', ' ');
         }
 
+        public override void ValidateLength(int length)
+        {
+            if (!IsGenetic && length < 1)
+            {
+                throw new ArgumentException("The minimum length for a chromosome is 1 gene.", nameof(length));
+            }
+            else if (IsGenetic && length < 2)
+            {
+                throw new ArgumentException("The minimum length for a chromosome is 2 genes.", nameof(length));
+            }
+        }
     }
 
 }

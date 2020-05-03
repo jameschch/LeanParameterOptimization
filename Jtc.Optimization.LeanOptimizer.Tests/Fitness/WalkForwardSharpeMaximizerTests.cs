@@ -60,7 +60,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
 
             GeneFactory.Initialize(config.Genes);
 
-            var actual = unit.Evaluate(new Chromosome(true, config.Genes));
+            var actual = unit.Evaluate(new Chromosome(true, config.Genes, false));
 
             Assert.AreEqual(1, actual);
 
@@ -115,7 +115,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
 
                     ActualInSampleConfig.Add(o);
 
-                    inSampleMaximizer.Setup(m => m.Best).Returns(new Chromosome(true, SetupBestGenes()));
+                    inSampleMaximizer.Setup(m => m.Best).Returns(new Chromosome(true, SetupBestGenes(), false));
 
                     return inSampleMaximizer.Object;
                 });

@@ -73,7 +73,6 @@ These methods can target several fitness and maximization goals:
 * Nested Cross-Validated Sharpe Ratio
 * Maximization and minimization of most Lean algorithm statistics (Sharpe Ratio, Alpha, Win Rate, etc)
 
-
 ## User Interfaces
 Now also provided are several Blazor interfaces:
 
@@ -88,7 +87,7 @@ Now also provided are several Blazor interfaces:
 * Algorithm Code Editor and Runner (C#, Javascript) - [https://optimizer.ml/codeeditor](https://optimizer.ml/codeeditor)
 
 ## WIP
-* Currently supporting in-browser multi-threaded optimization (i.e. running server-less) of basic algorithms
+* Python mutli-threaded parallel optimization
 * Python running in browser
 * User supplied C# to wasm compile in browser
 * Genetic optimization in browser
