@@ -4,23 +4,18 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+  <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-
-<url>
-  <loc>http://optimizer.ml/</loc>
-  <lastmod>2020-04-25T06:51:17+00:00</lastmod>
-</url>
-<url>
-  <loc>http://optimizer.ml/codeeditor</loc>
-  <lastmod>2020-04-25T06:51:17+00:00</lastmod>
-</url>
-<url>
-  <loc>http://optimizer.ml/config</loc>
-  <lastmod>2020-04-25T06:51:17+00:00</lastmod>
-</url>
-<url>
-  <loc>http://optimizer.ml/chart</loc>
-  <lastmod>2020-04-25T06:51:17+00:00</lastmod>
-</url>
+  <url>
+    <loc>http://optimizer.ml/</loc>
+  </url>
+  <url>
+    <loc>http://optimizer.ml/codeeditor</loc>
+  </url>
+  <url>
+    <loc>http://optimizer.ml/config</loc>
+  </url>
+  <url>
+    <loc>http://optimizer.ml/chart</loc>
+  </url>
 </urlset>

@@ -1,12 +1,11 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
-using Jtc.Optimization.LeanOptimizer.Fitness;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace Jtc.Optimization.LeanOptimizer.Fitness.Tests
+namespace Jtc.Optimization.LeanOptimizer.Tests.Fitness
 {
     [TestFixture()]
     public class WalkForwardWeightedMetricSharpeMaximizerTests

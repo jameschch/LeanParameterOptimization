@@ -1,4 +1,3 @@
-using Jtc.Optimization.LeanOptimizer.Fitness;
 using NUnit.Framework;
 using System;
 
