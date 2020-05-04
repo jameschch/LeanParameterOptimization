@@ -16,6 +16,7 @@ and here: [ParameterizedSharedAppDomainAlgorithm.py](https://github.com/jameschc
 5. Enter the location of your trade and quote bar data in the "dataFolder" setting.
 6. Configure the "maxThreads" to define the number of parallel backtests (ignored for Python).
 7. Set "algorithmLanguage" to CSharp or Python.
+8. Build and run the project "Jtc.Optimization.Launcher.Legacy"
 
 ## Configuration
 Full documentation is provided in comments: [OptimizerConfiguration](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.Objects/OptimizerConfiguration.cs)
