@@ -8,6 +8,8 @@
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

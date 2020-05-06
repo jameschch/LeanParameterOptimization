@@ -7,6 +7,7 @@
     <_RazorComponentInclude>Pages\**\*.cshtml</_RazorComponentInclude>
     <_RazorComponentInclude>Pages\**\*.razor</_RazorComponentInclude>
     <OutputType>Exe</OutputType>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup>
