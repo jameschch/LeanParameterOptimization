@@ -76,7 +76,7 @@ h4 {
 }
 
 hr {
-color: #fff;
+    color: #fff;
 }
 
 textarea {
@@ -275,4 +275,8 @@ a[data-toggle="collapse"] {
     background-size: 100% auto;
     width: 35px;
     z-index: 1;
+}
+
+#quickstart code, #quickstart pre {
+    color: lime;
 }

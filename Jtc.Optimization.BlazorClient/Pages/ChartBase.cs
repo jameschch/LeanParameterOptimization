@@ -261,7 +261,6 @@ namespace Jtc.Optimization.BlazorClient
             //}
 
             _binder = new PlotlyBinder();
-
             try
             {
                 var fileReader = FileReaderService.CreateReference(FileUpload);
@@ -269,11 +268,17 @@ namespace Jtc.Optimization.BlazorClient
                 {
                     using (Stream stream = await file.OpenReadAsync())
                     {
-                        using (var reader = new SwitchReader(new StreamReader(stream)))
+                        using (var streamReader = new StreamReader(stream))
                         {
-                            //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
-                            var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
-                            await ShowChart(data);
+                            using (var reader = new SwitchReader(streamReader))
+                            {
+                                //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
+                                var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                                await ShowChart(data);
+                                //stream.Position = 0;
+                                //await JSRuntime.InvokeVoidAsync("ClientStorage.storeChartData", await streamReader.ReadToEndAsync());
+                            }
+                            //ToastService.ShowSuccess("Chart data was stored.");
                         }
                     }
                 }

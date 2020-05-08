@@ -82,13 +82,14 @@ namespace Jtc.Optimization.Transformation
 
         public void Add(string id, IEnumerable<string> keys, double[] parameters, double cost)
         {
+            _log.Append(DateTime.Now.ToString(DateWithMillisecondsFormat)).Append(" id: ").Append(id).Append(", ");
             var paramText = string.Join(", ", Enumerable.Zip(keys, parameters, (k, v) => $"{k}: {v.ToString("N9").TrimEnd('0')}"));
-            _log.Append(DateTime.Now.ToString(DateWithMillisecondsFormat)).Append(" ").Append($"id: {id}, ");
             _log.Append(paramText);
 
             var costText = $", cost: {cost.ToString("N9").TrimEnd('0')}\r\n";
-            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(paramText).Append(costText);
             _log.Append(costText);
+
+            _status.Append(DateTime.Now.ToString(DateFormat)).Append(" ").Append(paramText).Append(costText);
             ShowMessage();
         }
 

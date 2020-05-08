@@ -17,7 +17,7 @@
     },
 
     hasChartData: () => {
-        return localStorage.getItem("chartData") && localStorage.getItem("chartData").length > 0;
+        return localStorage.hasOwnProperty("chartData") && localStorage.getItem("chartData").length > 0;
     }
 
 };

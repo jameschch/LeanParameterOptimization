@@ -70,6 +70,7 @@ namespace Jtc.Optimization.Transformation
                 }
                 catch (Exception)
                 {
+                    //todo: feedback bad data but do not fail
                     Console.WriteLine("Failed to parse:" + line);
                 }
             }

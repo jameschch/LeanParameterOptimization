@@ -23,6 +23,7 @@
     <Content Remove="Pages\Config.razor" />
     <Content Remove="Pages\Default.razor" />
     <Content Remove="Pages\Info.razor" />
+    <Content Remove="Pages\Quickstart.razor" />
   </ItemGroup>
 
 
@@ -53,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Quickstart.razor" />
     <None Include="Pages\Info.razor" />
     <None Include="Pages\Default.razor" />
     <None Include="Pages\Chart.razor" />
