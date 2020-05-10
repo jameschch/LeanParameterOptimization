@@ -92,6 +92,7 @@ namespace Jtc.Optimization.Transformation
                     foreach (var item in data.Where(d => d.Value.Y.Any()))
                     {
                         item.Value.Y.RemoveAt(index);
+                        item.Value.X.RemoveAt(index);
                         item.Value.Text.RemoveAt(index);
                     }
                 }

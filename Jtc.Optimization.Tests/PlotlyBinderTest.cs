@@ -50,6 +50,7 @@ namespace Jtc.Optimization.Tests
             {
                 var actual = await unit.Read(file, 1, false, DateTime.Parse("2019-05-17 03:29:38"));
                 Assert.True(actual.All(aa => aa.Value.Y.Count() == 1));
+                Assert.True(actual.All(aa => aa.Value.X.Count() == 1));
             }
         }
 
@@ -64,6 +65,7 @@ namespace Jtc.Optimization.Tests
                 var actual = await unit.Read(file, minimumFitness: 0d);
                 Assert.Equal(5, actual.Count());
                 Assert.True(actual.All(a => a.Value.Y.Count() == 1386));
+                Assert.True(actual.All(a => a.Value.X.Count() == 1386));
             }
         }
 
