@@ -125,9 +125,10 @@ namespace Jtc.Optimization.BlazorClient {
         ///  &quot;generations&quot;: 1000,
         ///  &quot;stagnationGenerations&quot;: 10,
         ///  &quot;maxThreads&quot;: 8,
-        ///  &quot;algorithmTypeName&quot;: &quot;ParameterizedAlgorithm&quot;,
+        ///  &quot;algorithmTypeName&quot;: &quot;1212&quot;,
         ///  &quot;configPath&quot;: &quot;../../../../Lean/Launcher/config.json&quot;,
-        ///  [rest of string was truncated]&quot;;.
+        ///  &quot;onePointCrossover&quot;: false,
+        ///  &quot;includeNeg [rest of string was truncated]&quot;;.
         /// </summary>
         public static string OptimizationConfigSample {
             get {

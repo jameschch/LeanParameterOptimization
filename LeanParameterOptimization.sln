@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8541B3E1-702A-46A9-A439-909BF79C63A3}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		run_debugger.bat = run_debugger.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.WpfClient", "Jtc.Optimization.WpfClient\Jtc.Optimization.WpfClient.csproj", "{C4601C7E-C907-4FA8-B5C2-389551B268F8}"

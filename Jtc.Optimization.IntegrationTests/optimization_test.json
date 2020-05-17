@@ -31,7 +31,7 @@
   "algorithmLocation": "Jtc.Optimization.LeanOptimizer.Example.dll",
   "includeNegativeReturn": true,
   "onePointCrossover": true,
-  "fitnessTypeName": "Jtc.Optimization.LeanOptimizer.SharpeMaximizer",
+  "fitnessTypeName": "Optimization.OptimizerFitness",
   "useSharedAppDomain": false,
   "dataFolder": "../../../../Lean/Data",
   "startDate": "2013-10-08T00:00:00Z",

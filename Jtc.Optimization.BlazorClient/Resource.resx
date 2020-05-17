@@ -175,7 +175,7 @@
   "generations": 1000,
   "stagnationGenerations": 10,
   "maxThreads": 8,
-  "algorithmTypeName": "ParameterizedAlgorithm",
+  "algorithmTypeName": "1212",
   "configPath": "../../../../Lean/Launcher/config.json",
   "onePointCrossover": false,
   "includeNegativeReturn": false,
@@ -186,14 +186,13 @@
     "optimizerTypeName": "RandomSearch",
     "folds": 1
   },
-  "mutationProbability": 0.1,
+  "mutationProbability": 0.100000001,
   "crossoverProbability": 0.75,
   "minimumTrades": 0,
-  "enableFitnessFilter": true,
+  "enableFitnessFilter": false,
   "useActualGenesForWholeGeneration": false,
   "useSharedAppDomain": false,
-  "enableRunningDuplicateParameters": false,
-  "algorithmLanguage": "CSharp"
+  "enableRunningDuplicateParameters": false
 }</value>
   </data>
 </root>

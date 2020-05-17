@@ -12,9 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Utf8Json;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -81,11 +81,15 @@ namespace Jtc.Optimization.BlazorClient
 
                 (context as EvalContext).Expression = () => context.ClientStorage.fetchConfig("config");
                 var raw = await (context as EvalContext).InvokeAsync<string>();
-
                 if (raw != null)
                 {
                     _config = JsonSerializer.Deserialize<Objects.OptimizerConfiguration>(raw);
                 }
+            }
+
+            if (_config != null)
+            {
+                //Console.WriteLine(JsonSerializer.Serialize(_config));
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -155,7 +159,7 @@ namespace Jtc.Optimization.BlazorClient
                     //(context as EvalContext).Expression = () => context.ClientStorage.storeChartData(ActivityLogger.Log);
                     //await (context as EvalContext).InvokeAsync<dynamic>();
 
-                    ToastService.ShowSuccess("Chart data was saved.");
+                    ToastService.ShowSuccess("Chart data was stored.");
                 }
 
             }

@@ -12,24 +12,18 @@ using Blazor.FileReader;
 using Blazored.Toast;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using System.Collections.Generic;
-using System.Linq;
-using Utf8Json;
-using Utf8Json.Resolvers;
 
 namespace Jtc.Optimization.BlazorClient
 {
     public class Program
     {
 
-        //public static HttpClient HttpClient { get; set; }
+        public static IJSRuntime JsRuntime { get; set; }
+        public static HttpClient HttpClient { get; set; }
 
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
-            builder.Services.AddApiAuthorization();
-
             builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
             builder.Services.AddBlazoredToast();
             builder.Services.AddSingleton<BlazorClientState>();
@@ -41,20 +35,19 @@ namespace Jtc.Optimization.BlazorClient
             builder.Services.AddTransient<CSharpOptimizer, CSharpOptimizer>();
             builder.Services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
             builder.Services.AddSingleton<IMscorlibProvider, MscorlibRemoteProvider>();
+            builder.Services.AddBaseAddressHttpClient();
 
-            builder.Services.AddTransient(sp => new HttpClient
-            {
-                BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-            });
-
-            JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNullCamelCase);
+            WebAssemblyHttpMessageHandlerOptions.DefaultCredentials = FetchCredentialsOption.Include;
 
 #if !DEBUG
+
             builder.Services.Configure<IISServerOptions>(options =>
             {
                 options.AutomaticAuthentication = false;
             });
 #endif
+
+            builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();
         }

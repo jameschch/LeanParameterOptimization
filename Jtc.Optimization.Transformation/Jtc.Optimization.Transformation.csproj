@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
     <Platforms>AnyCPU;x64</Platforms>
@@ -10,17 +10,11 @@
   <ItemGroup>
     <PackageReference Include="CenterCLR.XorRandomGenerator" Version="1.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.8.0" />
-    <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.7" />
+    <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly">
-      <Version>3.2.0-rc1.20223.4</Version>
-    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,7 @@ namespace Jtc.Optimization.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc(m => m.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(m => m.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //services.AddCors(options => options.AddPolicy(PolicyName, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             services.AddSingleton(Configuration);
             services.AddSingleton<ICSharpCompiler, CSharpCompiler>();
@@ -38,6 +38,7 @@ namespace Jtc.Optimization.Api
             services.AddSingleton<HttpClient, HttpClient>();
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -46,13 +47,10 @@ namespace Jtc.Optimization.Api
             }
 
             app.UseCors(builder => builder
-               //.WithOrigins("http://optimizer.ml", "https://optimizer.ml", "http://www.optimizer.ml", "https://www.optimizer.ml", "http://localhost:61221")
+               .WithOrigins("http://optimizer.ml", "https://optimizer.ml", "http://www.optimizer.ml", "https://www.optimizer.ml", "http://localhost:61221")
                .AllowAnyMethod()
                .AllowAnyHeader()
-               .AllowAnyOrigin()
-               .SetIsOriginAllowedToAllowWildcardSubdomains()
-               //.AllowCredentials()
-               );
+               .AllowCredentials());
             //app.UseHttpsRedirection();
             app.UseMvc();
 
