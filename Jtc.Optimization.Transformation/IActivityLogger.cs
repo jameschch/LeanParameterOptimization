@@ -15,5 +15,6 @@ namespace Jtc.Optimization.Transformation
         void Add(string message, TimeSpan data);
         void Add(string id, IEnumerable<string> keys, double[] parameters, double cost);
         void StateHasChanged();
+        void ShowMessageAlways();
     }
 }

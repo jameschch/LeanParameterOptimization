@@ -13,9 +13,9 @@ using Jtc.Optimization.BlazorClient.Shared;
 using Blazor.FileReader;
 using Blazored.Toast.Services;
 using Jtc.Optimization.Objects;
-using System.Text.Json;
 using CenterCLR.XorRandomGenerator;
 using System.Text;
+using System.Text.Json;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -29,10 +29,9 @@ namespace Jtc.Optimization.BlazorClient
         public double? MinimumFitness { get; set; }
         public bool NewOnly { get; set; }
         public string ActivityLog { get { return _activityLogger.Status; } }
-        private ActivityLogger _activityLogger { get; set; } = new ActivityLogger();
+        private ActivityLogger _activityLogger { get; set; }
         public DateTime NewestTimestamp { get; set; }
         private List<int> _pickedColours;
-        Queue<PlotlyData> _queue;
         private PlotlyBinder _binder;
         Stopwatch _stopWatch;
         protected WaitBase Wait { get; set; }
@@ -61,15 +60,12 @@ namespace Jtc.Optimization.BlazorClient
         {
             _pickedColours = new List<int>();
             _stopWatch = new Stopwatch();
-            _binder = new PlotlyBinder();
+            _binder = new PlotlyBinder(_activityLogger);
         }
 
         protected async override Task OnInitializedAsync()
         {
-
-            Program.HttpClient = HttpClient;
-            Program.JsRuntime = JSRuntime;
-
+            _activityLogger = new ActivityLogger(() => StateHasChanged(), m => Wait.ShowMessage(m));
 
             using (dynamic context = new EvalContext(JSRuntime))
             {
@@ -133,7 +129,7 @@ namespace Jtc.Optimization.BlazorClient
             //    await JsRuntime.SetupChart(Config);
             //}
 
-            _binder = new PlotlyBinder();
+            _binder = new PlotlyBinder(_activityLogger);
 
             try
             {
@@ -162,7 +158,7 @@ namespace Jtc.Optimization.BlazorClient
         {
             if (!NewOnly)
             {
-                _binder = new PlotlyBinder();
+                _binder = new PlotlyBinder(_activityLogger);
                 _pickedColours.Clear();
             }
 
@@ -173,19 +169,19 @@ namespace Jtc.Optimization.BlazorClient
             }
         }
 
-        private async Task BindRemoteOnServer()
-        {
-            if (!NewOnly)
-            {
-                _pickedColours.Clear();
-            }
+        //private async Task BindRemoteOnServer()
+        //{
+        //    if (!NewOnly)
+        //    {
+        //        _pickedColours.Clear();
+        //    }
 
-            using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data/Sample/{(SampleRate == 0 ? 1 : SampleRate)}"))))
-            {
-                var data = JsonSerializer.Deserialize<Dictionary<string, PlotlyData>>(file.ReadToEnd());
-                ShowChart(data);
-            }
-        }
+        //    using (var file = new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data/Sample/{(SampleRate == 0 ? 1 : SampleRate)}"))))
+        //    {
+        //        var data = JsonSerializer.Deserialize<Dictionary<string, PlotlyData>>(file.ReadToEnd());
+        //        ShowChart(data);
+        //    }
+        //}
 
         private async Task ShowChart(Dictionary<string, PlotlyData> data)
         {
@@ -260,7 +256,7 @@ namespace Jtc.Optimization.BlazorClient
             //    await JsRuntime.SetupChart(Config);
             //}
 
-            _binder = new PlotlyBinder();
+            _binder = new PlotlyBinder(_activityLogger);
             try
             {
                 var fileReader = FileReaderService.CreateReference(FileUpload);
@@ -275,10 +271,7 @@ namespace Jtc.Optimization.BlazorClient
                                 //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
                                 var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
                                 await ShowChart(data);
-                                //stream.Position = 0;
-                                //await JSRuntime.InvokeVoidAsync("ClientStorage.storeChartData", await streamReader.ReadToEndAsync());
                             }
-                            //ToastService.ShowSuccess("Chart data was stored.");
                         }
                     }
                 }

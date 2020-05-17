@@ -24,6 +24,13 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             Assert.AreEqual(p0, (double)predicted.Value["SharpeRatio"], 0.001);
         }
 
+        [Then(@"the Sharpe Ratio on optimizer.txt should be (.*)")]
+        public void ThenTheSharpeRatioOnOptimizerTxtShouldBe(double p0)
+        {
+            var actual = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "optimizer.txt"));
+            StringAssert.Contains("64.29", actual);
+        }
+
         private static KeyValuePair<string, Dictionary<string, decimal>> GetPredicted(Dictionary<string, Dictionary<string, decimal>> actual)
         {
             return actual.First(w => w.Key.Contains("12") && w.Key.Contains("104") && w.Key.Contains("0.001"));

@@ -83,5 +83,12 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             }
         }
 
+        [Given(@"I have saved the test config")]
+        public void GivenIHaveSavedTheTestConfig()
+        {
+            var json = JsonConvert.SerializeObject(ScenarioContext.Current.Get<OptimizerConfiguration>());
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "optimization.json"), json);
+        }
+
     }
 }

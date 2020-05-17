@@ -110,5 +110,11 @@ namespace Jtc.Optimization.Transformation
             }
         }
 
+        public void ShowMessageAlways()
+        {
+            var split = Status.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Last();
+            _showMessage.Invoke(split);
+        }
+
     }
 }

@@ -10,12 +10,17 @@ namespace Jtc.Optimization.Tests
 {
     public class PlotlyBinderTest
     {
+
         private const int ExpectedLines = 1397;
+        private PlotlyBinder CreateUnit()
+        {
+            return new PlotlyBinder(null);
+        }
 
         [Fact]
         public async Task Given_optimizer_data_When_binding_Then_should_return_all_series()
         {
-            var unit = new PlotlyBinder();
+            var unit = CreateUnit();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
             using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
@@ -29,7 +34,7 @@ namespace Jtc.Optimization.Tests
         [Fact]
         public async Task Given_optimizer_data_And_sample_rate_When_binding_Then_should_return_sampled_series()
         {
-            var unit = new PlotlyBinder();
+            var unit = CreateUnit();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
             using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
@@ -43,7 +48,7 @@ namespace Jtc.Optimization.Tests
         [Fact]
         public async Task Given_optimizer_data_When_supplying_minimum_date_Then_should_return_newer_only()
         {
-            var unit = new PlotlyBinder();
+            var unit = CreateUnit();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
             using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
@@ -57,7 +62,7 @@ namespace Jtc.Optimization.Tests
         [Fact]
         public async Task Given_optimizer_data_And_minimum_fitness_When_binding_Then_should_return_all_series()
         {
-            var unit = new PlotlyBinder();
+            var unit = CreateUnit();
             var assembly = Assembly.GetExecutingAssembly();
             var name = assembly.GetManifestResourceNames().Single(str => str.EndsWith("optimizer.txt"));
             using (var file = new SwitchReader(new StreamReader(assembly.GetManifestResourceStream(name))))
