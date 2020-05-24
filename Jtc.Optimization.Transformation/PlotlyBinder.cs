@@ -12,9 +12,12 @@ namespace Jtc.Optimization.Transformation
 {
     public class PlotlyBinder
     {
+        private readonly IActivityLogger _activityLogger;
 
-        private double? _min { get; set; }
-        private double? _max { get; set; }
+        public PlotlyBinder(IActivityLogger activityLogger)
+        {
+            _activityLogger = activityLogger;
+        }
 
         public async Task<Dictionary<string, PlotlyData>> Read(SwitchReader reader, int sampleRate = 1, bool disableNormalization = false,
             DateTime? minimumDate = null, double? minimumFitness = null)
@@ -25,9 +28,14 @@ namespace Jtc.Optimization.Transformation
             var rand = new XorRandom();
             string line;
             int counter = 0;
+
+            //todo: chart bind progress
+            //_activityLogger?.Add($"Processing: ", counter);
+            //_activityLogger?.ShowMessageAlways();
+
             while ((line = await reader.ReadLineAsync()) != null)
             {
-                if (rand.Next(1, sampleRate) != 1)
+                if (/*sampleRate > 1 && */rand.Next(1, sampleRate) != 1)
                 {
                     continue;
                 }
@@ -64,9 +72,10 @@ namespace Jtc.Optimization.Transformation
                     counter++;
                     if (counter % 1000 == 0)
                     {
-                        Console.WriteLine($"{DateTime.UtcNow.ToString("s")} Processing: {counter}");
+                        //_activityLogger?.Add($"Processing: ", counter);
+                        //_activityLogger?.ShowMessageAlways();
                     }
-                    //System.Diagnostics.Debug.WriteLine("Processing...");
+
                 }
                 catch (Exception)
                 {
@@ -103,12 +112,9 @@ namespace Jtc.Optimization.Transformation
                 var fitness = data.Last().Value;
                 var nonEmpty = data.Take(data.Count() - 1).Where(d => d.Value.Y.Any());
 
-                //on second pass reuse min/max
-                if (_max == null || _min == null)
-                {
-                    _max = fitness.Y.Max();
-                    _min = fitness.Y.Min();
-                }
+                var max = fitness.Y.Max();
+                var min = fitness.Y.Min();
+
                 var normalizer = new SharpLearning.FeatureTransformations.Normalization.LinearNormalizer();
 
                 foreach (var list in nonEmpty)
@@ -118,7 +124,7 @@ namespace Jtc.Optimization.Transformation
                     var oldMin = list.Value.Y.Min();
                     for (int i = 0; i < list.Value.Y.Count(); i++)
                     {
-                        list.Value.Y[i] = normalizer.Normalize(_min.Value, _max.Value, oldMin, oldMax, list.Value.Y[i]);
+                        list.Value.Y[i] = normalizer.Normalize(min, max, oldMin, oldMax, list.Value.Y[i]);
                     }
                 }
 

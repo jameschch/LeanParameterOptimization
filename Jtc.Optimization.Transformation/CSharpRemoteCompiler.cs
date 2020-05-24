@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Jtc.Optimization.Objects.Interfaces;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Jtc.Optimization.Objects.Interfaces;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 namespace Jtc.Optimization.Transformation
 {
@@ -24,9 +25,19 @@ namespace Jtc.Optimization.Transformation
         }
 
         public async Task<MemoryStream> CreateAssemblyRemotely(string code)
-        {            
-            var response = await HttpClient.PostAsync(HttpClient.BaseAddress.Scheme + "://" + _blazorClientConfiguration.ApiUrl + "/api/compiler", 
-                new StringContent(code, Encoding.UTF8, "text/plain"));
+        {
+            //todo: data service
+            var message = new HttpRequestMessage
+            {
+                Content = new StringContent(code, Encoding.UTF8, "text/plain"),
+                RequestUri = new Uri(HttpClient.BaseAddress.Scheme + "://" + _blazorClientConfiguration.ApiUrl + "/api/compiler"),
+                Method = HttpMethod.Post
+            };
+            message.SetBrowserRequestCredentials(BrowserRequestCredentials.Omit);
+            message.SetBrowserRequestMode(BrowserRequestMode.Cors);
+
+            var response = await HttpClient.SendAsync(message);
+
             if (response.IsSuccessStatusCode)
             {
                 var stream = new MemoryStream();

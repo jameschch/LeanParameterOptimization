@@ -19,10 +19,10 @@
                     @*<button class="btn btn-secondary" @onclick="UpdateChartOnServer">Update Chart (Server)</button>*@
                     @*<button class="btn btn-secondary" disabled @onclick="StreamChart">Stream Chart</button>*@
                 }
-                <label for="fileUpload" class="btn btn-secondary mt-1">Upload Chart Data</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
+                <label for="fileUpload" class="btn btn-secondary mt-1">Select optimizer.txt</label><input type="file" class="displayNone" @ref="FileUpload" @onchange="@UploadFile" id="fileUpload" />
                 @if (HasChartData)
                 {
-                    <button class="btn btn-secondary mt-1" @onclick="GetStoredChart">Show Chart Data</button>
+                    <button class="btn btn-secondary mt-1" @onclick="GetStoredChart">Show Saved Data</button>
                 }
             </div>
         </div>

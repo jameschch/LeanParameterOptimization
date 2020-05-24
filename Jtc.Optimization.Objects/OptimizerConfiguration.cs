@@ -93,12 +93,12 @@ namespace Jtc.Optimization.Objects
         public DateTime? EndDate { get; set; }
 
         /// <summary>
-        /// Likeliness of genetic mutation
+        /// Probability of genetic mutation
         /// </summary>
         public float MutationProbability { get; set; } = 0.1f;
 
         /// <summary>
-        /// Likeliness of genetic crossover
+        /// Probability of genetic crossover
         /// </summary>
         public float CrossoverProbability { get; set; } = 0.75f;
 
@@ -132,7 +132,7 @@ namespace Jtc.Optimization.Objects
         public bool EnableRunningDuplicateParameters { get; set; }
 
         /// <summary>
-        /// If specified will override config.json setting
+        /// CSharp or Python. If specified will override config.json setting.
         /// </summary>
         public string AlgorithmLanguage { get; set; }
     }
