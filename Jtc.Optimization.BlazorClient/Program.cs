@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Utf8Json;
 using Utf8Json.Resolvers;
+using BlazorWorker.Core;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -39,15 +40,18 @@ namespace Jtc.Optimization.BlazorClient
             //services.AddSingleton<ICSharpCompiler, CSharpCompiler>();
             builder.Services.AddSingleton<CSharpRemoteCompiler, CSharpRemoteCompiler>();
             builder.Services.AddTransient<CSharpOptimizer, CSharpOptimizer>();
+            builder.Services.AddTransient<CSharpThreadedOptimizer, CSharpThreadedOptimizer>();
             builder.Services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
             builder.Services.AddSingleton<IMscorlibProvider, MscorlibRemoteProvider>();
-
+            
             builder.Services.AddTransient(sp => new HttpClient
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNullCamelCase);
+
+            builder.Services.AddWorkerFactory();
 
 #if !DEBUG
             builder.Services.Configure<IISServerOptions>(options =>

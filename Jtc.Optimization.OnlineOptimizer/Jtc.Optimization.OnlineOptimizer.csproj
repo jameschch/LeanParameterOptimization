@@ -11,6 +11,7 @@
     <PackageReference Include="AsyncEnumerator" Version="4.0.2" />
     <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.1.0" />
     <PackageReference Include="Microsoft.JSInterop" Version="3.1.3" />
+    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>

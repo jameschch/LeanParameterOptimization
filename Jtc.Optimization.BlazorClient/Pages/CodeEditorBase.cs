@@ -112,7 +112,7 @@ namespace Jtc.Optimization.BlazorClient
                 }
                 else if (MinimizeFunctionCode.Language == "csharp")
                 {
-                    optimizer = (CSharpOptimizer)ServiceProvider.GetService(typeof(CSharpOptimizer));
+                    optimizer = (CSharpThreadedOptimizer)ServiceProvider.GetService(typeof(CSharpThreadedOptimizer));
                 }
 
                 if (_config == null)
