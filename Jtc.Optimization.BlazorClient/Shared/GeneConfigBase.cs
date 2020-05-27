@@ -14,7 +14,7 @@ namespace Jtc.Optimization.BlazorClient.Shared
 
         protected string GetStep()
         {
-            if (!Gene.Precision.HasValue)
+            if (Gene.Precision == null || !Gene.Precision.HasValue)
             {
                 return "1";
             }

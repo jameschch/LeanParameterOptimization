@@ -35,7 +35,7 @@ namespace Jtc.Optimization.Transformation
 
             while ((line = await reader.ReadLineAsync()) != null)
             {
-                if (/*sampleRate > 1 && */rand.Next(1, sampleRate) != 1)
+                if (sampleRate > 1 && rand.Next(1, sampleRate) != 1)
                 {
                     continue;
                 }
@@ -50,9 +50,11 @@ namespace Jtc.Optimization.Transformation
                         continue;
                     }
 
-                    foreach (var item in split.Skip(1))
+                    for (int i = 1; i < split.Length; i++)
                     {
-                        if (item.Contains(": ") && !item.StartsWith("Start") && !item.StartsWith("End"))
+                        var item = split[i];
+
+                        if (item.Contains(": ") && !item.StartsWith("Start:") && !item.StartsWith("End:"))
                         {
                             var pair = item.Split(new[] { ": " }, StringSplitOptions.RemoveEmptyEntries);
                             if (!double.TryParse(pair[1], out var parsed))
@@ -69,12 +71,12 @@ namespace Jtc.Optimization.Transformation
                         }
 
                     }
-                    counter++;
-                    if (counter % 1000 == 0)
-                    {
-                        //_activityLogger?.Add($"Processing: ", counter);
-                        //_activityLogger?.ShowMessageAlways();
-                    }
+                    //counter++;
+                    //if (counter % 1000 == 0)
+                    //{
+                    //_activityLogger?.Add($"Processing: ", counter);
+                    //_activityLogger?.ShowMessageAlways();
+                    //}
 
                 }
                 catch (Exception)

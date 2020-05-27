@@ -214,6 +214,7 @@ namespace Jtc.Optimization.BlazorClient
             _activityLogger.Add("Exection Time:", _stopWatch.Elapsed);
             _activityLogger.Add($"Updated Rows: ", Config.Last().X.Count);
             _stopWatch.Stop();
+            _stopWatch.Reset();
         }
 
         private string PickRandomColour()
