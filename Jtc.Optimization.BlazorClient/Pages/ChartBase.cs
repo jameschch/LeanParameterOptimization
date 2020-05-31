@@ -1,21 +1,21 @@
+using Blazor.DynamicJavascriptRuntime.Evaluator;
+using Blazor.FileReader;
+using Blazored.Toast.Services;
+using BlazorWorker.Core;
+using CenterCLR.XorRandomGenerator;
+using Jtc.Optimization.BlazorClient.Shared;
+using Jtc.Optimization.Objects;
+using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net.Http;
-using Jtc.Optimization.Transformation;
-using System.Diagnostics;
-using Blazor.DynamicJavascriptRuntime.Evaluator;
-using Jtc.Optimization.BlazorClient.Shared;
-using Blazor.FileReader;
-using Blazored.Toast.Services;
-using Jtc.Optimization.Objects;
-using CenterCLR.XorRandomGenerator;
-using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Jtc.Optimization.BlazorClient
 {
@@ -32,7 +32,8 @@ namespace Jtc.Optimization.BlazorClient
         private ActivityLogger _activityLogger { get; set; }
         public DateTime NewestTimestamp { get; set; }
         private List<int> _pickedColours;
-        private PlotlyBinder _binder;
+        [Inject]
+        protected IPlotlyBinder PlotlyBinder { get; set; }
         Stopwatch _stopWatch;
         protected WaitBase Wait { get; set; }
         [Inject]
@@ -46,7 +47,6 @@ namespace Jtc.Optimization.BlazorClient
         public IToastService ToastService { get; set; }
         //todo: config
         protected bool EnableServerData { get; set; }
-
         protected bool HasChartData { get { return GetHasChartData(); } }
 
         private bool GetHasChartData()
@@ -60,7 +60,6 @@ namespace Jtc.Optimization.BlazorClient
         {
             _pickedColours = new List<int>();
             _stopWatch = new Stopwatch();
-            _binder = new PlotlyBinder(_activityLogger);
         }
 
         protected async override Task OnInitializedAsync()
@@ -129,8 +128,6 @@ namespace Jtc.Optimization.BlazorClient
             //    await JsRuntime.SetupChart(Config);
             //}
 
-            _binder = new PlotlyBinder(_activityLogger);
-
             try
             {
                 dynamic context = new EvalContext(JSRuntime);
@@ -139,7 +136,7 @@ namespace Jtc.Optimization.BlazorClient
 
                 using (var reader = new SwitchReader(new StringReader(log)))
                 {
-                    var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                    var data = await PlotlyBinder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
                     await ShowChart(data);
                 }
 
@@ -158,13 +155,12 @@ namespace Jtc.Optimization.BlazorClient
         {
             if (!NewOnly)
             {
-                _binder = new PlotlyBinder(_activityLogger);
                 _pickedColours.Clear();
             }
 
             using (var file = new SwitchReader(new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data")))))
             {
-                var data = await _binder.Read(file, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
+                var data = await PlotlyBinder.Read(file, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
                 ShowChart(data);
             }
         }
@@ -257,7 +253,6 @@ namespace Jtc.Optimization.BlazorClient
             //    await JsRuntime.SetupChart(Config);
             //}
 
-            _binder = new PlotlyBinder(_activityLogger);
             try
             {
                 var fileReader = FileReaderService.CreateReference(FileUpload);
@@ -270,7 +265,7 @@ namespace Jtc.Optimization.BlazorClient
                             using (var reader = new SwitchReader(streamReader))
                             {
                                 //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
-                                var data = await _binder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                                var data = await PlotlyBinder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
                                 await ShowChart(data);
                             }
                         }

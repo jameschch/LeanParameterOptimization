@@ -43,7 +43,7 @@ namespace Jtc.Optimization.Api.Controllers
             var builder = new StringBuilder();
             using (var file = new SwitchReader(new StreamReader(Path.Combine(_configuration.GetValue<string>("ResultsPath"), "optimizer.txt"))))
             {
-                var binder = new PlotlyBinder(null);
+                var binder = new PlotlyBinder();
 
                 var data = binder.Read(file, sampleRate).Result;
 

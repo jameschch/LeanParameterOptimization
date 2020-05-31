@@ -116,5 +116,10 @@ namespace Jtc.Optimization.Transformation
             _showMessage.Invoke(split);
         }
 
+        public void ResetLog()
+        {
+            _log.Clear();
+        }
+
     }
 }

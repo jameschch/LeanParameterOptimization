@@ -12,9 +12,9 @@ namespace Jtc.Optimization.Tests
     {
 
         private const int ExpectedLines = 1397;
-        private PlotlyBinder CreateUnit()
+        protected virtual IPlotlyBinder CreateUnit()
         {
-            return new PlotlyBinder(null);
+            return new PlotlyBinder();
         }
 
         [Fact]

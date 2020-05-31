@@ -43,7 +43,11 @@ namespace Jtc.Optimization.BlazorClient
             builder.Services.AddTransient<CSharpThreadedOptimizer, CSharpThreadedOptimizer>();
             builder.Services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
             builder.Services.AddSingleton<IMscorlibProvider, MscorlibRemoteProvider>();
-            
+            builder.Services.AddSingleton<IWorkerFactory, WorkerFactory>();
+            builder.Services.AddTransient<IPlotlyLineSplitter, PlotlyLineSplitter>();
+            builder.Services.AddTransient<IPlotlyBinder, PlotlyThreadedBinder>();
+            builder.Services.AddSingleton<IPlotlyLineSplitterBackgroundWrapper, PlotlyLineSplitterBackgroundWrapper>();
+
             builder.Services.AddTransient(sp => new HttpClient
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)

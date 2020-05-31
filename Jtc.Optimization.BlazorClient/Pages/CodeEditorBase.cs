@@ -124,6 +124,7 @@ namespace Jtc.Optimization.BlazorClient
                 else
                 {
                     var fitness = string.IsNullOrEmpty(_config.Fitness?.OptimizerTypeName) ? _config.FitnessTypeName : _config.Fitness.OptimizerTypeName;
+                    ActivityLogger.ResetLog();
                     ActivityLogger.Add("Starting " + fitness);
                     optimizer.Initialize(MinimizeFunctionCode.Code, ActivityLogger);
 

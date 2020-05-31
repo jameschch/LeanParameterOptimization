@@ -16,5 +16,6 @@ namespace Jtc.Optimization.Transformation
         void Add(string id, IEnumerable<string> keys, double[] parameters, double cost);
         void StateHasChanged();
         void ShowMessageAlways();
+        void ResetLog();
     }
 }

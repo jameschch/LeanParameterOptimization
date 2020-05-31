@@ -10,19 +10,16 @@ using Microsoft.CSharp;
 
 namespace Jtc.Optimization.Transformation
 {
-    public class PlotlyBinder
+    public class PlotlyBinder : IPlotlyBinder
     {
-        private readonly IActivityLogger _activityLogger;
 
-        public PlotlyBinder(IActivityLogger activityLogger)
-        {
-            _activityLogger = activityLogger;
-        }
+        private IActivityLogger _activityLogger;
 
         public async Task<Dictionary<string, PlotlyData>> Read(SwitchReader reader, int sampleRate = 1, bool disableNormalization = false,
-            DateTime? minimumDate = null, double? minimumFitness = null)
+            DateTime? minimumDate = null, double? minimumFitness = null, IActivityLogger activityLogger = null)
         {
             minimumDate = minimumDate ?? DateTime.MinValue;
+            _activityLogger = activityLogger;
 
             var data = new Dictionary<string, PlotlyData>();
             var rand = new XorRandom();
