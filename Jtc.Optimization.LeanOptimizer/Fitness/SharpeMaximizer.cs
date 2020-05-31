@@ -66,10 +66,11 @@ namespace Jtc.Optimization.LeanOptimizer
                         optimizer = new GlobalizedBoundedNelderMeadOptimizer(parameters, maxRestarts: Config.Generations,
                             maxIterationsPrRestart: Config.PopulationSize, seed: Seed, maxDegreeOfParallelism: Config.MaxThreads);
                     }
-                    //else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Smac.ToString())
-                    //{
-                    //    optimizer = new SmacOptimizer(parameters, iterations: Config.Generations, randomSearchPointCount: Config.PopulationSize, seed: 42);
-                    //}
+                    else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.Smac.ToString())
+                    {
+                        optimizer = new SmacOptimizer(parameters, iterations: Config.Generations, randomStartingPointCount: Config.PopulationSize, seed: 42, 
+                            functionEvaluationsPerIterationCount: Config.MaxThreads);
+                    }
                     else if (Config.Fitness.OptimizerTypeName == Enums.OptimizerTypeOptions.GridSearch.ToString())
                     {
                         optimizer = new GridSearchOptimizer(parameters);

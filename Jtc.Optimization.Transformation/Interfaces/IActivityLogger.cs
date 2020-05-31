@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+//todo: namespaces
 namespace Jtc.Optimization.Transformation
 {
     public interface IActivityLogger

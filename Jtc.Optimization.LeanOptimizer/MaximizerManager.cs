@@ -1,14 +1,4 @@
-﻿using SharpLearning.CrossValidation.CrossValidators;
-using SharpLearning.Metrics.Classification;
-using SharpLearning.Metrics.Regression;
-using SharpLearning.Optimization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeneticSharp.Domain.Chromosomes;
-using Jtc.Optimization.Objects.Interfaces;
+﻿using Jtc.Optimization.Objects.Interfaces;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
