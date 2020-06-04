@@ -13,7 +13,7 @@ namespace Jtc.Optimization.Objects
         public List<string> Text { get; set; } = new List<string>();
         public List<double> Y { get; set; } = new List<double>();
         public string Mode { get; set; } = "markers";
-        public string Type { get; set; } = "scatter";
+        public string Type { get; set; } = "scattergl";
         public string Name { get; set; }
         public Marker Marker { get; set; }
         [JsonPropertyName("hovertemplate")]

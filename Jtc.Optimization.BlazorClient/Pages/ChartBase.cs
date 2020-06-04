@@ -136,7 +136,8 @@ namespace Jtc.Optimization.BlazorClient
 
                 using (var reader = new SwitchReader(new StringReader(log)))
                 {
-                    var data = await PlotlyBinder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                    var data = await PlotlyBinder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, 
+                        minimumFitness: MinimumFitness, activityLogger: _activityLogger);
                     await ShowChart(data);
                 }
 
@@ -160,7 +161,7 @@ namespace Jtc.Optimization.BlazorClient
 
             using (var file = new SwitchReader(new StreamReader((await HttpClient.GetStreamAsync($"http://localhost:5000/api/data")))))
             {
-                var data = await PlotlyBinder.Read(file, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue);
+                var data = await PlotlyBinder.Read(file, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, activityLogger: _activityLogger);
                 ShowChart(data);
             }
         }
@@ -226,7 +227,7 @@ namespace Jtc.Optimization.BlazorClient
 
         private string PickColourName()
         {
-            var names = new[] { "Yellow", "Olive", "Lime", "Aqua", "Teal", "Blue", "Fuchsia", "Purple" };
+            var names = new[] { "yellow", "olive", "lime", "aqua", "teal", "blue", "fuchsia", "purple" };
             if (_pickedColours.Count == names.Length)
             {
                 return PickRandomColour();
@@ -265,7 +266,8 @@ namespace Jtc.Optimization.BlazorClient
                             using (var reader = new SwitchReader(streamReader))
                             {
                                 //wait.ProgressPercent = (int)(stream.Length / (stream.Position+1))*100;
-                                var data = await PlotlyBinder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, minimumFitness: MinimumFitness);
+                                var data = await PlotlyBinder.Read(reader, SampleRate == 0 ? 1 : SampleRate, false, NewOnly ? NewestTimestamp : DateTime.MinValue, 
+                                    minimumFitness: MinimumFitness, activityLogger: _activityLogger);
                                 await ShowChart(data);
                             }
                         }
