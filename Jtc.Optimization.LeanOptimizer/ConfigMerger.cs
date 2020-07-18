@@ -1,4 +1,5 @@
-﻿using Jtc.Optimization.Objects.Interfaces;
+﻿using Jtc.Optimization.LeanOptimizer.Handlers;
+using Jtc.Optimization.Objects.Interfaces;
 using QuantConnect.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace Jtc.Optimization.LeanOptimizer
 {
     class ConfigMerger
     {
-        public static void Merge(IOptimizerConfiguration config, string id)
+        public static void Merge(IOptimizerConfiguration config, string id, Type runnerType)
         {
             Config.Set("environment", "backtesting");
 
@@ -36,7 +37,13 @@ namespace Jtc.Optimization.LeanOptimizer
             //override config to use custom result handler
             Config.Set("backtesting.result-handler", nameof(OptimizerResultHandler));
 
-            //todo: transaction lof
+            if (runnerType == typeof(SingleRunner))
+            {
+                Config.Set("backtesting.history-provider", nameof(OptimizerSubscriptionDataReaderHistoryProvider));
+                Config.Set("api-handler", nameof(EmptyApiHandler));
+            }
+
+            //todo: transaction log
             if (!string.IsNullOrEmpty(config.TransactionLog))
             {
                 var filename = config.TransactionLog;

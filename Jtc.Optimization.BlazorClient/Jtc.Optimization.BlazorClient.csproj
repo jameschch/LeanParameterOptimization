@@ -74,6 +74,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.BlazorClient.Objects\Jtc.Optimization.BlazorClient.Objects.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.OnlineOptimizer\Jtc.Optimization.OnlineOptimizer.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Transformation\Jtc.Optimization.Transformation.csproj" />

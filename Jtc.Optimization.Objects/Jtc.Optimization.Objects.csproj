@@ -5,8 +5,4 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="4.7.1" />
-  </ItemGroup>
-
 </Project>

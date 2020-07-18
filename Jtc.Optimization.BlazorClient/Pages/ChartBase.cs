@@ -3,6 +3,7 @@ using Blazor.FileReader;
 using Blazored.Toast.Services;
 using BlazorWorker.Core;
 using CenterCLR.XorRandomGenerator;
+using Jtc.Optimization.BlazorClient.Objects;
 using Jtc.Optimization.BlazorClient.Shared;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Transformation;

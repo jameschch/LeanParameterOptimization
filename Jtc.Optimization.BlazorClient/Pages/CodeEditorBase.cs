@@ -34,7 +34,7 @@ namespace Jtc.Optimization.BlazorClient
         public ActivityLogger ActivityLogger { get; set; }
         protected WaitBase Wait { get; set; }
         Stopwatch _stopWatch = new Stopwatch();
-        private Objects.OptimizerConfiguration _config;
+        private Jtc.Optimization.Objects.OptimizerConfiguration _config;
         public static CancellationTokenSource TokenSource { get; set; }
         [Inject]
         public BlazorClientState BlazorClientState { get; set; }
@@ -84,7 +84,7 @@ namespace Jtc.Optimization.BlazorClient
 
                 if (raw != null)
                 {
-                    _config = JsonSerializer.Deserialize<Objects.OptimizerConfiguration>(raw);
+                    _config = JsonSerializer.Deserialize<Jtc.Optimization.Objects.OptimizerConfiguration>(raw);
                 }
             }
 

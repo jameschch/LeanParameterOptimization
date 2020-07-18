@@ -1,4 +1,5 @@
 using Jtc.Optimization.LeanOptimizer.Base;
+using Jtc.Optimization.LeanOptimizer.Handlers;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using QuantConnect;
@@ -123,9 +124,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         private void LaunchLean(string id)
         {
-            ConfigMerger.Merge(_config, id);
-
-            Config.Set("api-handler", nameof(EmptyApiHandler));
+            ConfigMerger.Merge(_config, id, this.GetType());            
 
             //todo: instance logging
             //var logFileName = "log" + DateTime.Now.ToString("yyyyMMddssfffffff") + "_" + id + ".txt";
@@ -159,7 +158,8 @@ namespace Jtc.Optimization.LeanOptimizer
                     new LocalDiskFactorFileProvider(map),
                     data,
                     new OptimizerAlphaHandler(),
-                    new EmptyObjectStore());
+                    new EmptyObjectStore(),
+                    new DataPermissionManager());
             _resultsHandler = (OptimizerResultHandler)leanEngineAlgorithmHandlers.Results;
 
             var job = (BacktestNodePacket)systemHandlers.JobQueue.NextJob(out var algorithmPath);

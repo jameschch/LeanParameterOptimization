@@ -9,19 +9,15 @@
 
   <ItemGroup>
     <PackageReference Include="CenterCLR.XorRandomGenerator" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.8.0" />
     <PackageReference Include="SharpLearning.FeatureTransformations" Version="0.31.7" />
     <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jtc.Optimization.BlazorClient.Objects\Jtc.Optimization.BlazorClient.Objects.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly">
-      <Version>3.2.0-rc1.20223.4</Version>
-    </PackageReference>
   </ItemGroup>
 
 </Project>

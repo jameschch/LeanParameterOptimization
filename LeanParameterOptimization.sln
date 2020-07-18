@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.LeanOptimi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jtc.Optimization.LeanOptimizer.Base", "Jtc.Optimization.LeanOptimizer.Base\Jtc.Optimization.LeanOptimizer.Base.csproj", "{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jtc.Optimization.BlazorClient.Objects", "Jtc.Optimization.BlazorClient.Objects\Jtc.Optimization.BlazorClient.Objects.csproj", "{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,6 +218,14 @@ Global
 		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Release|x64.ActiveCfg = Release|x64
 		{7FBD88A9-B6ED-4522-A8AA-F2788BFBF730}.Release|x64.Build.0 = Release|x64
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D0BDFB3F-FFC8-4842-8D27-F3A51FEBBC3A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

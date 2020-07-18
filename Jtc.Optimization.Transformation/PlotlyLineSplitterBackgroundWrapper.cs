@@ -1,6 +1,7 @@
 ﻿using BlazorWorker.BackgroundServiceFactory;
 using BlazorWorker.Core;
 using BlazorWorker.WorkerBackgroundService;
+using Jtc.Optimization.BlazorClient.Objects;
 using Jtc.Optimization.Objects;
 using System;
 using System.Collections.Generic;

@@ -91,7 +91,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
         private void LaunchLean()
         {
-            ConfigMerger.Merge(_config, _id);
+            ConfigMerger.Merge(_config, _id, this.GetType());
 
             var systemHandlers = new LeanEngineSystemHandlers(
                 new JobQueue(),
@@ -117,7 +117,8 @@ namespace Jtc.Optimization.LeanOptimizer
                         new LocalDiskFactorFileProvider(map),
                         new DefaultDataProvider(),
                         new OptimizerAlphaHandler(),
-                        new EmptyObjectStore());
+                        new EmptyObjectStore(),
+                        new DataPermissionManager());
 
                 _resultsHandler = (OptimizerResultHandler)leanEngineAlgorithmHandlers.Results;
 

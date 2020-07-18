@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CSharp;
+using Jtc.Optimization.BlazorClient.Objects;
 
 namespace Jtc.Optimization.Transformation
 {

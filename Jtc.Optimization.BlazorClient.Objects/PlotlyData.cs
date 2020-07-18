@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Jtc.Optimization.Objects
+namespace Jtc.Optimization.BlazorClient.Objects
 {
-
 
     public class PlotlyData
     {
