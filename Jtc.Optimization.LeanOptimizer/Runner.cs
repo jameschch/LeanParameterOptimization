@@ -1,5 +1,4 @@
 using Jtc.Optimization.LeanOptimizer.Base;
-using Jtc.Optimization.LeanOptimizer.Legacy;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
 using QuantConnect.Configuration;
@@ -9,7 +8,6 @@ using QuantConnect.Lean.Engine.DataFeeds;
 using QuantConnect.Lean.Engine.RealTime;
 using QuantConnect.Lean.Engine.Server;
 using QuantConnect.Lean.Engine.Setup;
-using QuantConnect.Lean.Engine.Storage;
 using QuantConnect.Lean.Engine.TransactionHandlers;
 using QuantConnect.Logging;
 using QuantConnect.Messaging;
@@ -18,7 +16,6 @@ using QuantConnect.Queues;
 using QuantConnect.Util;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 

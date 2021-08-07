@@ -45,7 +45,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             };
             var process = Process.Start(startInfo);
 
-            process.WaitForExit(10000);
+            process.WaitForExit(15000);
             process.Kill();
         }
     }

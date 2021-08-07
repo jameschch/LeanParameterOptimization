@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using QuantConnect;
+using QuantConnect.Data.UniverseSelection;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.DataFeeds;
 using QuantConnect.Lean.Engine.Results;
@@ -288,9 +289,9 @@ namespace Jtc.Optimization.LeanOptimizer
             _shadow.Initialize(job, messagingHandler, api, transactionHandler);
         }
 
-        public void SetDataManager(IDataFeedSubscriptionManager dataManager)
+        public void OnSecuritiesChanged(SecurityChanges changes)
         {
-            _shadow.SetDataManager(dataManager);
+            ((IResultHandler)_shadow).OnSecuritiesChanged(changes);
         }
         #endregion
     }

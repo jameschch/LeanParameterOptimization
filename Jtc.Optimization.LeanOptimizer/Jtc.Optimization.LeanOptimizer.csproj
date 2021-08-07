@@ -9,21 +9,22 @@
     <PackageReference Include="Accord.MachineLearning" Version="3.8.2-alpha" />
     <PackageReference Include="GeneticSharp" Version="2.5.1" />
     <PackageReference Include="Lib.Harmony" Version="1.2.0.1" />
-    <PackageReference Include="MathNet.Numerics" Version="4.8.0" />
+    <PackageReference Include="MathNet.Numerics" Version="4.8.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NLog" Version="4.6.5" />
     <PackageReference Include="QuantConnect.pythonnet" Version="1.0.5.30" />
-    <PackageReference Include="SharpLearning.CrossValidation" Version="0.29.0" />
-    <PackageReference Include="SharpLearning.Metrics" Version="0.29.0" />
-    <PackageReference Include="SharpLearning.Optimization" Version="0.31.7" />
+    <PackageReference Include="SharpLearning.CrossValidation" Version="0.31.8" />
+    <PackageReference Include="SharpLearning.Metrics" Version="0.31.8" />
+    <PackageReference Include="SharpLearning.Neural" Version="0.31.8" />
+    <PackageReference Include="SharpLearning.Optimization" Version="0.31.8" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
     <PackageReference Include="System.IO.Abstractions" Version="8.0.5" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer.Legacy\Jtc.Optimization.LeanOptimizer.Legacy.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer.Base\Jtc.Optimization.LeanOptimizer.Base.csproj" />
+    <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer.Legacy\Jtc.Optimization.LeanOptimizer.Legacy.csproj" />
     <ProjectReference Include="..\Jtc.Optimization.Objects\Jtc.Optimization.Objects.csproj" />
   </ItemGroup>
 

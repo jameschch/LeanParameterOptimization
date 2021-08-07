@@ -42,6 +42,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests.Handlers
             securityTransactionManager.SetOrderProcessor(orderProcessor.Object);
 
             algorithmMock.Setup(a => a.Portfolio).Returns(new SecurityPortfolioManager(securityManager,securityTransactionManager));
+            algorithmMock.SetupGet(a => a.AccountCurrency).Returns("USD");
 
             var tradeBuilder = new Mock<ITradeBuilder>();
             tradeBuilder.Setup(t => t.ClosedTrades).Returns(new List<QuantConnect.Statistics.Trade>());

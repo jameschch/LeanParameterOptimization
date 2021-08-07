@@ -1,17 +1,13 @@
+using GeneticSharp.Domain.Chromosomes;
+using Jtc.Optimization.LeanOptimizer.Base;
+using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
+using MathNet.Numerics;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics;
-using MathNet.Numerics.Distributions;
-using System.Runtime.CompilerServices;
-using GeneticSharp.Domain.Chromosomes;
-using Jtc.Optimization.Objects.Interfaces;
-using Jtc.Optimization.LeanOptimizer.Legacy;
-using Jtc.Optimization.LeanOptimizer.Base;
-using Jtc.Optimization.Objects;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

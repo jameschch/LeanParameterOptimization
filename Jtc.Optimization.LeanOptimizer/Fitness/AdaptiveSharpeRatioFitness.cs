@@ -1,14 +1,10 @@
-using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Chromosomes;
+using Jtc.Optimization.LeanOptimizer.Base;
+using Jtc.Optimization.Objects.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeneticSharp.Domain.Chromosomes;
-using Newtonsoft.Json;
-using Jtc.Optimization.Objects.Interfaces;
-using Jtc.Optimization.LeanOptimizer.Legacy;
-using Jtc.Optimization.LeanOptimizer.Base;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

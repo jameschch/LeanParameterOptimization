@@ -1,16 +1,13 @@
-using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Chromosomes;
+using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.Objects;
+using Jtc.Optimization.Objects.Interfaces;
+using SharpLearning.Optimization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeneticSharp.Domain.Chromosomes;
-using SharpLearning.Optimization;
-using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
-using Jtc.Optimization.Objects.Interfaces;
-using Jtc.Optimization.Objects;
-using Jtc.Optimization.LeanOptimizer.Legacy;
+using System.Text;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

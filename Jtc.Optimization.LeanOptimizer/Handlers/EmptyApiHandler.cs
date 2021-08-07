@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QuantConnect;
+﻿using QuantConnect;
 using QuantConnect.Api;
-using QuantConnect.API;
 using QuantConnect.Data;
-using QuantConnect.Data.Market;
-using QuantConnect.Interfaces;
 using QuantConnect.Securities;
+using System;
+using System.Collections.Generic;
 
 namespace Jtc.Optimization.LeanOptimizer
 {

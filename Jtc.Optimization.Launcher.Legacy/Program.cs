@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jtc.Optimization.LeanOptimizer;
+﻿using Jtc.Optimization.LeanOptimizer;
 using NLog;
+using System;
 
 namespace Jtc.Optimization.Launcher.Legacy
 {
