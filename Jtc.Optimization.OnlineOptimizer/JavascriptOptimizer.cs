@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazor.DynamicJavascriptRuntime.Evaluator;
+using Jtc.Optimization.BlazorClient;
+using Jtc.Optimization.BlazorClient.Objects;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using Microsoft.JSInterop;

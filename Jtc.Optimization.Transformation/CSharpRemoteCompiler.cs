@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using Jtc.Optimization.BlazorClient;
+using Jtc.Optimization.BlazorClient.Objects;
 
 namespace Jtc.Optimization.Transformation
 {

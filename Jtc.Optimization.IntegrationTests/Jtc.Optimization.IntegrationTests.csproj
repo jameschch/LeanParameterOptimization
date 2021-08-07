@@ -90,8 +90,8 @@
     <Reference Include="Google.Protobuf, Version=3.7.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.7.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=4.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.8.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.8.1\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -123,23 +123,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lean\Engine\bin\Debug\QuantConnect.Lean.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="SharpLearning.Common.Interfaces, Version=0.31.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpLearning.Common.Interfaces.0.31.7\lib\net461\SharpLearning.Common.Interfaces.dll</HintPath>
+    <Reference Include="SharpLearning.Common.Interfaces, Version=0.31.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpLearning.Common.Interfaces.0.31.8\lib\net461\SharpLearning.Common.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="SharpLearning.Containers, Version=0.31.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpLearning.Containers.0.31.7\lib\net461\SharpLearning.Containers.dll</HintPath>
+    <Reference Include="SharpLearning.Containers, Version=0.31.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpLearning.Containers.0.31.8\lib\net461\SharpLearning.Containers.dll</HintPath>
     </Reference>
-    <Reference Include="SharpLearning.DecisionTrees, Version=0.31.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpLearning.DecisionTrees.0.31.7\lib\net461\SharpLearning.DecisionTrees.dll</HintPath>
+    <Reference Include="SharpLearning.DecisionTrees, Version=0.31.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpLearning.DecisionTrees.0.31.8\lib\net461\SharpLearning.DecisionTrees.dll</HintPath>
     </Reference>
-    <Reference Include="SharpLearning.InputOutput, Version=0.31.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpLearning.InputOutput.0.31.7\lib\net461\SharpLearning.InputOutput.dll</HintPath>
+    <Reference Include="SharpLearning.InputOutput, Version=0.31.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpLearning.InputOutput.0.31.8\lib\net461\SharpLearning.InputOutput.dll</HintPath>
     </Reference>
-    <Reference Include="SharpLearning.Optimization, Version=0.31.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpLearning.Optimization.0.31.7\lib\net461\SharpLearning.Optimization.dll</HintPath>
+    <Reference Include="SharpLearning.Optimization, Version=0.31.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpLearning.Optimization.0.31.8\lib\net461\SharpLearning.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="SharpLearning.RandomForest, Version=0.31.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpLearning.RandomForest.0.31.7\lib\net461\SharpLearning.RandomForest.dll</HintPath>
+    <Reference Include="SharpLearning.RandomForest, Version=0.31.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpLearning.RandomForest.0.31.8\lib\net461\SharpLearning.RandomForest.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -248,7 +248,7 @@
       <Name>Jtc.Optimization.LeanOptimizer.Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer.Legacy\Jtc.Optimization.LeanOptimizer.Legacy.csproj">
-      <Project>{a028e36a-18ad-4d7a-85cf-0ca19450a235}</Project>
+      <Project>{A028E36A-18AD-4D7A-85CF-0CA19450A235}</Project>
       <Name>Jtc.Optimization.LeanOptimizer.Legacy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jtc.Optimization.LeanOptimizer\Jtc.Optimization.LeanOptimizer.csproj">

@@ -1,5 +1,6 @@
 ﻿using Blazor.DynamicJavascriptRuntime.Evaluator;
 using Blazored.Toast.Services;
+using Jtc.Optimization.BlazorClient.Objects;
 using Jtc.Optimization.BlazorClient.Shared;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;

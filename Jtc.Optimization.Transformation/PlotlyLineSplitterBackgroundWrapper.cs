@@ -27,8 +27,8 @@ namespace Jtc.Optimization.Transformation
                 var worker = await _workerFactory.CreateAsync();
                 _backgroundService = await worker.CreateBackgroundServiceAsync<PlotlyLineSplitter>(new WorkerInitOptions
                 {
-                    DependentAssemblyFilenames = new[] { "Jtc.Optimization.Objects.dll", "Jtc.Optimization.Transformation.dll",
-                    "System.Text.Json.dll" }
+                    DependentAssemblyFilenames = new[] { "Jtc.Optimization.Transformation.dll", "System.Text.Json.dll", 
+                        "Jtc.Optimization.BlazorClient.Objects.dll" }
                 });
             }
 

@@ -1,5 +1,4 @@
 ﻿using Jtc.Optimization.BlazorClient.Objects;
-using Jtc.Optimization.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

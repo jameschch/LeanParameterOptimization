@@ -1,4 +1,6 @@
-﻿using Jtc.Optimization.Objects;
+﻿using Jtc.Optimization.BlazorClient;
+using Jtc.Optimization.BlazorClient.Objects;
+using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Transformation;
 using SharpLearning.Optimization;

@@ -17,6 +17,7 @@ using System.Linq;
 using Utf8Json;
 using Utf8Json.Resolvers;
 using BlazorWorker.Core;
+using Jtc.Optimization.BlazorClient.Objects;
 
 namespace Jtc.Optimization.BlazorClient
 {

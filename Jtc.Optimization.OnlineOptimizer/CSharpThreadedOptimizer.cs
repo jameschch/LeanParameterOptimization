@@ -1,6 +1,8 @@
 ﻿using BlazorWorker.BackgroundServiceFactory;
 using BlazorWorker.Core;
 using BlazorWorker.WorkerBackgroundService;
+using Jtc.Optimization.BlazorClient;
+using Jtc.Optimization.BlazorClient.Objects;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using Jtc.Optimization.Transformation;
@@ -58,12 +60,16 @@ namespace Jtc.Optimization.OnlineOptimizer
                 var assembly = await _cSharpCompiler.CreateAssembly(Code);
 
                 var worker = await _workerFactory.CreateAsync();
-                _backgroundService = await worker.CreateBackgroundServiceAsync<MinimizeFacade>();
+                _backgroundService = await worker.CreateBackgroundServiceAsync<MinimizeFacade>(new WorkerInitOptions
+                {
+                    DependentAssemblyFilenames = new[] { "Jtc.Optimization.Transformation.dll",
+                        "Jtc.Optimization.BlazorClient.Objects.dll", "Jtc.Optimization.OnlineOptimizer.dll" }
+                });
                 _minimize = _cSharpCompiler.GetDelegate(assembly);
 
             }
 
-            var cost = await _backgroundService.RunAsync(r => r.Minimize(_minimize, parameters)).Result;
+            var cost = await _backgroundService.RunAsync(r => r.Minimize(_minimize, parameters));
 
             await Task.Run(() =>
             {
