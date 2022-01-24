@@ -54,7 +54,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
             unit.Setup(x => x.RunAlgorithm(It.IsAny<Dictionary<string, object>>(), It.IsAny<IOptimizerConfiguration>())).Returns<Dictionary<string, object>, IOptimizerConfiguration>((l, c) =>
             {
                 return new Dictionary<string, decimal> { { "SharpeRatio", 1 }, { "CompoundingAnnualReturn", 1 }, { "TotalNumberOfTrades", 1 },
-                    { "LossRate", 0.1m } };
+                    { "LossRate", 0.1m }, { "TotalNetProfit", 0 }, { "Drawdown", 0 } };
             });
 
             GeneFactory.Initialize(config.Genes);

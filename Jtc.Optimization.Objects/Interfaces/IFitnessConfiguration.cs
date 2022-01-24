@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Jtc.Optimization.Objects.Enums;
-
-namespace Jtc.Optimization.Objects.Interfaces
+﻿namespace Jtc.Optimization.Objects.Interfaces
 {
 
     public interface IFitnessConfiguration

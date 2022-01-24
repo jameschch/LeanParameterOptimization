@@ -135,6 +135,11 @@ namespace Jtc.Optimization.Objects
         /// CSharp or Python. If specified will override config.json setting.
         /// </summary>
         public string AlgorithmLanguage { get; set; }
+
+        /// <summary>
+        /// When set to true, will consider 100% (or more) net loss a failure
+        /// </summary>
+        public bool ExcludeNetLoss { get; set; }
     }
 
 

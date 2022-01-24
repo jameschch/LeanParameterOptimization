@@ -1,9 +1,4 @@
-﻿using GeneticSharp.Domain.Fitnesses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
@@ -24,7 +19,8 @@ namespace Jtc.Optimization.LeanOptimizer
             }
 
             //using config ignore a result with negative return or disable this single filter and still apply others
-            if (fitness.GetType() != typeof(CompoundingAnnualReturnFitness) && !fitness.Config.IncludeNegativeReturn && result["CompoundingAnnualReturn"] < 0)
+            if (fitness.GetType() != typeof(CompoundingAnnualReturnFitness)
+                && !fitness.Config.IncludeNegativeReturn && result["CompoundingAnnualReturn"] < 0)
             {
                 return false;
             }
@@ -41,8 +37,9 @@ namespace Jtc.Optimization.LeanOptimizer
                 return false;
             }
 
-            //Consider 100% loss rate a failure
-            if (result["LossRate"] == 1)
+            //Consider 100% loss rate, drawdown or net profit a failure
+            if (result["LossRate"] >= 1 || result["Drawdown"] >= 1 || 
+                (fitness.Config.ExcludeNetLoss && result["TotalNetProfit"] <= -1))
             {
                 return false;
             }

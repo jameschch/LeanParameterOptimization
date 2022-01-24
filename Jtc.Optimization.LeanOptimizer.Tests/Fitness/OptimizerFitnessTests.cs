@@ -36,7 +36,9 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
                 { "SharpeRatio", 1 },
                 { "CompoundingAnnualReturn", car },
                 { "TotalNumberOfTrades", trades },
-                { "LossRate", lossRate }
+                { "LossRate", lossRate },
+                { "TotalNetProfit", 0 },
+                { "Drawdown", 0 }
             });
             Assert.AreEqual(expected, actual.Item2);
         }
