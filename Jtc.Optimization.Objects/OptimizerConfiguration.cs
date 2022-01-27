@@ -50,7 +50,12 @@ namespace Jtc.Optimization.Objects
         /// <summary>
         /// Full path to config.json
         /// </summary>
-        public string ConfigPath { get; set; } = "../../../../Lean/Launcher/config.json";
+        public string ConfigPath { get; set; } = "../../../../../Lean/Launcher/config.json";
+
+        /// <summary>
+        /// The binaries folder of the Lean Launcher project
+        /// </summary>
+        public string LauncherBuildPath { get; set; } = "../../../../../Lean/Launcher/bin/debug/";
 
         /// <summary>
         /// 1 or 2 point genetic crossover

@@ -26,10 +26,11 @@
   "generations": 20,
   "stagnationGenerations": 30,
   "maxThreads": 8,
-  "configPath": "../../../../Lean/Launcher/config.json",
+  "configPath": "../../../../../Lean/Launcher/config.json",
+  "launcherBuildPath": "../../../../../Lean/Launcher/bin/debug/",
   "algorithmTypeName": "ParameterizedAlgorithm",
-  "algorithmLocation": "Jtc.Optimization.LeanOptimizer.Example.dll",
-  //"algorithmLocation": "../../../Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py",
+  "algorithmLocation": "../../../../Jtc.Optimization.LeanOptimizer.Example/bin/debug/net5.0/Jtc.Optimization.LeanOptimizer.Example.dll",
+  //"algorithmLocation": "../../../../Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py",
   "algorithmLanguage": "CSharp",
   //"algorithmLanguage": "Python",
   "includeNegativeReturn": true,
@@ -41,21 +42,21 @@
   //"fitnessTypeName": "Jtc.Optimization.LeanOptimizer.SharpeMaximizer",
   "useSharedAppDomain": false,
   "enableRunningDuplicateParameters": false,
-  "dataFolder": "../../../../Lean/Data",
+  "dataFolder": "../../../../../Lean/Data",
   "minimumTrades": 1,
   "enableFitnessFilter": true,
   //"startDate": "2013-10-08T00:00:00Z",
   //"endDate": "2013-10-10T00:00:00Z",
   //"mutationProbability": 0.5,
   //"crossoverProbability": 0.75
-  //"fitness": {
-  //  "folds": 2,
-  //  "scale": 1,
-  //  "modifier": -1,
-  //  "resultKey": "Beta",
-  //  "name": "MinimizeBeta",
-  //  "OptimizerTypeName": "ParticleSwarm"
-  //  "OptimizerTypeName": "RandomSearch"
-  //  "OptimizerTypeName": "GlobalizedBoundedNelderMead"
-  //}
+//  "fitness": {
+    //"folds": 2,
+    //"scale": 1,
+    //"modifier": -1,
+    //"resultKey": "Beta",
+    //"name": "MinimizeBeta",
+ //   "OptimizerTypeName": "ParticleSwarm"
+    //  "OptimizerTypeName": "RandomSearch"
+    //  "OptimizerTypeName": "GlobalizedBoundedNelderMead"
+  }
 }

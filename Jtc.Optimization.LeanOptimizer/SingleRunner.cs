@@ -1,19 +1,10 @@
-using Jtc.Optimization.LeanOptimizer.Base;
-using Jtc.Optimization.LeanOptimizer.Handlers;
-using Jtc.Optimization.Objects.Interfaces;
-using Newtonsoft.Json;
-using QuantConnect;
 using QuantConnect.Algorithm;
-using QuantConnect.Configuration;
 using QuantConnect.Data.Auxiliary;
-using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine;
 using QuantConnect.Lean.Engine.DataFeeds;
-using QuantConnect.Lean.Engine.HistoricalData;
 using QuantConnect.Lean.Engine.RealTime;
 using QuantConnect.Lean.Engine.Server;
 using QuantConnect.Lean.Engine.Setup;
-using QuantConnect.Lean.Engine.Storage;
 using QuantConnect.Lean.Engine.TransactionHandlers;
 using QuantConnect.Logging;
 using QuantConnect.Packets;
@@ -22,7 +13,6 @@ using QuantConnect.Statistics;
 using QuantConnect.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -32,99 +22,11 @@ namespace Jtc.Optimization.LeanOptimizer
     /// <summary>
     /// Run multiple iterations in a single App domain to allow access to shared object instances across algorithm executions
     /// </summary>
-    public class SingleRunner : MarshalByRefObject, IRunner
+    public class SingleRunner : BaseRunner
     {
 
-        private OptimizerResultHandler _resultsHandler;
-        IOptimizerConfiguration _config;
-        private object _resultsLocker = new object();
-
-        private Dictionary<string, Dictionary<string, decimal>> GetResults()
+        protected override void LaunchLean(Dictionary<string, object> items, string id)
         {
-            return ResultMediator.GetData<Dictionary<string, Dictionary<string, decimal>>>(AppDomain.CurrentDomain, "Results");
-        }
-
-        public Dictionary<string, decimal> Run(Dictionary<string, object> items, IOptimizerConfiguration config)
-        {
-
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-
-            _config = config;
-
-            var id = (items.ContainsKey("Id") ? items["Id"] : Guid.NewGuid().ToString("N")).ToString();
-
-            if (_config.StartDate.HasValue && _config.EndDate.HasValue)
-            {
-                if (!items.ContainsKey("startDate")) { items.Add("startDate", _config.StartDate); }
-                if (!items.ContainsKey("endDate")) { items.Add("endDate", _config.EndDate); }
-            }
-
-            string jsonKey = JsonConvert.SerializeObject(items.Where(i => i.Key != "Id"));
-
-            if (!_config.EnableRunningDuplicateParameters && GetResults().ContainsKey(jsonKey))
-            {
-                return GetResults()[jsonKey];
-            }
-
-            var filteredConfig = new Dictionary<string, object>();
-            //just ignore id gene
-            foreach (var pair in items.Where(i => i.Key != "Id"))
-            {
-                if (pair.Value is DateTime?)
-                {
-                    var cast = ((DateTime?)pair.Value);
-                    if (cast.HasValue)
-                    {
-                        filteredConfig.Add(pair.Key, cast.Value.ToString("O"));
-                    }
-                }
-                else
-                {
-                    filteredConfig.Add(pair.Key, pair.Value.ToString());
-                }
-            }
-
-            //store uniquely keyed config in app domain for each algorithm instance
-            //todo: cleanup
-            ResultMediator.SetData(AppDomain.CurrentDomain, id, filteredConfig);
-
-            LogProvider.TraceLogger.Trace($"id: {id} started.");
-            LaunchLean(id);
-            LogProvider.TraceLogger.Trace($"id: {id} finished.");
-
-
-            AddToResults(config, jsonKey);
-
-            return _resultsHandler.FullResults;
-        }
-
-        private void AddToResults(IOptimizerConfiguration config, string jsonKey)
-        {
-            lock (_resultsLocker)
-            {
-                //for multiple runs, keep most recent only
-                if (config.EnableRunningDuplicateParameters)
-                {
-                    if (GetResults().ContainsKey(jsonKey))
-                    {
-                        GetResults().Remove(jsonKey);
-                    }
-
-                    GetResults().Add(jsonKey, _resultsHandler.FullResults);
-                }
-                else
-                {
-                    if (!GetResults().ContainsKey(jsonKey))
-                    {
-                        GetResults().Add(jsonKey, _resultsHandler.FullResults);
-                    }
-                }
-            }
-        }
-
-        private void LaunchLean(string id)
-        {
-            ConfigMerger.Merge(_config, id, this.GetType());            
 
             //todo: instance logging
             //var logFileName = "log" + DateTime.Now.ToString("yyyyMMddssfffffff") + "_" + id + ".txt";
@@ -155,7 +57,7 @@ namespace Jtc.Optimization.LeanOptimizer
                     transactions,
                     realTime,
                     map,
-                    new LocalDiskFactorFileProvider(map),
+                    new LocalDiskFactorFileProvider(),
                     data,
                     new OptimizerAlphaHandler(),
                     new EmptyObjectStore(),
@@ -169,10 +71,16 @@ namespace Jtc.Optimization.LeanOptimizer
             //job.PeriodStart = _config.StartDate;
             //job.PeriodFinish = _config.EndDate;
 
+            AddJobParameters(items, job);
+
             Engine engine;
             AlgorithmManager algorithmManager;
             try
             {
+                leanEngineAlgorithmHandlers.FactorFileProvider
+                    .Initialize(leanEngineAlgorithmHandlers.MapFileProvider, leanEngineAlgorithmHandlers.DataProvider);
+                leanEngineAlgorithmHandlers.MapFileProvider
+                    .Initialize(leanEngineAlgorithmHandlers.DataProvider);
                 algorithmManager = new AlgorithmManager(false);
                 systemHandlers.LeanManager.Initialize(systemHandlers, leanEngineAlgorithmHandlers, job, algorithmManager);
                 engine = new Engine(systemHandlers, leanEngineAlgorithmHandlers, false);
@@ -199,7 +107,7 @@ namespace Jtc.Optimization.LeanOptimizer
                     {
                         ((QCAlgorithm)results.Algorithm).SubscriptionManager.Subscriptions.ToList().Clear();
                     }
-                    if (_config.AlgorithmLanguage != "Python")
+                    if (OptimizerConfig.AlgorithmLanguage != "Python")
                     {
                         results.Algorithm.HistoryProvider = null;
                     }

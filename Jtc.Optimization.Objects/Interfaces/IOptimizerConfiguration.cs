@@ -8,6 +8,7 @@ namespace Jtc.Optimization.Objects.Interfaces
         string AlgorithmLocation { get; set; }
         string AlgorithmTypeName { get; set; }
         string ConfigPath { get; set; }
+        string LauncherBuildPath { get; set; }
         int Generations { get; set; }
         int MaxThreads { get; set; }
         bool OnePointCrossover { get; set; }

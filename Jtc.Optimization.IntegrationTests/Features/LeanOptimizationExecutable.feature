@@ -14,4 +14,4 @@ Scenario Outline: Optimize parameters
 
 	Examples:
 		| maxThreads | useSharedAppDomain | isPython | sharpRatio | totalTrades |
-		| 1          | true               | false    | 31.979     | 7           |
+		| 1          | true               | false    | 52.42      | 7           |

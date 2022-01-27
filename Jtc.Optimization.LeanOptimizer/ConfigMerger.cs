@@ -2,14 +2,15 @@
 using Jtc.Optimization.Objects.Interfaces;
 using QuantConnect.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Jtc.Optimization.LeanOptimizer
 {
     class ConfigMerger
     {
+
+        static object locker = new object();
+
         public static void Merge(IOptimizerConfiguration config, string id, Type runnerType)
         {
             Config.Set("environment", "backtesting");
@@ -39,6 +40,13 @@ namespace Jtc.Optimization.LeanOptimizer
 
             if (runnerType == typeof(SingleRunner))
             {
+                lock (locker)
+                {
+                    if (string.IsNullOrEmpty(Config.Get("plugin-directory")))
+                    {
+                        Config.Set("plugin-directory", config.LauncherBuildPath);
+                    }
+                }
                 Config.Set("backtesting.history-provider", nameof(OptimizerSubscriptionDataReaderHistoryProvider));
                 Config.Set("api-handler", nameof(EmptyApiHandler));
             }

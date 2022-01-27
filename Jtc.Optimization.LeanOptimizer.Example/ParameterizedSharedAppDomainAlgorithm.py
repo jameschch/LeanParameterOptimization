@@ -41,12 +41,10 @@ class ParameterizedSharedAppDomainAlgorithm(QCAlgorithm):
         # Find more symbols here: http://quantconnect.com/data
         self.AddEquity("SPY")
 
-        self.instancedConfig = InstancedConfig(self);
-
         # Receive parameters from the Job
-        ema_fast = self.instancedConfig.GetValue[int]("fast", 1)
-        ema_slow = self.instancedConfig.GetValue[int]("slow", 1)
-        self.take = self.instancedConfig.GetValue[float]("take", 0.01)
+        ema_fast = self.GetParameter("fast")
+        ema_slow = self.GetParameter("slow")
+        self.take = float(self.GetParameter("take"))
 
         # The values 100 and 200 are just default values that only used if the parameters do not exist
         fast_period = 100 if ema_fast is None else int(ema_fast)

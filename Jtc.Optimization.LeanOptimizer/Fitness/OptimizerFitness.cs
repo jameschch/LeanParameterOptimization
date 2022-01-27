@@ -1,6 +1,6 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
-using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using Newtonsoft.Json;
@@ -47,18 +47,19 @@ namespace Jtc.Optimization.LeanOptimizer
 
                 if (Config.StartDate.HasValue && Config.EndDate.HasValue)
                 {
-                    output += string.Format("Start: {0}, End: {1}, ", Config.StartDate.Value.ToString("yyyy-MM-DD"), Config.EndDate.Value.ToString("yyyy-MM-DD"));
+                    output += string.Format("Start: {0}, End: {1}, ", Config.StartDate.Value.ToString("yyyy-MM-DD"), 
+                        Config.EndDate.Value.ToString("yyyy-MM-DD"));
                 }
 
                 Dictionary<string, decimal> result = null;
 
                 if (Config.UseSharedAppDomain)
                 {
-                    result = SingleAppDomainManager.Instance.RunAlgorithm(list, Config);
+                    result = SingleContextIsolator.Instance.RunAlgorithm(list, Config);
                 }
                 else
                 {
-                    result = LegacyAppDomainManager.Instance.RunAlgorithm(list, Config);
+                    result = MultipleContextIsolator.Instance.RunAlgorithm(list, Config);
                 }
 
                 if (result == null)
@@ -93,7 +94,7 @@ namespace Jtc.Optimization.LeanOptimizer
 
             fitness.Value = ratio;
 
-            fitness.Fitness = (double)(System.Math.Max(ratio, ErrorRatio) + 10) * Scale;
+            fitness.Fitness = (double)(Math.Max(ratio, ErrorRatio) + 10) * Scale;
 
             return fitness;
         }
@@ -102,13 +103,6 @@ namespace Jtc.Optimization.LeanOptimizer
         {
             return fitness.Value / Scale - 10;
         }
-
-        protected static T Clone<T>(T source)
-        {
-            var serialized = JsonConvert.SerializeObject(source);
-            return JsonConvert.DeserializeObject<T>(serialized);
-        }
-
 
     }
 }

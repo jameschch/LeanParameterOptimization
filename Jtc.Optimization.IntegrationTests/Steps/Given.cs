@@ -74,12 +74,13 @@ namespace Jtc.Optimization.IntegrationTests.Steps
             if (isPython)
             {
                 ScenarioContext.Current.Get<OptimizerConfiguration>().AlgorithmLocation =
-                    "../../../Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py";
+                   "../../../../Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py";
                 ScenarioContext.Current.Get<OptimizerConfiguration>().AlgorithmLanguage = "Python";
             }
             else
             {
-                Config.Set("algorithm-location", "../Optimization.Example/bin/debug/Jtc.Optimization.LeanOptimizer.Example.dll");
+                Config.Set("algorithm-location", 
+                    "../../../../Jtc.Optimization.LeanOptimizer.Example/bin/debug/net5.0/Jtc.Optimization.LeanOptimizer.Example.dll");
             }
         }
 

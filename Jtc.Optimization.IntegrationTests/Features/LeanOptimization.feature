@@ -13,13 +13,13 @@ Scenario Outline: Optimize parameters
 
 	Examples:
 		| maxThreads | useSharedAppDomain | isPython | sharpRatio | totalTrades |
-		| 1          | true               | false    | 31.979     | 7           |
-		| 2          | true               | false    | 31.979     | 7           |
-		| 1          | false              | false    | 31.979     | 7           |
-		| 2          | false              | false    | 31.979     | 7           |
-		| 7          | false              | false    | 31.979     | 7           |
-		| 7          | true               | false    | 31.979     | 7           |
-		| 1          | true               | true	 | 31.979     | 7           |
+		| 1          | true               | false    | 52.423     | 5           |
+		| 2          | true               | false    | 52.423     | 5           |
+		| 1          | false              | false    | 52.423     | 5           |
+		| 2          | false              | false    | 52.423     | 5           |
+		| 7          | false              | false    | 52.423     | 5           |
+		| 7          | true               | false    | 52.423     | 5           |
+		| 1          | true               | true	 | 52.423     | 5           |
 
 #Scenario Outline: Optimize parameters
 #	Given I have an optimization.config

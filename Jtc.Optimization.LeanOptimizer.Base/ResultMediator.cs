@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Jtc.Optimization.LeanOptimizer.Base
 {
+
+    //todo: No longer any reason to pass through app domain? Could just be a singleton.
     public class ResultMediator
     {
 
