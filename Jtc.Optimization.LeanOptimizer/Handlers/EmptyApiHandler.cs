@@ -13,7 +13,7 @@ namespace Jtc.Optimization.LeanOptimizer
         {
         }
 
-        public void Initialize(int userId, string token, string dataFolder)
+        public override void Initialize(int userId, string token, string dataFolder)
         {
         }
 
@@ -107,11 +107,6 @@ namespace Jtc.Optimization.LeanOptimizer
             throw new NotImplementedException();
         }
 
-        public Link ReadDataLink(Symbol symbol, Resolution resolution, DateTime date)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool DownloadData(Symbol symbol, Resolution resolution, DateTime date)
         {
             throw new NotImplementedException();
@@ -177,11 +172,6 @@ namespace Jtc.Optimization.LeanOptimizer
         }
 
         public IEnumerable<BaseData> GetLiveData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public PricesList ReadPrices(IEnumerable<Symbol> symbols)
         {
             throw new NotImplementedException();
         }

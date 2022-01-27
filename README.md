@@ -9,7 +9,7 @@ An example algorithm is provided here: [ParameterizedAlgorithm.cs](https://githu
 and here: [ParameterizedSharedAppDomainAlgorithm.py](https://github.com/jameschch/LeanParameterOptimization/blob/master/Jtc.Optimization.LeanOptimizer.Example/ParameterizedSharedAppDomainAlgorithm.py)
 
 ## Quickstart
-1. Clone Lean from [here](https://github.com/QuantConnect/Lean).
+1. Clone Lean from [https://github.com/jameschch/Lean](https://github.com/jameschch/Lean).
 2. Clone [LeanParameterOptimization](https://github.com/jameschch/LeanParameterOptimization) so that it shares the same parent folder as the Lean clone.
 3. Edit the optimization.json file and enter the location of your trading algorithm in "algorithmLocation".
 4. Now enter the class name of your algorithm in "algorithmTypeName".
@@ -49,7 +49,7 @@ After each parent iteration, the fold optimization range is constrained with the
 The parent optimizer will stop early for cases in which all out-sample scores return a failure. This indicates that the in-sample does not generalize and can often be resolved with a longer optimization period.
 
 ### useSharedAppDomain
-If it possible to run each parallel backtest in a dedicated AppDomain, or in a single AppDomain. The latter option can be useful for training a machine learning model and tends to execute more quickly. For Python algorithms this setting is ignored as only a single AppDomain is supported.
+If it possible to run each parallel backtest in it's own context, or in a single context. The latter option can be useful for training a machine learning model and tends to execute more quickly. For Python algorithms this setting is ignored as only a single context is supported.
 
 ### minimumTrades
 Setting this value correctly will prevent fitting to a small number of high-success events that are unlikely to generalize. Any backtest not meeting the minimum trades will be ignored.
@@ -77,22 +77,24 @@ These methods can target several fitness and maximization goals:
 ## User Interfaces
 Now also provided are several Blazor interfaces:
 
-* Optimization Config Editor - [https://optimizer.ml/config](https://optimizer.ml/config)
+* Optimization Config Editor - [https://optimizers.ml/config](https://optimizers.ml/config)
 
 ![Config](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/config.png)
 
-* Optimization Results Chart - [https://optimizer.ml/chart](https://optimizer.ml/chart)
+* Optimization Results Chart - [https://optimizers.ml/chart](https://optimizers.ml/chart)
 
 ![Chart](https://raw.githubusercontent.com/jameschch/LeanParameterOptimization/master/chart.png)
 
-* Algorithm Code Editor and Runner (C#, Javascript) - [https://optimizer.ml/codeeditor](https://optimizer.ml/codeeditor)
+* Algorithm Code Editor and Runner (C#, Javascript) - [https://optimizers.ml/codeeditor](https://optimizers.ml/codeeditor)
 
 ## WIP
-* Python mutli-threaded parallel optimization
+* Python multi-threaded parallel optimization
 * Python running in browser
 * User supplied C# to wasm compile in browser
 * Genetic optimization in browser
 * Other optimization methods in browser
+* Script to modify base Lean clone with required changes
 
 ## Issues
-There are occasionally breaking changes pushed to the Lean master branch. You should find my [fork](https://github.com/jameschch/Lean/tree/latest) is more stable for use with the Optimizer.
+* Logging to console for multiple contexts was broken during ,net5 upgrade
+* Specifc changes to base Lean code are necessary. Please use this fork: [https://github.com/jameschch/Lean](https://github.com/jameschch/Lean)

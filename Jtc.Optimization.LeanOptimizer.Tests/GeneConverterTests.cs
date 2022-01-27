@@ -23,7 +23,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
             var actual = JsonConvert.SerializeObject(config, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver(), 
                 DefaultValueHandling = DefaultValueHandling.Ignore });
 
-            //tolate extra deecimal zero
+            //tolate extra decimal zero
             actual = actual.Replace(".0,", ",").Replace(".0}", "}");
 
             Assert.AreEqual(expected, actual);

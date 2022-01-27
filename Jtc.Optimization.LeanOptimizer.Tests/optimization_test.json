@@ -26,6 +26,7 @@
   "maxThreads": 8,
   "algorithmTypeName": "ParameterizedAlgorithm",
   "configPath": "../../../../Lean/Launcher/config.json",
+  "launcherBuildPath": "../../../../../Lean/Launcher/bin/debug/",
   "onePointCrossover": true,
   "algorithmLocation": "../../../Optimization.Example/bin/debug/Optimization.Example.dll",
   "fitnessTypeName": "Jtc.Optimization.LeanOptimizer.OptimizerFitness",

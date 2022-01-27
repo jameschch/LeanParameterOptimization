@@ -1,5 +1,5 @@
 using GeneticSharp.Domain.Chromosomes;
-using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects;
 using Jtc.Optimization.Objects.Interfaces;
 using SharpLearning.Optimization;
@@ -167,11 +167,11 @@ namespace Jtc.Optimization.LeanOptimizer
         {
             if (config.UseSharedAppDomain)
             {
-                return SingleAppDomainManager.Instance.RunAlgorithm(list, config);
+                return SingleContextIsolator.Instance.RunAlgorithm(list, config);
             }
             else
             {
-                return LegacyAppDomainManager.Instance.RunAlgorithm(list, config);
+                return MultipleContextIsolator.Instance.RunAlgorithm(list, config);
             }
         }
 

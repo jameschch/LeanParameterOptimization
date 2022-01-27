@@ -50,7 +50,12 @@ namespace Jtc.Optimization.Objects
         /// <summary>
         /// Full path to config.json
         /// </summary>
-        public string ConfigPath { get; set; } = "../../../../Lean/Launcher/config.json";
+        public string ConfigPath { get; set; } = "../../../../../Lean/Launcher/config.json";
+
+        /// <summary>
+        /// The binaries folder of the Lean Launcher project
+        /// </summary>
+        public string LauncherBuildPath { get; set; } = "../../../../../Lean/Launcher/bin/debug/";
 
         /// <summary>
         /// 1 or 2 point genetic crossover
@@ -135,6 +140,11 @@ namespace Jtc.Optimization.Objects
         /// CSharp or Python. If specified will override config.json setting.
         /// </summary>
         public string AlgorithmLanguage { get; set; }
+
+        /// <summary>
+        /// When set to true, will consider 100% (or more) net loss a failure
+        /// </summary>
+        public bool ExcludeNetLoss { get; set; }
     }
 
 

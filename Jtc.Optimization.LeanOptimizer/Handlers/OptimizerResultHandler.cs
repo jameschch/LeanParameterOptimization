@@ -1,5 +1,6 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using QuantConnect;
+using QuantConnect.Brokerages;
 using QuantConnect.Data.UniverseSelection;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.DataFeeds;
@@ -20,7 +21,6 @@ namespace Jtc.Optimization.LeanOptimizer
     public class OptimizerResultHandler : IResultHandler
     {
 
-        private const string PatchMethod = "SaveResults";
         private BacktestingResultHandler _shadow;
         public IAlgorithm Algorithm { get; set; }
         public Dictionary<string, decimal> FullResults { get; set; }
@@ -58,13 +58,13 @@ namespace Jtc.Optimization.LeanOptimizer
         {
             lock (_locker)
             {
-                var harmony = HarmonyInstance.Create(PatchMethod);
+                var harmony = new Harmony(nameof(BaseResultsHandler.SaveResults));
                 harmony.PatchAll(Assembly.GetExecutingAssembly());
             }
         }
 
         [HarmonyPatch(typeof(BaseResultsHandler))]
-        [HarmonyPatch(PatchMethod)]
+        [HarmonyPatch(nameof(BaseResultsHandler.SaveResults))]
         class SaveResultsPatch
         {
             static bool Prefix(string name, Result result)
@@ -95,11 +95,11 @@ namespace Jtc.Optimization.LeanOptimizer
 
                 //var statisticsResults = GenerateStatisticsResults(charts, profitLoss);
                 var statisticsResults = (StatisticsResults)_shadowType.BaseType.InvokeMember("GenerateStatisticsResults", _flags | BindingFlags.InvokeMethod, null, _shadow,
-                   new object[] { charts, profitLoss });
+                   new object[] { charts, profitLoss, null });
 
                 //var runtime = GetAlgorithmRuntimeStatistics(statisticsResults.Summary);      
                 var runtime = (Dictionary<string, string>)typeof(BaseResultsHandler).InvokeMember("GetAlgorithmRuntimeStatistics", _flags | BindingFlags.InvokeMethod, Type.DefaultBinder, _shadow,
-                    new object[] { statisticsResults.Summary, null });
+                    new object[] { statisticsResults.Summary, null, null });
 
                 FullResults = StatisticsAdapter.Transform(statisticsResults.TotalPerformance, statisticsResults.Summary);
 
@@ -196,9 +196,9 @@ namespace Jtc.Optimization.LeanOptimizer
             _hasError = true;
         }
 
-        public void Sample(DateTime time, bool force = false)
+        public void Sample(DateTime time)
         {
-            _shadow.Sample(time, force);
+            _shadow.Sample(time);
         }
 
         public void SampleEquity(DateTime time, decimal value)
@@ -292,6 +292,11 @@ namespace Jtc.Optimization.LeanOptimizer
         public void OnSecuritiesChanged(SecurityChanges changes)
         {
             ((IResultHandler)_shadow).OnSecuritiesChanged(changes);
+        }
+
+        public void BrokerageMessage(BrokerageMessageEvent brokerageMessageEvent)
+        {
+            ((IResultHandler)_shadow).BrokerageMessage(brokerageMessageEvent);
         }
         #endregion
     }

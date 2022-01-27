@@ -34,9 +34,12 @@ namespace Jtc.Optimization.LeanOptimizer.Example
 
             AddSecurity(SecurityType.Equity, "SPY");
 
-            Fast = EMA("SPY", Config.GetValue<int>("fast", 10));
-            Slow = EMA("SPY", Config.GetValue<int>("slow", 56));
-            Take = Config.GetValue<decimal>("take", 0.1m);
+            var fastPeriod = int.Parse(GetParameter("fast") ?? "10");
+            var slowPeriod = int.Parse(GetParameter("slow") ?? "56");
+            Take = decimal.Parse(GetParameter("take") ?? "0.1");
+
+            Fast = EMA("SPY", fastPeriod);
+            Slow = EMA("SPY", slowPeriod);
         }
 
         public void OnData(TradeBars data)

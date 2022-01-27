@@ -44,7 +44,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests
                 _actualEndDate.Add(ConvertDate(c.EndDate));
 
                 return new Dictionary<string, decimal> { { "SharpeRatio", 1 }, { "CompoundingAnnualReturn", 1 }, { "TotalNumberOfTrades", 1 },
-                    { "LossRate", 0.1m } };
+                    { "LossRate", 0.1m }, { "TotalNetProfit", 0 }, { "Drawdown", 0 } };
             });
 
             var actual = unit.Object.GetScore(new Dictionary<string, object>(), unit.Object.Config);

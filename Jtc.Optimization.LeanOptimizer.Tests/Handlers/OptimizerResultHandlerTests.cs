@@ -9,14 +9,10 @@ using QuantConnect.Orders;
 using QuantConnect.Packets;
 using QuantConnect.Securities;
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jtc.Optimization.LeanOptimizer.Tests.Handlers
 {
@@ -89,7 +85,7 @@ namespace Jtc.Optimization.LeanOptimizer.Tests.Handlers
         {
         }
 
-        protected new Dictionary<string, string> GetAlgorithmRuntimeStatistics(Dictionary<string, string> runtimeStatistics = null, bool addColon = false)
+        protected new Dictionary<string, string> GetAlgorithmRuntimeStatistics(Dictionary<string, string> summary, Dictionary<string, string> runtimeStatistics = null, CapacityEstimate capacityEstimate = null)
         {
             return runtimeStatistics;
         }

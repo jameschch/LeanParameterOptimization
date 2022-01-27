@@ -1,14 +1,12 @@
 ﻿using Jtc.Optimization.LeanOptimizer;
-using Jtc.Optimization.LeanOptimizer.Legacy;
+using Jtc.Optimization.LeanOptimizer.Base;
 using Jtc.Optimization.Objects;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace Jtc.Optimization.IntegrationTests.Steps
@@ -25,10 +23,10 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         }
 
         [Then(@"the Sharpe Ratio on optimizer.txt should be (.*)")]
-        public void ThenTheSharpeRatioOnOptimizerTxtShouldBe(double p0)
+        public void ThenTheSharpeRatioOnOptimizerTxtShouldBe(string expected)
         {
             var actual = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "optimizer.txt"));
-            StringAssert.Contains("64.29", actual);
+            StringAssert.Contains(expected, actual);
         }
 
         private static KeyValuePair<string, Dictionary<string, decimal>> GetPredicted(Dictionary<string, Dictionary<string, decimal>> actual)
@@ -97,11 +95,11 @@ namespace Jtc.Optimization.IntegrationTests.Steps
         {
             if (ScenarioContext.Current.Get<OptimizerConfiguration>().UseSharedAppDomain)
             {
-                return SingleAppDomainManager.GetResults();
+                return SingleContextIsolator.Instance.GetResults();
             }
             else
             {
-                return LegacyAppDomainManager.Instance.GetResults();
+                return MultipleContextIsolator.Instance.GetResults();
             }
         }
 

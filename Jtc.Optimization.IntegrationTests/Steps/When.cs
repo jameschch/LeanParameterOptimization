@@ -40,7 +40,7 @@ namespace Jtc.Optimization.IntegrationTests.Steps
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Jtc.Optimization.Launcher.Legacy.exe"),
+                FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Jtc.Optimization.LeanOptimizer.Launcher.exe"),
                 CreateNoWindow = true
             };
             var process = Process.Start(startInfo);
