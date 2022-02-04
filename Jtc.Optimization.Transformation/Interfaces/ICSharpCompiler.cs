@@ -7,7 +7,8 @@ namespace Jtc.Optimization.Transformation
 {
     public interface ICSharpCompiler
     {
-        Task<MemoryStream> CreateAssembly(string code);
-        Func<double[], Task<double>> GetDelegate(MemoryStream stream);
+        Task<Assembly> CreateAssembly(string code);
+        Task<Stream> GetStream(string code);
+        Func<double[], Task<double>> GetDelegate(Assembly assembly);
     }
 }

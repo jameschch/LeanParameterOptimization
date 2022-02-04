@@ -1,8 +1,10 @@
 ﻿using Blazor.DynamicJavascriptRuntime.Evaluator;
+using Jtc.Optimization.BlazorClient;
 using Jtc.Optimization.BlazorClient.Attributes;
 using Jtc.Optimization.BlazorClient.Models;
 using Microsoft.JSInterop;
 using Moq;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 
@@ -28,6 +30,8 @@ namespace Jtc.Optimization.Tests.Attributes
         [InlineData("function abc(p1,p2){\r\nif (true){return 123}\r\n}\r\n")]
         public void Given_valid_code_input_When_Validating_Then_should_return_valid_response(string code)
         {
+            Program.ServiceProvider = Mock.Of<IServiceProvider>();
+
             SetupCode(code);
             var model = new MinimizeFunctionCode();
             var actual = _unit.GetValidationResult(null, new ValidationContext(model));

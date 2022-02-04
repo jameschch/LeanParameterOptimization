@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Jtc.Optimization.BlazorClient;
 using Jtc.Optimization.BlazorClient.Objects;
+using System.Reflection;
 
 namespace Jtc.Optimization.Transformation
 {
@@ -21,12 +22,12 @@ namespace Jtc.Optimization.Transformation
             _blazorClientConfiguration = blazorClientConfiguration;
         }
 
-        public override async Task<MemoryStream> CreateAssembly(string code)
+        public override async Task<Assembly> CreateAssembly(string code)
         {
             return await CreateAssemblyRemotely(code);
         }
 
-        public async Task<MemoryStream> CreateAssemblyRemotely(string code)
+        public async Task<Assembly> CreateAssemblyRemotely(string code)
         {
             //todo: data service
             var message = new HttpRequestMessage
@@ -42,9 +43,9 @@ namespace Jtc.Optimization.Transformation
 
             if (response.IsSuccessStatusCode)
             {
-                var stream = new MemoryStream();
-                await (await response.Content.ReadAsStreamAsync()).CopyToAsync(stream);
-                return stream;
+                var buffer = await response.Content.ReadAsByteArrayAsync();
+                var loaded = Assembly.Load(buffer);
+                return await Task.FromResult(loaded);
             }
 
             throw new Exception("Compile on server failed.");

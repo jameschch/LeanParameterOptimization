@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
     <Platforms>AnyCPU;x64</Platforms>
@@ -9,9 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="AsyncEnumerator" Version="4.0.2" />
-    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.1.0" />
-    <PackageReference Include="Microsoft.JSInterop" Version="3.1.3" />
-    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="1.3.0" />
+    <PackageReference Include="DynamicJavascriptRuntime.Blazor.Evaluator" Version="1.2.0" />
+    <PackageReference Include="Microsoft.JSInterop" Version="5.0.13" />
+    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>

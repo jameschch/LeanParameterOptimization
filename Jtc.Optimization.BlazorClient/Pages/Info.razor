@@ -3,38 +3,62 @@
 <div class="container">
     <div class="row pl-3">
         <div class="col-sm-10">
+
             <h1>Info</h1>
+            <br />
+            <br />
+            <h2>Pages</h2>
 
-            <p>This toolset is made available under an open source licence. If you'd like to share a slice of your trading profits, you can do so here:</p>
+            <strong>Chart</strong>
+            <p>Provides a visualization chart of optimization.txt files (results of parameter optimization runs).</p>
 
-            <iframe style="border:none;" src="donate-bitcoin/index.html" height="600" width="400"></iframe>
+            <strong>Config</strong>
+            <p>Allows you to edit optimization.config files for use with the Paramater Optimizer.</p>
 
-            <p>If you'd like to share some of your trading losses then feel free to commiserate here:</p>
+            <strong>Editor</strong>
+            <p>You can supply a Javascript or C# function and optimize parameters in your browser.</p>
+
+            <strong>Quickstart</strong>
+            <p>Instructions on how to setup your Lean Parameter Optimization environment.</p>
+
+            <br />
+            <br />
+
+            <h2>Donate</h2>
+
+            <p>Made a fortune from algorithm trading and want to boast about it? Show your appreciation by sharing a slice of your trading profits:</p>
+
+            <iframe style="border:none;" src="donate-bitcoin/index.html" height="550" width="400"></iframe>
+
+            <br />
+            <br />
+
+            <h2>Support</h2>
+
+            <p>If you'd like to share tales of woe about your trading losses then feel free to commiserate here:</p>
 
             <a href="https://gitter.im/LeanParameterOptimization/community">https://gitter.im/LeanParameterOptimization/community</a>
             <br />
             <br />
 
-            <p>This does not constitute financial advice. Use of the Lean Parameter Optimization tools is entirely at your own risk and no liability is implied or accepted for any financial losses that you may incur.</p>
-
-            <hr />
-
             <h2>FAQ</h2>
 
             <strong>So, what is this thing anyway?</strong>
-            <p>These tools are to support the process of optimizing parameters of Lean trading algorithms. They are designed to be used in conjunction with:</p>
+            <p>These tools are to support the process of optimizing parameters of Lean trading algorithms. They are to be used in conjunction with:</p>
             <ul>
-                <li>The Lean Parameter Optimization Launcher available here: <a href="https://github.com/jameschch/LeanParameterOptimization">https://github.com/jameschch/LeanParameterOptimization</a> </li>
-                <li>A clone of the Lean trading engine from here: <a href="https://github.com/QuantConnect/Lean">https://github.com/QuantConnect/Lean</a> </li>
-                <li>Your own trading algorithm(s)</li>
+                <li>The Lean Parameter Optimization tools available here: <a href="https://github.com/jameschch/LeanParameterOptimization">https://github.com/jameschch/LeanParameterOptimization</a> </li>
+                <li>The Lean trading engine from here: <a href="https://github.com/QuantConnect/Lean">https://github.com/QuantConnect/Lean</a> </li>
+                <li>Your own trading algorithms</li>
             </ul>
 
             <strong>So, what is Lean?</strong>
             <p>Lean is an open-source algorithm trading engine made by some incredible people at <a href="https://www.quantconnect.com">https://www.quantconnect.com</a></p>
 
-            <strong>Wait, can't I just optimize a Javascript (or C#) function in my browser without downloading anything?</strong>
-            <p>That is an oddly specific question, but yes you can. Try the code editor here: <a href="https://optimizer.ml/CodeEditor">https://optimizer.ml/CodeEditor</a></p>
+            <strong>Wait, can't I just optimize a Javascript or C# function in my browser?</strong>
+            <p>That is an oddly specific question, but yes you can. Try the code editor here: <a href="https://optimizers.ml/CodeEditor">https://optimizers.ml/CodeEditor</a></p>
             <p>If you enter a Javascript or C# function and hit "Optimize", you will be able to run the optimizer of your choice right then and there in your browser. You even have the option of running multiple parallel threads with Javascript functions. Yes, browsers <i>can</i> do that apparently.</p>
+            <p>The C# script will be compiled directly in your browser. Yes, browsers can do that now too.</p>
+            <p>Once you have completed an optimization, you can view the results in the Chart.</p>
 
             <strong>I started an optimization in my browser and it's taking too long. What do I do now?</strong>
             <p>If you click the "running man" icon you will have the option to cancel the optimization run. Sorry, but you'll lose all your progress.</p>
@@ -43,11 +67,11 @@
             <p>You could try posting to the official forums: <a href="https://www.quantconnect.com/forum">https://www.quantconnect.com/forum</a></p>
             <p>Or alternatively to: <a href="https://www.reddit.com/r/QuantConnect/">https://www.reddit.com/r/QuantConnect</a></p>
 
+            <strong>Why should I trust you with my data and my code?</strong>
+            <p>Everything works in the browser: your code and data never get sent to a remote server.</p>
+
             <strong>I found a bug or want to make a feature suggestion. What do I do?</strong>
             <p>Please raise an issue here: <a href="https://github.com/jameschch/LeanParameterOptimization">https://github.com/jameschch/LeanParameterOptimization</a></p>
-
-            <strong>Why should I trust you with my data and my IP?</strong>
-            <p>With one exception, everything works in-browser and never gets sent to the server. The only data sent to the server is the C# function you submit to the CodeEditor, which can't (yet) be compiled in the browser.</p>
         </div>
     </div>
 </div>

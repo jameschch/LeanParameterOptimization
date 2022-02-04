@@ -1,55 +1,52 @@
-﻿using System.Net.Http;
-using Microsoft.JSInterop;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Jtc.Optimization.Objects.Interfaces;
-using Jtc.Optimization.Objects;
-using System;
-using Jtc.Optimization.Transformation;
+﻿using Blazored.Toast;
+using BlazorWorker.Core;
+using Jtc.Optimization.BlazorClient.Attributes;
+using Jtc.Optimization.BlazorClient.Objects;
 using Jtc.Optimization.OnlineOptimizer;
+using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Blazor.FileReader;
-using Blazored.Toast;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.JSInterop;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Tewr.Blazor.FileReader;
 using Utf8Json;
 using Utf8Json.Resolvers;
-using BlazorWorker.Core;
-using Jtc.Optimization.BlazorClient.Objects;
 
 namespace Jtc.Optimization.BlazorClient
 {
     public class Program
     {
 
-        //public static HttpClient HttpClient { get; set; }
+        public static IServiceProvider ServiceProvider { get; set; }
 
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<App>("#app");
             builder.Services.AddApiAuthorization();
 
             builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
             builder.Services.AddBlazoredToast();
             builder.Services.AddSingleton<BlazorClientState>();
             builder.Services.AddSingleton<IBlazorClientConfiguration, BlazorClientConfiguration>();
+            builder.Services.AddSingleton<ExportedWebAssemblyJSRuntime, ExportedWebAssemblyJSRuntime>();
             builder.Services.AddSingleton<IServiceProvider>(builder.Services.BuildServiceProvider());
             //todo: local compile
-            //services.AddSingleton<ICSharpCompiler, CSharpCompiler>();
-            builder.Services.AddSingleton<CSharpRemoteCompiler, CSharpRemoteCompiler>();
+            builder.Services.AddScoped<CSharpCompiler, CSharpCompiler>();
+            builder.Services.AddTransient<CSharpRemoteCompiler, CSharpRemoteCompiler>();
             builder.Services.AddTransient<CSharpOptimizer, CSharpOptimizer>();
             builder.Services.AddTransient<CSharpThreadedOptimizer, CSharpThreadedOptimizer>();
             builder.Services.AddTransient<JavascriptOptimizer, JavascriptOptimizer>();
-            builder.Services.AddSingleton<IMscorlibProvider, MscorlibRemoteProvider>();
+            builder.Services.AddScoped<IMscorlibProvider, MscorlibRemoteProvider>();
             builder.Services.AddSingleton<IWorkerFactory, WorkerFactory>();
             builder.Services.AddTransient<IPlotlyLineSplitter, PlotlyLineSplitter>();
             builder.Services.AddTransient<IPlotlyBinder, PlotlyThreadedBinder>();
             builder.Services.AddSingleton<IPlotlyLineSplitterBackgroundWrapper, PlotlyLineSplitterBackgroundWrapper>();
+            builder.Services.AddScoped<JavascriptFunctionValidatorAttribute>();
 
-            builder.Services.AddTransient(sp => new HttpClient
+            builder.Services.AddScoped(sp => new HttpClient
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
@@ -58,12 +55,14 @@ namespace Jtc.Optimization.BlazorClient
 
             builder.Services.AddWorkerFactory();
 
-#if !DEBUG
-            builder.Services.Configure<IISServerOptions>(options =>
-            {
-                options.AutomaticAuthentication = false;
-            });
-#endif
+            ServiceProvider = builder.Services.BuildServiceProvider();
+
+//#if !DEBUG
+//            builder.Services.Configure<IISServerOptions>(options =>
+//            {
+//                options.AutomaticAuthentication = false;
+//            });
+//#endif
 
             await builder.Build().RunAsync();
         }

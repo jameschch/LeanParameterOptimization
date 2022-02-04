@@ -8,6 +8,7 @@ using Jtc.Optimization.OnlineOptimizer;
 using Jtc.Optimization.Transformation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -109,11 +110,18 @@ namespace Jtc.Optimization.BlazorClient
                 OptimizerBase optimizer = null;
                 if (MinimizeFunctionCode.Language == "javascript")
                 {
-                    optimizer = (JavascriptOptimizer)ServiceProvider.GetService(typeof(JavascriptOptimizer));
+                    optimizer = ServiceProvider.GetService<JavascriptOptimizer>();
                 }
                 else if (MinimizeFunctionCode.Language == "csharp")
                 {
-                    optimizer = (CSharpThreadedOptimizer)ServiceProvider.GetService(typeof(CSharpThreadedOptimizer));
+                    if (BlazorClientConfiguration.EnableThreadedCSharpOptimizer)
+                    {
+                        optimizer = ServiceProvider.GetService<CSharpThreadedOptimizer>();
+                    }
+                    else
+                    {
+                        optimizer = ServiceProvider.GetService<CSharpOptimizer>();
+                    }
                 }
 
                 if (_config == null)

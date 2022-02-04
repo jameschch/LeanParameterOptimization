@@ -1,1 +1,1 @@
-Sitemap: http://optimizer.ml/sitemap.xml
+Sitemap: http://optimizers.ml/sitemap.xml

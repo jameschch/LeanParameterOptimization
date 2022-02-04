@@ -3,18 +3,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Mono.WebAssembly.Interop;
 using Jtc.Optimization.BlazorClient.Models;
+using Microsoft.JSInterop;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components;
+using System;
+using Jtc.Optimization.BlazorClient.Objects;
 
 namespace Jtc.Optimization.BlazorClient.Attributes
 {
     public class JavascriptFunctionValidatorAttribute : ValidationAttribute
     {
 
-
         public dynamic EvalContext { get; set; }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            EvalContext = EvalContext ?? new EvalContext(new MonoWebAssemblyJSRuntime());
+
+            var jsRuntime = Program.ServiceProvider.GetService<IJSRuntime>();
+
+            EvalContext = EvalContext ?? new EvalContext(jsRuntime);
             (EvalContext as EvalContext).Expression = () => EvalContext.ace.edit("editor").getValue();
             var code = (EvalContext as EvalContext).Invoke<string>();
 

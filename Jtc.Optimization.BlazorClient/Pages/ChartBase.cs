@@ -1,5 +1,5 @@
 using Blazor.DynamicJavascriptRuntime.Evaluator;
-using Blazor.FileReader;
+using Tewr.Blazor.FileReader;
 using Blazored.Toast.Services;
 using BlazorWorker.Core;
 using CenterCLR.XorRandomGenerator;

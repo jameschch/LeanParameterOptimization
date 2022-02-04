@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Jtc.Optimization.OnlineOptimizer
 {
@@ -19,13 +20,13 @@ namespace Jtc.Optimization.OnlineOptimizer
 
         public CSharpOptimizer(IBlazorClientConfiguration blazorClientConfiguration, IServiceProvider serviceProvider)
         {
-            if (blazorClientConfiguration.CompileLocally)
+            if (blazorClientConfiguration.CompileCSharpInBrowser)
             {
-                _cSharpCompiler = (CSharpCompiler)serviceProvider.GetService(typeof(ICSharpCompiler));
+                _cSharpCompiler = (CSharpCompiler)serviceProvider.GetService<CSharpCompiler>();
             }
             else
             {
-                _cSharpCompiler = (CSharpRemoteCompiler)serviceProvider.GetService(typeof(CSharpRemoteCompiler));
+                _cSharpCompiler = (CSharpRemoteCompiler)serviceProvider.GetService<CSharpRemoteCompiler>();
             }
         }
 

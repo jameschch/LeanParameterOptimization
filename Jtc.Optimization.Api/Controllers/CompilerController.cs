@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,20 +29,22 @@ namespace Jtc.Optimization.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Index()
         {
+            throw new NotSupportedException();
+
             var code = "";
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 code = await reader.ReadToEndAsync();
             }
 
-            var assembly = await _cSharpCompiler.CreateAssembly(code);
+            var stream = await _cSharpCompiler.GetStream(code);
 
-            if (assembly == null)
+            if (stream == null)
             {
                 return new StatusCodeResult(412);
             }
 
-            return File(assembly.ToArray(), "application/octet-stream");
+            return File(((MemoryStream)stream).ToArray(), "application/octet-stream");
         }
 
     }

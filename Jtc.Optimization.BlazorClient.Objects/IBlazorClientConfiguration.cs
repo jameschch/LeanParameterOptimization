@@ -2,7 +2,8 @@
 {
     public interface IBlazorClientConfiguration
     {
-        bool CompileLocally { get; set; }
+        bool CompileCSharpInBrowser { get; set; }
+        bool EnableThreadedCSharpOptimizer { get; set; }
         bool EnableOptimizerWorker { get; set; }
         bool EnableOptimizerMultithreading { get; set; }
         string ApiUrl { get; set; }

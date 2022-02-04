@@ -26,9 +26,9 @@ namespace Jtc.Optimization.OnlineOptimizer
         public CSharpThreadedOptimizer(IBlazorClientConfiguration blazorClientConfiguration, IServiceProvider serviceProvider, 
             IWorkerFactory workerFactory)
         {
-            if (blazorClientConfiguration.CompileLocally)
+            if (blazorClientConfiguration.CompileCSharpInBrowser)
             {
-                _cSharpCompiler = (CSharpCompiler)serviceProvider.GetService(typeof(ICSharpCompiler));
+                _cSharpCompiler = (CSharpCompiler)serviceProvider.GetService(typeof(CSharpCompiler));
             }
             else
             {

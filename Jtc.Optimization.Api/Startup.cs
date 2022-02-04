@@ -12,6 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Extensions.Logging;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace Jtc.Optimization.Api
 {
@@ -33,9 +40,18 @@ namespace Jtc.Optimization.Api
             services.AddMvc(m => m.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             //services.AddCors(options => options.AddPolicy(PolicyName, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             services.AddSingleton(Configuration);
-            services.AddSingleton<ICSharpCompiler, CSharpCompiler>();
-            services.AddSingleton<IMscorlibProvider, MscorlibProvider>();
+            services.AddScoped<ICSharpCompiler, CSharpCompiler>();
+            services.AddScoped<IMscorlibProvider, MscorlibProvider>();
             services.AddSingleton<HttpClient, HttpClient>();
+
+            services.AddLogging(loggingBuilder =>
+             {
+                 // configure Logging with NLog
+                 loggingBuilder.ClearProviders();
+                 loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                 loggingBuilder.AddNLog("nlog.config");
+             });
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -44,6 +60,12 @@ namespace Jtc.Optimization.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var ex = context.Features.Get<IExceptionHandlerPathFeature>().Error;
+                var response = new { error = ex.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
 
             app.UseCors(builder => builder
                //.WithOrigins("http://optimizer.ml", "https://optimizer.ml", "http://www.optimizer.ml", "https://www.optimizer.ml", "http://localhost:61221")
@@ -55,6 +77,7 @@ namespace Jtc.Optimization.Api
                );
             //app.UseHttpsRedirection();
             app.UseMvc();
+
 
         }
     }
